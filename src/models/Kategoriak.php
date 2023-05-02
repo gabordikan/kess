@@ -35,7 +35,8 @@ class Kategoriak extends ActiveRecord
     }
 
     public static function getKategoriak() {
-        $kategoriak = Self::find(["felhasznalo" => Yii::$app->user->id])
+        $kategoriak = Self::find()
+            ->where(["felhasznalo" => Yii::$app->user->id])
             ->orderBy(['tipus'=>SORT_ASC, 'fokategoria'=>SORT_ASC, 'nev'=>SORT_ASC])->all();
 
         $kat_arr = [];
