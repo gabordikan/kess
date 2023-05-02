@@ -133,11 +133,12 @@ class SiteController extends Controller
         //var_dump(Yii::$app->request->post());
         if ($model->load(Yii::$app->request->post())) {
             $model->save();
-            return $this->redirect("/index.php?r=site%2Frecordkess");
-        } else {
-            return $this->render('recordkess',[
-                'model' => $model,
-            ]);
+            $model->id = 0;
+            $model->osszeg=null;
+            $model->kategoria_id=null; 
         }
+        return $this->render('recordkess',[
+            'model' => $model,
+        ]);
     }
 }

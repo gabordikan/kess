@@ -115,6 +115,7 @@ class m230502_161534_kategoriak_feltoltese extends Migration
                         "tipus" => $tipus,
                         "fokategoria" => $fokategoria,
                         "nev" => $kategoria,
+                        "felhasznalo" => 100,
                     ));
                 }
             }
