@@ -42,6 +42,11 @@ class Mozgas extends ActiveRecord
         if (!Yii::$app->user->isGuest) {
             $this->felhasznalo = Yii::$app->user->id;
         }
+
+        //var_dump(Kategoriak::findOne(['id' => $this->kategoria_id])->tipus); die();
+
+        $this->tipus = Kategoriak::findOne(['id' => $this->kategoria_id])->tipus == 'Bevétel' ? 1 : -1;
+
         return parent::beforeValidate();
     }
 
