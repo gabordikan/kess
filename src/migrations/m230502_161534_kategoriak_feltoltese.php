@@ -12,15 +12,6 @@ class m230502_161534_kategoriak_feltoltese extends Migration
     array(
         'Bevétel' => array(
             'Árbevétel' => array(
-                'Wombex',
-                'Netlapok',
-                'Juli',
-                'Anyu',
-                'Húgom',
-                'Bofa',
-                'Após',
-            ),
-            'Fizetés' => array(
                 'Bér',
                 'Egyéb',
             ),
@@ -39,19 +30,10 @@ class m230502_161534_kategoriak_feltoltese extends Migration
                 'Kávézó',
             ),
             'Rezsi' => array(
-                'Telekom',
-                'Telekom törlesztő',
-                'Netflix',
-                'Disney+',
-                'SkyShowTime',
-                'Spotify',
-                'YouTube Premium',
-                'Google Drive',
-                'Apple iCloud',
-                'Microsoft OneDrive',
-                'Telegram',
-                'OF',
-                'VPSCheap'
+                'Víz',
+                'Gáz',
+                'Villany',
+                'Szemét',
             ),
             'Autó' => array(
                 'Törlesztő',
@@ -69,35 +51,25 @@ class m230502_161534_kategoriak_feltoltese extends Migration
                 'Egyéb',
             ),
             'Ajándék' => array(
-                'F',
+                'Ajándék',
             ),
             'Megtakarítás' => array(
-                'Startszámla',
-                'Raiffeisen',
-                'Uniqua',
-                'Nyugdíj',
-                'OTP1',
-                'OTP2',
+                'Megtakarítás',
             ),
             'Biztosítás' => array(
                 'Életbiztosítás',
                 'Utasbiztosítás',
+                'Lakásbiztosítás',
             ),
             'Adók' => array(
                 'SZJA',
-                'TB',
-                'Szociális hozzájárulás',
-                'TAO',
-                'IPA',
                 'Ingatlan',
                 'Gépjármű',
             ),
             'Egyéb' => array(
-                'Tifi ebéd',
-                'Anyu telefonszámla',
-                'Anyunak egyéb',
                 'Átvezetés',
                 'Korrekció',
+                'Egyéb',
             ),
         ),
     );
@@ -115,7 +87,7 @@ class m230502_161534_kategoriak_feltoltese extends Migration
                         "tipus" => $tipus,
                         "fokategoria" => $fokategoria,
                         "nev" => $kategoria,
-                        "felhasznalo" => 100,
+                        "felhasznalo" => 1,
                     ));
                 }
             }
