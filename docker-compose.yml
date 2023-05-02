@@ -1,0 +1,18 @@
+version: "3.4"
+services:
+  web:
+    build: .
+    ports:
+      - 8081:80
+    volumes:
+      - ./src:/app
+  db:
+    image: mariadb:10.4
+    platform: linux/arm64
+    environment:
+      - MARIADB_ROOT_PASSWORD=secret
+    volumes:
+      - db:/var/lib/mysql
+
+volumes:
+  db:
