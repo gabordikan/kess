@@ -38,13 +38,6 @@ $kategoriak = Kategoriak::getKategoriak();
             Penztarca::getPenztarcak(),
             ['autofocus' => true]) ?>
 
-        <?= $form->field($model, 'tipus')->dropDownList(
-            array(
-                -1 => 'Kiadás',
-                1 => 'Bevétel',
-            ),
-            []) ?>
-
         <?= $form->field($model, 'kategoria_id')->dropDownList(
                 $kategoriak,
             []) ?>
