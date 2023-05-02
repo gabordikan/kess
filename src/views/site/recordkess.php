@@ -6,7 +6,9 @@
 
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
+use yii\jui\DatePicker;
 use app\models\Kategoriak;
+use app\models\Penztarca;
 
 $this->title = 'Rögzítés';
 $this->params['breadcrumbs'][] = $this->title;
@@ -28,18 +30,17 @@ $kategoriak = Kategoriak::getKategoriak();
         ],
     ]); ?>
 
-        <?= $form->field($model, 'penztarca')->dropDownList(
-            array(
-                'raiffeisen' => 'Raiffeisen Privát',
-                'otp' => 'OTP',
-                'raiffeisenceges' => 'Raiffeisen Céges',
-                'kp' => 'Készpénz',
-            ),
+        <?= $form->field($model, 'datum')->widget(DatePicker::classname(), [
+            'dateFormat' => 'yyyy-MM-dd',
+        ]) ?>
+
+        <?= $form->field($model, 'penztarca_id')->dropDownList(
+            Penztarca::getPenztarcak(),
             ['autofocus' => true]) ?>
 
         <?= $form->field($model, 'tipus')->dropDownList(
             array(
-                0 => 'Kiadás',
+                -1 => 'Kiadás',
                 1 => 'Bevétel',
             ),
             []) ?>
