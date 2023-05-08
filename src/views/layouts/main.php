@@ -41,8 +41,6 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         'items' => [
             ['label' => 'Kezdőlap', 'url' => ['/site/index']],
             ['label' => 'Rögzítés', 'url' => ['/site/recordkess']],
-            ['label' => 'Névjegy', 'url' => ['/site/about']],
-            ['label' => 'Kapcsolat', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest
                 ? ['label' => 'Belépés', 'url' => ['/site/login']]
                 : '<li class="nav-item">'
