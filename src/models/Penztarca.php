@@ -42,6 +42,16 @@ class Penztarca extends ActiveRecord
         ->queryScalar();
     }
 
+    public static function getOsszEgyenleg()
+    {
+        return Yii::$app->db->createCommand("
+            select ifnull(sum(tipus*osszeg),0) from mozgas 
+            where felhasznalo = :felhasznalo"
+        )
+        ->bindValues([':felhasznalo' => Yii::$app->user->id])
+        ->queryScalar();
+    }
+
     public static function getPenztarcak()
     {
         $penztarcak = self::findAll(['felhasznalo' => Yii::$app->user->id]);
