@@ -25,12 +25,11 @@ if (Yii::$app->user->isGuest) {
 else {
     $dataProvider = new ActiveDataProvider([
         'query' => Penztarca::find()->where(['felhasznalo' => Yii::$app->user->id]),
-        'pagination' => [
-            'pageSize' => 20,
-        ],
     ]);
 
     echo GridView::widget([
+        'showHeader' => false,
+        'summary' => '',
         'columns' => [
             ['class' => SerialColumn::class],
             [
@@ -82,12 +81,11 @@ else {
         'query' => Kategoriak::find()
             ->where(['felhasznalo' => Yii::$app->user->id])
             ->groupBy('tipus'),
-        'pagination' => [
-            'pageSize' => 20,
-        ],
     ]);
 
     echo GridView::widget([
+        'showHeader' => false,
+        'summary' => '',
         'columns' => [
             [
                 'class' => DataColumn::class, // this line is optional

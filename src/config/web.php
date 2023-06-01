@@ -48,14 +48,18 @@ $config = [
             'decimalSeparator' => ',',
             'currencyDecimalSeparator' => ',',
             'currencyCode' => 'HUF',
+            'numberFormatterOptions' => [
+                NumberFormatter::MIN_FRACTION_DIGITS => 0,
+                NumberFormatter::MAX_FRACTION_DIGITS => 2,
+            ]
         ],
         
-        'urlManager' => [
+        /*'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
-        ],
+        ],*/
     ],
     'params' => $params,
 ];
