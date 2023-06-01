@@ -83,6 +83,7 @@ else {
                     'urlCreator' => function ($action, $model, $key, $index, $column) {
                         return 'index.php?r=site%2flistkess&penztarca_id='.$model->penztarca_id.'&delete_id='.$model->id;
                     },
+                    'contentOptions' => ['style'=>'text-align: center'],
                 ],
             ],
             'dataProvider' => $dataProvider,
