@@ -26,7 +26,7 @@ if (Yii::$app->user->isGuest) {
 }
 else {
     $penztarcak = Penztarca::getPenztarcak();
-    $penztarca_id = Yii::$app->request->get('penztarca_id') ?? $penztarcak[0];
+    $penztarca_id = Yii::$app->request->get('penztarca_id') ?? $penztarcak[array_key_first($penztarcak)];
 
     echo Html::dropDownList('penztarca', $penztarca_id , $penztarcak);
 
