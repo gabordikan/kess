@@ -69,7 +69,7 @@ else {
                 'torolt' => 0,
                 'idoszak' => date('Y-m'),
             ]
-        )->orderBy(['id' => SORT_DESC]),
+        )->orderBy(['tipus' => SORT_ASC, 'fokategoria' => SORT_ASC, 'nev' => SORT_ASC]),
         'pagination' => [
             'pageSize' => 100,
         ],
