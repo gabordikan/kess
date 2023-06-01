@@ -103,6 +103,7 @@ else {
                 },
                 'format' => ['currency', 'HUF'],
                 'label' => 'Összeg',
+                'contentOptions' => ['style'=>'text-align: right'],
             ],
             [
                 'class' => ActionColumn::class,
