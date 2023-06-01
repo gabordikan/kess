@@ -4,6 +4,7 @@
 
 use app\models\Kategoriak;
 use app\models\Penztarca;
+use app\models\Terv;
 use yii\grid\GridView;
 use yii\data\ActiveDataProvider;
 use yii\grid\SerialColumn;
@@ -73,6 +74,38 @@ else {
 
     echo "<div><H1>Összesen (".number_format(Penztarca::getOsszEgyenleg(),0,',',' ').")</H1></div>";
 
+
+    $dataProvider = new ActiveDataProvider([
+        'query' => Kategoriak::find()
+            ->where(['felhasznalo' => Yii::$app->user->id])
+            ->groupBy('tipus'),
+        'pagination' => [
+            'pageSize' => 20,
+        ],
+    ]);
+
+    echo GridView::widget([
+        'columns' => [
+            [
+                'class' => DataColumn::class, // this line is optional
+                'value' => function ($model, $key, $index, $column) {
+                    return $model->tipus; 
+                },
+                'format' => 'text',
+                'label' => '',
+            ],
+            [
+                'class' => DataColumn::class, // this line is optional
+                'value' => function ($model, $key, $index, $column) {
+                    return Terv::getTervSum($model->tipus, date('Y-m'), date('Y-m'));
+                },
+                'format' => ['currency','HUF'],
+                'label' => 'Terv',
+                'contentOptions' => ['style'=>'text-align: right'],
+            ],
+        ],
+        'dataProvider' => $dataProvider,
+    ]);
 
     //todo hónap választás
     $tol = date('Y-m-01');

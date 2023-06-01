@@ -56,4 +56,17 @@ class Terv extends ActiveRecord
             'idoszak' => 'Időszak',
         );
     }
+
+    public static function getTervSum($tipus, $tol, $ig) {
+        return Yii::$app->db->createCommand("
+            select ifnull(sum(osszeg),0) from terv 
+            where kategoria_id in (select id from kategoriak where tipus = :tipus and felhasznalo = :felhasznalo)
+                and felhasznalo = :felhasznalo
+                and idoszak >= :tol
+                and idoszak <= :ig
+                and torolt=0"
+        )
+        ->bindValues([':felhasznalo' => Yii::$app->user->id, ':tipus' => $tipus, ':tol' => $tol, ':ig' => $ig, ':tipus' => $tipus])
+        ->queryScalar();
+    }
 }
