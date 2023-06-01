@@ -43,14 +43,19 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
+        'formatter' => [
+            'thousandSeparator' => ' ',
+            'decimalSeparator' => ',',
+            'currencyDecimalSeparator' => ',',
+            'currencyCode' => 'HUF',
+        ],
+        
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
         ],
-        */
     ],
     'params' => $params,
 ];
