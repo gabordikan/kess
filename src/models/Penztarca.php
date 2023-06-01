@@ -36,7 +36,8 @@ class Penztarca extends ActiveRecord
     {
         return Yii::$app->db->createCommand("
             select ifnull(sum(tipus*osszeg),0) from mozgas 
-            where felhasznalo = :felhasznalo and penztarca_id = :penztarca_id"
+            where felhasznalo = :felhasznalo and penztarca_id = :penztarca_id
+                and torolt=0"
         )
         ->bindValues([':felhasznalo' => Yii::$app->user->id, ':penztarca_id' => $id])
         ->queryScalar();
@@ -46,7 +47,8 @@ class Penztarca extends ActiveRecord
     {
         return Yii::$app->db->createCommand("
             select ifnull(sum(tipus*osszeg),0) from mozgas 
-            where felhasznalo = :felhasznalo"
+            where felhasznalo = :felhasznalo
+                and torolt=0"
         )
         ->bindValues([':felhasznalo' => Yii::$app->user->id])
         ->queryScalar();
