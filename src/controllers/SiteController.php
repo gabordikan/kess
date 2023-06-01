@@ -128,7 +128,7 @@ class SiteController extends Controller
         return $this->render('about');
     }
 
-    public function actionRecordkess()
+    public function actionRecordkess($penztarca_id = null)
     {
         $model = new Mozgas();
         if ($model->load(Yii::$app->request->post())) {
@@ -136,20 +136,20 @@ class SiteController extends Controller
             $model->id = 0;
             $model->osszeg=null;
             $model->kategoria_id=null; 
-        } elseif (null != Yii::$app->request->get('penztarca_id')) {
-            $model->penztarca_id = Yii::$app->request->get('penztarca_id');
+        } elseif ($penztarca_id) {
+            $model->penztarca_id = $penztarca_id;
         }
         return $this->render('recordkess',[
             'model' => $model,
         ]);
     }
 
-    public function actionListkess()
+    public function actionListkess($penztarca_id = null, $delete_id = null)
     {
-        $penztarca_id = Yii::$app->request->get('penztarca_id');
+        $penztarca_id = $penztarca_id;
 
-        if (null != Yii::$app->request->get('delete_id')) {
-            $model = Mozgas::findOne(['id' => Yii::$app->request->get('delete_id'), 'felhasznalo' => Yii::$app->user->id]);
+        if ($delete_id) {
+            $model = Mozgas::findOne(['id' => $delete_id, 'felhasznalo' => Yii::$app->user->id]);
             $model->torolt = 1;
             $model->save(false);
         }
@@ -159,13 +159,13 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionPlan()
+    public function actionPlan($delete_id = null)
     {
-        if (null != Yii::$app->request->get('delete_id')) {
-            $model = Terv::findOne(['id' => Yii::$app->request->get('delete_id'), 'felhasznalo' => Yii::$app->user->id]);
+        if ($delete_id) {
+            $model = Terv::findOne(['id' => $delete_id, 'felhasznalo' => Yii::$app->user->id]);
             $model->torolt = 1;
             $model->save(false);
-            return $this->redirect("index.php?r=site%2Fplan");
+            return $this->redirect("/site/plan");
         }
 
         $model = new Terv();

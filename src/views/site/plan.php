@@ -131,7 +131,7 @@ else {
                     'delete' => true,
                 ],
                 'urlCreator' => function ($action, $model, $key, $index, $column) {
-                    return 'index.php?r=site%2Fplan&delete_id='.$model->id;
+                    return '/site/plan?delete_id='.$model->id;
                 },
                 'contentOptions' => ['style'=>'text-align: center'],
             ],
