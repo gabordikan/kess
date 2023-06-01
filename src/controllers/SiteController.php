@@ -10,6 +10,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Mozgas;
+use app\models\Terv;
 
 class SiteController extends Controller
 {
@@ -130,14 +131,52 @@ class SiteController extends Controller
     public function actionRecordkess()
     {
         $model = new Mozgas();
-        //var_dump(Yii::$app->request->post());
+        if ($model->load(Yii::$app->request->post())) {
+            $model->save();
+            $model->id = 0;
+            $model->osszeg=null;
+            $model->kategoria_id=null; 
+        } elseif (null != Yii::$app->request->get('penztarca_id')) {
+            $model->penztarca_id = Yii::$app->request->get('penztarca_id');
+        }
+        return $this->render('recordkess',[
+            'model' => $model,
+        ]);
+    }
+
+    public function actionListkess()
+    {
+        $penztarca_id = Yii::$app->request->get('penztarca_id');
+
+        if (null != Yii::$app->request->get('delete_id')) {
+            $model = Mozgas::findOne(['id' => Yii::$app->request->get('delete_id'), 'felhasznalo' => Yii::$app->user->id]);
+            $model->torolt = 1;
+            $model->save(false);
+        }
+
+        return $this->render('listkess',[
+            'penztarca_id' => $penztarca_id,
+        ]);
+    }
+
+    public function actionPlan()
+    {
+        if (null != Yii::$app->request->get('delete_id')) {
+            $model = Terv::findOne(['id' => Yii::$app->request->get('delete_id'), 'felhasznalo' => Yii::$app->user->id]);
+            $model->torolt = 1;
+            $model->save(false);
+            return $this->redirect("index.php?r=site%2Fplan");
+        }
+
+        $model = new Terv();
         if ($model->load(Yii::$app->request->post())) {
             $model->save();
             $model->id = 0;
             $model->osszeg=null;
             $model->kategoria_id=null; 
         }
-        return $this->render('recordkess',[
+
+        return $this->render('plan',[
             'model' => $model,
         ]);
     }

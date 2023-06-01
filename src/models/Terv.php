@@ -3,15 +3,13 @@
 namespace app\models;
 
 use Yii;
+use yii\base\Model;
 use yii\db\ActiveRecord;
 
-class Mozgas extends ActiveRecord
+class Terv extends ActiveRecord
 {
 
     public function init() {
-        if ($this->isNewRecord) {
-            $this->datum = date('Y-m-d');
-        }
         parent::init();
     }
 
@@ -22,9 +20,9 @@ class Mozgas extends ActiveRecord
     {
         return [
             // username and password are both required
-            [['penztarca_id', 'felhasznalo'], 'required'],
-            [['penztarca_id', 'tipus', 'kategoria_id', 'osszeg', 'felhasznalo'], 'safe'],
-            [['datum'], 'default', 'value' => date('Y-m-d')],
+            [['felhasznalo'], 'required'],
+            [['kategoria_id', 'osszeg', 'idoszak_tipus', 'idoszak', 'felhasznalo'], 'safe'],
+            [['idoszak'], 'default', 'value' => date('Y-m')],
             // rememberMe must be a boolean value
             ['osszeg', 'integer'],
         ];
@@ -36,9 +34,7 @@ class Mozgas extends ActiveRecord
             $this->felhasznalo = Yii::$app->user->id;
         }
 
-        //var_dump(Kategoriak::findOne(['id' => $this->kategoria_id])->tipus); die();
-
-        $this->tipus = Kategoriak::findOne(['id' => $this->kategoria_id])->tipus == 'Bevétel' ? 1 : -1;
+        $this->idoszak_tipus = 'hónap'; //TODO select
 
         return parent::beforeValidate();
     }
@@ -48,16 +44,16 @@ class Mozgas extends ActiveRecord
      */
     public static function tableName()
     {
-        return "mozgas";
+        return "terv";
     }
 
     public function attributeLabels() {
         return array(
             'datum' => 'Dátum',
-            'penztarca_id' => 'Pénztárca',
-            'tipus' => 'Típus',
             'kategoria_id' => 'Kategória',
             'osszeg' => 'Összeg',
+            'idoszak_tipus' => 'Időszak típusa',
+            'idoszak' => 'Időszak',
         );
     }
 }
