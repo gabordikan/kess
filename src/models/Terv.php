@@ -60,11 +60,10 @@ class Terv extends ActiveRecord
     public static function getTervSum($tipus, $tol, $ig) {
         return Yii::$app->db->createCommand("
             select ifnull(sum(osszeg),0) from terv 
-            where kategoria_id in (select id from kategoriak where tipus = :tipus and felhasznalo = :felhasznalo)
+            where kategoria_id in (select id from kategoriak where tipus = :tipus and felhasznalo = :felhasznalo and technikai = 0)
                 and felhasznalo = :felhasznalo
                 and idoszak >= :tol
                 and idoszak <= :ig
-                and technikai = 0
                 and torolt=0"
         )
         ->bindValues([':felhasznalo' => Yii::$app->user->id, ':tipus' => $tipus, ':tol' => $tol, ':ig' => $ig, ':tipus' => $tipus])
