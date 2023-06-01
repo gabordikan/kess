@@ -5,7 +5,9 @@
 use app\models\Penztarca;
 use app\models\Mozgas;
 
-use practically\chartjs\Chart;
+use yii\grid\GridView;
+use yii\data\ActiveDataProvider;
+
 
 $this->title = 'Kess';
 ?>
@@ -25,18 +27,20 @@ else {
     echo "<div>Összesen (".number_format(Penztarca::getOsszEgyenleg(),0,',',' ').")</div>";
 }
 
-echo Chart::widget([
-    'type' => Chart::TYPE_BAR,
-    'datasets' => [
+$dataProvider = new ActiveDataProvider([
+    'query' => Mozgas::find()->where(
         [
-            'query' => Mozgas::find()
-                ->select('osszeg')
-                ->addSelect('sum(tipus*osszeg) as osszeg')
-                ->groupBy('penztarca_id')
-                ->createCommand(),
-            'labelAttribute' => 'osszeg'
+            'felhasznalo' => Yii::$app->user->id,
+            'torolt' => 0,
+            'penztarca_id' => 1,
         ]
-    ]
+    )->orderBy(['datum' => SORT_DESC]),
+    'pagination' => [
+        'pageSize' => 20,
+    ],
+]);
+echo GridView::widget([
+    'dataProvider' => $dataProvider,
 ]);
 
 ?>
