@@ -91,7 +91,8 @@ else {
             [
                 'class' => DataColumn::class, // this line is optional
                 'value' => function ($model, $key, $index, $column) {
-                    return Kategoriak::findOne([ 'id' => $model->kategoria_id])->nev; 
+                    $kategoria = Kategoriak::findOne([ 'id' => $model->kategoria_id]);
+                    return $kategoria->fokategoria."/".$kategoria->nev;
                 },
                 'format' => 'text',
                 'label' => 'Kategória',
