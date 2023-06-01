@@ -59,9 +59,9 @@ else {
                 'urlCreator' => function ($action, $model, $key, $index, $column) {
                     switch ($action) {
                         case "view":
-                            return 'index.php?r=site%2Flistkess&penztarca_id='.$model->id;
+                            return '/site/listkess?penztarca_id='.$model->id;
                         case "update":
-                            return 'index.php?r=site%2Frecordkess&penztarca_id='.$model->id;
+                            return '/site/recordkess?penztarca_id='.$model->id;
                     }
                 },
                 'contentOptions' => ['style'=>'text-align: center'],

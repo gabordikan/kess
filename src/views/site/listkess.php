@@ -26,7 +26,7 @@ if (Yii::$app->user->isGuest) {
 }
 else {
     $penztarcak = Penztarca::getPenztarcak();
-    $penztarca_id = Yii::$app->request->get('penztarca_id') ?? array_key_first($penztarcak);
+    $penztarca_id = $penztarca_id ?? array_key_first($penztarcak);
 
     echo Html::dropDownList('penztarca', $penztarca_id , $penztarcak);
 
@@ -79,7 +79,7 @@ else {
                         'delete' => true,
                     ],
                     'urlCreator' => function ($action, $model, $key, $index, $column) {
-                        return 'index.php?r=site%2flistkess&penztarca_id='.$model->penztarca_id.'&delete_id='.$model->id;
+                        return '/site/listkess?penztarca_id='.$model->penztarca_id.'&delete_id='.$model->id;
                     },
                     'contentOptions' => ['style'=>'text-align: center'],
                 ],
