@@ -72,7 +72,10 @@ else {
         'dataProvider' => $dataProvider,
     ]);
 
-    echo "<div><H1>Összesen (".number_format(Penztarca::getOsszEgyenleg(),0,',',' ').")</H1></div>";
+    echo "<div><H1>Összesen: ".
+        Yii::$app->formatter->asCurrency(
+            Penztarca::getOsszEgyenleg(), 'HUF'
+    )."</H1></div>";
 
 
     $dataProvider = new ActiveDataProvider([
@@ -106,6 +109,11 @@ else {
         ],
         'dataProvider' => $dataProvider,
     ]);
+
+    echo "<div><H1>Összesen: ".
+        Yii::$app->formatter->asCurrency(
+            Terv::getTervSum('Bevétel', date('Y-m'), date('Y-m')) - Terv::getTervSum('Kiadás', date('Y-m'), date('Y-m')), 'HUF'
+    )."</H1></div>";
 
     //todo hónap választás
     $tol = date('Y-m-01');
