@@ -13,7 +13,6 @@ use app\models\Penztarca;
 $this->title = 'Rögzítés';
 $this->params['breadcrumbs'][] = $this->title;
 
-<?php
 if (Yii::$app->user->isGuest) {
 ?>
     Lépjen be a funkciók eléréséhez
