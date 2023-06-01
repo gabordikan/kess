@@ -31,10 +31,6 @@ else {
 
     if($penztarca_id != null) {
 
-        echo "<BR/><BR/>";
-
-        echo "<H1>".Penztarca::findOne(['id' => $penztarca_id, 'felhasznalo' => Yii::$app->user->id])->nev."</H1>";
-
         $dataProvider = new ActiveDataProvider([
             'query' => Mozgas::find()->where(
                 [
