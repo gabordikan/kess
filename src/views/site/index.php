@@ -72,132 +72,132 @@ else {
     ]);
 
     echo "<div><H1>Összesen (".number_format(Penztarca::getOsszEgyenleg(),0,',',' ').")</H1></div>";
+
+
+    //todo hónap választás
+    $tol = date('Y-m-01');
+    $ig = date('Y-m-31');
+
+    echo "</div><div>";
+
+    echo ChartJs::widget([
+        'type' => 'doughnut',
+        'id' => 'structurePie',
+        'options' => [
+            'width' => 300,
+            'height' => 400,
+        ],
+        'data' => [
+            'radius' =>  "90%",
+            'labels' => Kategoriak::getFokategoriakLista(), // Your labels
+            'datasets' => [
+                [
+                    'data' => Kategoriak::getFokategoriakListaEgyenleg($tol, $ig, 1), // Your dataset
+                    'label' => '',
+                    'backgroundColor' => Kategoriak::getFokategoriakSzinek(),
+                    'borderColor' => '#FFFFFF',
+                    'borderWidth' => 1,
+                    'hoverBorderColor'=>"#999",
+                ],
+                [
+                    'data' => Kategoriak::getFokategoriakListaEgyenleg($tol, $ig, -1), // Your dataset
+                    'label' => '',
+                    'backgroundColor' => Kategoriak::getFokategoriakSzinek(),
+                    'borderColor' =>  '#fff',
+                    'borderWidth' => 1,
+                    'hoverBorderColor'=>"#999",
+                ]
+            ]
+        ],
+        'clientOptions' => [
+            'legend' => [
+                'display' => true,
+                'position' => 'bottom',
+                'labels' => [
+                    'fontSize' => 14,
+                    'fontColor' => "#425062",
+                ]
+            ],
+            'tooltips' => [
+                'enabled' => true,
+                'intersect' => true
+            ],
+            'hover' => [
+                'mode' => false
+            ],
+            'maintainAspectRatio' => false,
+
+        ]]);
+
+    echo "</div><div>";
+
+    echo ChartJs::widget([
+        'type' => 'bar',
+        'id' => 'structurePie2',
+        'options' => [
+            'indexAxis' => 'y',
+        ],
+        'data' => [
+            'labels' => Kategoriak::getKategoriakLista('Kiadás'),
+            'datasets' => [
+                [
+                    'label' => "Terv",
+                    'backgroundColor' => "rgba(255,10,0,0.5)",
+                    'borderColor' => "rgba(255,10,0,1)",
+                    'pointBackgroundColor' => "rgba(255,10,0,1)",
+                    'pointBorderColor' => "#fff",
+                    'pointHoverBackgroundColor' => "#fff",
+                    'pointHoverBorderColor' => "rgba(255,10,0,1)",
+                    'data' => Kategoriak::getSumTerv('Kiadás', $tol, $ig)
+                ],
+                [
+                    'label' => "Tény",
+                    'backgroundColor' => "rgba(10,255,0,0.5)",
+                    'borderColor' => "rgba(10,255,0,1)",
+                    'pointBackgroundColor' => "rgba(10,255,0,1)",
+                    'pointBorderColor' => "#fff",
+                    'pointHoverBackgroundColor' => "#fff",
+                    'pointHoverBorderColor' => "rgba(10,255,0,1)",
+                    'data' => Kategoriak::getSumTeny('Kiadás', $tol, $ig)
+                ]
+            ]
+        ]
+    ]);
+
+    echo "</div><div>";
+
+    echo ChartJs::widget([
+        'type' => 'bar',
+        'id' => 'structurePie3',
+        'options' => [
+            'indexAxis' => 'y',
+        ],
+        'data' => [
+            'labels' => Kategoriak::getKategoriakLista('Bevétel'),
+            'datasets' => [
+                [
+                    'label' => "Terv",
+                    'backgroundColor' => "rgba(255,10,0,0.5)",
+                    'borderColor' => "rgba(255,10,0,1)",
+                    'pointBackgroundColor' => "rgba(255,10,0,1)",
+                    'pointBorderColor' => "#fff",
+                    'pointHoverBackgroundColor' => "#fff",
+                    'pointHoverBorderColor' => "rgba(255,10,0,1)",
+                    'data' => Kategoriak::getSumTerv('Bevétel', $tol, $ig)
+                ],
+                [
+                    'label' => "Tény",
+                    'backgroundColor' => "rgba(10,255,0,0.5)",
+                    'borderColor' => "rgba(10,255,0,1)",
+                    'pointBackgroundColor' => "rgba(10,255,0,1)",
+                    'pointBorderColor' => "#fff",
+                    'pointHoverBackgroundColor' => "#fff",
+                    'pointHoverBorderColor' => "rgba(10,255,0,1)",
+                    'data' => Kategoriak::getSumTeny('Bevétel', $tol, $ig)
+                ]
+            ]
+        ]
+    ]);
 }
-
-//todo hónap választás
-$tol = date('Y-m-01');
-$ig = date('Y-m-31');
-
-echo "</div><div>";
-
-echo ChartJs::widget([
-    'type' => 'doughnut',
-    'id' => 'structurePie',
-    'options' => [
-        'width' => 300,
-        'height' => 400,
-    ],
-    'data' => [
-        'radius' =>  "90%",
-        'labels' => Kategoriak::getFokategoriakLista(), // Your labels
-        'datasets' => [
-            [
-                'data' => Kategoriak::getFokategoriakListaEgyenleg($tol, $ig, 1), // Your dataset
-                'label' => '',
-                'backgroundColor' => Kategoriak::getFokategoriakSzinek(),
-                'borderColor' => '#FFFFFF',
-                'borderWidth' => 1,
-                'hoverBorderColor'=>"#999",
-            ],
-            [
-                'data' => Kategoriak::getFokategoriakListaEgyenleg($tol, $ig, -1), // Your dataset
-                'label' => '',
-                'backgroundColor' => Kategoriak::getFokategoriakSzinek(),
-                'borderColor' =>  '#fff',
-                'borderWidth' => 1,
-                'hoverBorderColor'=>"#999",
-            ]
-        ]
-    ],
-    'clientOptions' => [
-        'legend' => [
-            'display' => true,
-            'position' => 'bottom',
-            'labels' => [
-                'fontSize' => 14,
-                'fontColor' => "#425062",
-            ]
-        ],
-        'tooltips' => [
-            'enabled' => true,
-            'intersect' => true
-        ],
-        'hover' => [
-            'mode' => false
-        ],
-        'maintainAspectRatio' => false,
-
-    ]]);
-
-echo "</div><div>";
-
-echo ChartJs::widget([
-    'type' => 'bar',
-    'id' => 'structurePie2',
-    'options' => [
-        'indexAxis' => 'y',
-    ],
-    'data' => [
-        'labels' => Kategoriak::getKategoriakLista('Kiadás'),
-        'datasets' => [
-            [
-                'label' => "Terv",
-                'backgroundColor' => "rgba(255,10,0,0.5)",
-                'borderColor' => "rgba(255,10,0,1)",
-                'pointBackgroundColor' => "rgba(255,10,0,1)",
-                'pointBorderColor' => "#fff",
-                'pointHoverBackgroundColor' => "#fff",
-                'pointHoverBorderColor' => "rgba(255,10,0,1)",
-                'data' => Kategoriak::getSumTerv('Kiadás', $tol, $ig)
-            ],
-            [
-                'label' => "Tény",
-                'backgroundColor' => "rgba(10,255,0,0.5)",
-                'borderColor' => "rgba(10,255,0,1)",
-                'pointBackgroundColor' => "rgba(10,255,0,1)",
-                'pointBorderColor' => "#fff",
-                'pointHoverBackgroundColor' => "#fff",
-                'pointHoverBorderColor' => "rgba(10,255,0,1)",
-                'data' => Kategoriak::getSumTeny('Kiadás', $tol, $ig)
-            ]
-        ]
-    ]
-]);
-
-echo "</div><div>";
-
-echo ChartJs::widget([
-    'type' => 'bar',
-    'id' => 'structurePie3',
-    'options' => [
-        'indexAxis' => 'y',
-    ],
-    'data' => [
-        'labels' => Kategoriak::getKategoriakLista('Bevétel'),
-        'datasets' => [
-            [
-                'label' => "Terv",
-                'backgroundColor' => "rgba(255,10,0,0.5)",
-                'borderColor' => "rgba(255,10,0,1)",
-                'pointBackgroundColor' => "rgba(255,10,0,1)",
-                'pointBorderColor' => "#fff",
-                'pointHoverBackgroundColor' => "#fff",
-                'pointHoverBorderColor' => "rgba(255,10,0,1)",
-                'data' => Kategoriak::getSumTerv('Bevétel', $tol, $ig)
-            ],
-            [
-                'label' => "Tény",
-                'backgroundColor' => "rgba(10,255,0,0.5)",
-                'borderColor' => "rgba(10,255,0,1)",
-                'pointBackgroundColor' => "rgba(10,255,0,1)",
-                'pointBorderColor' => "#fff",
-                'pointHoverBackgroundColor' => "#fff",
-                'pointHoverBorderColor' => "rgba(10,255,0,1)",
-                'data' => Kategoriak::getSumTeny('Bevétel', $tol, $ig)
-            ]
-        ]
-    ]
-]);
-
 ?>
 </div>
