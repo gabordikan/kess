@@ -57,6 +57,10 @@ class Terv extends ActiveRecord
         );
     }
 
+    public function getKategoria() {
+        return $this->hasOne(Kategoriak::class, ['id' => 'kategoria_id']);
+    }
+
     public static function getTervSum($tipus, $tol, $ig) {
         return Yii::$app->db->createCommand("
             select ifnull(sum(osszeg),0) from terv 

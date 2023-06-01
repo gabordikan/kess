@@ -63,11 +63,13 @@ else {
     </div>
     <div class="site-planlist">
     <?php $dataProvider = new ActiveDataProvider([
-        'query' => Terv::find()->where(
+        'query' => Terv::find()
+            ->joinWith('kategoria')
+            ->where(
             [
-                'felhasznalo' => Yii::$app->user->id,
-                'torolt' => 0,
-                'idoszak' => date('Y-m'),
+                'terv.felhasznalo' => Yii::$app->user->id,
+                'terv.torolt' => 0,
+                'terv.idoszak' => date('Y-m'),
             ]
         )->orderBy(['tipus' => SORT_ASC, 'fokategoria' => SORT_ASC, 'nev' => SORT_ASC]),
         'pagination' => [
@@ -76,6 +78,8 @@ else {
     ]);
 
     echo GridView::widget([
+        'showFooter' => true,
+        'footerRowOptions'=>['style'=>'text-align: right'],
         'columns' => [
             ['class' => SerialColumn::class],
             [
@@ -87,6 +91,15 @@ else {
                 'class' => DataColumn::class, // this line is optional
                 'attribute' => 'idoszak',
                 'format' => 'text',
+            ],
+            [
+                'class' => DataColumn::class, // this line is optional
+                'value' => function ($model, $key, $index, $column) {
+                    $kategoria = Kategoriak::findOne([ 'id' => $model->kategoria_id]);
+                    return $kategoria->tipus;
+                },
+                'format' => 'text',
+                'label' => 'Típus',
             ],
             [
                 'class' => DataColumn::class, // this line is optional
@@ -105,6 +118,10 @@ else {
                 'format' => ['currency', 'HUF'],
                 'label' => 'Összeg',
                 'contentOptions' => ['style'=>'text-align: right'],
+                'footer' => 
+                    Yii::$app->formatter->asCurrency(
+                        Terv::getTervSum('Bevétel', date('Y-m'), date('Y-m')) - Terv::getTervSum('Kiadás', date('Y-m'), date('Y-m')), 'HUF'
+                    ),
             ],
             [
                 'class' => ActionColumn::class,
