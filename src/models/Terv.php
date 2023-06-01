@@ -64,6 +64,7 @@ class Terv extends ActiveRecord
                 and felhasznalo = :felhasznalo
                 and idoszak >= :tol
                 and idoszak <= :ig
+                and technikai = 0
                 and torolt=0"
         )
         ->bindValues([':felhasznalo' => Yii::$app->user->id, ':tipus' => $tipus, ':tol' => $tol, ':ig' => $ig, ':tipus' => $tipus])

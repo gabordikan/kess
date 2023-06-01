@@ -85,6 +85,7 @@ class Kategoriak extends ActiveRecord
                 and datum >= :tol
                 and datum <= :ig
                 and torolt=0
+                and technikai=0
                 and tipus= :tipus"
         )
         ->bindValues([':felhasznalo' => Yii::$app->user->id, ':fokategorianev' => $fokategorianev, ':tol' => $tol, ':ig' => $ig, ':tipus' => $tipus])
@@ -127,6 +128,7 @@ class Kategoriak extends ActiveRecord
                 and felhasznalo = :felhasznalo
                 and idoszak >= :tol
                 and idoszak <= :ig
+                and technikai = 0
                 and torolt=0"
         )
         ->bindValues([':felhasznalo' => Yii::$app->user->id, ':kategoria_id' => $kategoria_id, ':tol' => substr($tol,0,7), ':ig' => substr($ig,0,7)])
@@ -140,6 +142,7 @@ class Kategoriak extends ActiveRecord
                 and felhasznalo = :felhasznalo
                 and datum >= :tol
                 and datum <= :ig
+                and technikai = 0
                 and torolt=0"
         )
         ->bindValues([':felhasznalo' => Yii::$app->user->id, ':kategoria_id' => $kategoria_id, ':tol' => $tol, ':ig' => $ig])
