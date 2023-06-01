@@ -15,8 +15,8 @@ class m230601_105600_technikai_kategoria extends Migration
         $this->db->createCommand("ALTER TABLE `kategoriak` 
             add column `technikai` tinyint(1) NOT NULL DEFAULT 0 after nev")->execute();
 
-        $this->db->createCommand("update kategoriak set technikai=1 where nev='Átvezetés'");
-        $this->db->createCommand("update kategoriak set technikai=1 where nev='Nyitó'");
+        $this->db->createCommand("update kategoriak set technikai=1 where nev='Átvezetés'")->execute();
+        $this->db->createCommand("update kategoriak set technikai=1 where nev='Nyitó'")->execute();
     }
 
     /**
