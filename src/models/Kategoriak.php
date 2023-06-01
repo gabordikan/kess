@@ -80,7 +80,7 @@ class Kategoriak extends ActiveRecord
     public static function getFokategoriaSumTeny($fokategorianev, $tol, $ig, $tipus) {
         return Yii::$app->db->createCommand("
             select ifnull(sum(osszeg),0) from mozgas 
-            where kategoria_id in (select id from kategoriak where fokategoria = :fokategorianev)
+            where kategoria_id in (select id from kategoriak where fokategoria = :fokategorianev and felhasznalo = :felhasznalo)
                 and felhasznalo = :felhasznalo
                 and datum >= :tol
                 and datum <= :ig

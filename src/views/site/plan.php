@@ -71,7 +71,7 @@ else {
             ]
         )->orderBy(['id' => SORT_DESC]),
         'pagination' => [
-            'pageSize' => 20,
+            'pageSize' => 100,
         ],
     ]);
 
