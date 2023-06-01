@@ -11,7 +11,6 @@ use app\models\Kategoriak;
 use app\models\Penztarca;
 
 $this->title = 'Rögzítés';
-$this->params['breadcrumbs'][] = $this->title;
 
 if (Yii::$app->user->isGuest) {
 ?>
