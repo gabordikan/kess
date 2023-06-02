@@ -40,15 +40,16 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => '/favi
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
         'items' => [
-            ['label' => 'Kezdőlap', 'url' => ['/site/index']],
-            ['label' => 'Rögzítés', 'url' => ['/site/recordkess']],
-            ['label' => 'Tételek', 'url' => ['/site/listkess']],
-            ['label' => 'Terv', 'url' => ['/site/plan']],
-            ['label' => 'Kategóriák', 'url' => ['/site/categories']],
-            ['label' => 'Beállítások', 'url' => ['/site/settings']],
+            Yii::$app->user->isGuest ? '' : ['label' => 'Kezdőlap', 'url' => ['/site/index']],
+            Yii::$app->user->isGuest ? '' : ['label' => 'Rögzítés', 'url' => ['/site/recordkess']],
+            Yii::$app->user->isGuest ? '' : ['label' => 'Tételek', 'url' => ['/site/listkess']],
+            Yii::$app->user->isGuest ? '' : ['label' => 'Terv', 'url' => ['/site/plan']],
+            Yii::$app->user->isGuest ? '' : ['label' => 'Kategóriák', 'url' => ['/site/categories']],
+            Yii::$app->user->isGuest ? '' : ['label' => 'Pénztárcák', 'url' => ['/site/wallets']],
+            Yii::$app->user->isGuest ? '' : ['label' => 'Beállítások', 'url' => ['/site/settings']],
             Yii::$app->user->id == 1
                 ? ['label' => 'Admin', 'url' => ['/site/admin']]
-                : '',
+                : ['label' => 'Névjegy', 'url' => ['/site/about']],
             Yii::$app->user->isGuest
                 ? ['label' => 'Belépés', 'url' => ['/site/login']]
                 : '<li class="nav-item">'
@@ -58,7 +59,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => '/favi
                         ['class' => 'nav-link btn btn-link logout']
                     )
                     . Html::endForm()
-                    . '</li>'
+                    . '</li>',
+            
         ]
     ]);
     NavBar::end();
@@ -78,7 +80,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => '/favi
 <footer id="footer" class="mt-auto py-3 bg-light">
     <div class="container">
         <div class="row text-muted">
-            <div class="col-md-6 text-center text-md-start">&copy; DIX 2012</div>
+            <div class="col-md-6 text-center text-md-start">&copy; Dikán Gábor</div>
         </div>
     </div>
 </footer>

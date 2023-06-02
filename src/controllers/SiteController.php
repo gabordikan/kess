@@ -12,8 +12,11 @@ use app\models\ContactForm;
 use app\models\Mozgas;
 use app\models\Terv;
 use app\models\Kategoriak;
+use app\models\Penztarca;
+use app\models\Registration;
 use app\models\Settings;
 use app\models\User;
+use yii\base\Event;
 
 class SiteController extends Controller
 {
@@ -66,6 +69,10 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect('/site/about');
+        }
+
         return $this->render('index');
     }
 
@@ -103,21 +110,56 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
-    /**
-     * Displays contact page.
-     *
-     * @return Response|string
-     */
-    public function actionContact()
+    public function actionRegister()
     {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
+        $model = new Registration();
 
-            return $this->refresh();
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->validate()) {
+                $user = new User();
+                $user->username = $model->username;
+                $user->email = $model->email;
+                $user->phone = $model->phone;
+                $user->torolt = 1;
+                $user->savePassword($model->password);
+                Yii::$app->mailer->compose()
+                    ->setFrom('gabor@dikan.hu')
+                    ->setTo($user->email)
+                    ->setSubject('Kess fiók aktiváció')
+                    ->setHtmlBody('Az alábbi linkre kattintva tudod aktiválni a fiókodat: <a href="https://kess.dix.hu/site/activation?user='.$user->username.'&token='.$user->accessToken.'">Akitválom</a>')
+                    ->send();
+                $this->redirect("/site/registered");
+            }
         }
-        return $this->render('contact', [
+
+        return $this->render('registration', [
             'model' => $model,
+        ]);
+    }
+
+    public function actionRegistered()
+    {
+        return $this->render('message', [
+            'msg' => 'Hamarosan felvesszük veled a kapcsolatot a megadott elérhetőségek valamelyik a fiók aktiválásához.'
+        ]);
+    }
+
+    public function actionActivation($username, $accessToken)
+    {
+        $user = User::findOne(["username" => $username]);
+        if ($user && $user->accessToken == $accessToken) {
+            if ($user->torolt == 0) {
+                $msg = "Ez a fiók már aktiválva van";
+            } else {
+                $user->torolt = 0;
+                $user->save();
+                $msg = "Sikeresen aktiváltad a fiókodat, most már bejelentkezhetsz";
+            }
+        } else {
+            $msg = "Az aktiváló link nem érvényes";
+        }
+        return $this->render('message', [
+            'msg' => $msg,
         ]);
     }
 
@@ -131,15 +173,32 @@ class SiteController extends Controller
         return $this->render('about');
     }
 
-    public function actionRecordkess($penztarca_id = null, $tipus = 'Kiadás')
+    public function actionThanks()
+    {
+        return $this->render('message', [
+            'msg' => 'Köszönöm a kávét! ☕',
+        ]);
+    }
+
+    public function actionRecordkess($penztarca_id = null, $tipus = 'Kiadás', $update_id = null)
     {
         $model = new Mozgas();
+
+        if ($update_id) {
+            $model = Mozgas::findOne(["id" => $update_id, "felhasznalo" => Yii::$app->user->id]);
+        }
+
         if ($model->load(Yii::$app->request->post())) {
+            $model->torolt = 0;
             $model->save();
             $model->id = 0;
             $model->osszeg=null;
             $model->kategoria_id=null; 
+            if ($update_id) {
+                return $this->redirect("/site/listkess?penztarca_id=".$model->penztarca_id);
+            }
         } 
+
         if ($penztarca_id) {
             $model->penztarca_id = $penztarca_id;
         }
@@ -168,7 +227,7 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionPlan($delete_id = null)
+    public function actionPlan($delete_id = null, $update_id = null)
     {
         if ($delete_id) {
             $model = Terv::findOne(['id' => $delete_id, 'felhasznalo' => Yii::$app->user->id]);
@@ -178,6 +237,11 @@ class SiteController extends Controller
         }
 
         $model = new Terv();
+
+        if ($update_id) {
+            $model = Terv::findOne(['id' => $update_id, 'felhasznalo' => Yii::$app->user->id]);
+        }
+
         if ($model->load(Yii::$app->request->post())) {
             $model->save();
             $model->id = 0;
@@ -190,7 +254,7 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionCategories($tipus = 'Kiadás', $delete_id = null)
+    public function actionCategories($tipus = 'Kiadás', $delete_id = null, $update_id = null)
     {
         if ($delete_id) {
             $model = Kategoriak::findOne(['id' => $delete_id, 'felhasznalo' => Yii::$app->user->id]);
@@ -200,7 +264,13 @@ class SiteController extends Controller
         }
 
         $model = new Kategoriak();
+
+        if ($update_id) {
+            $model = Kategoriak::findOne(['id' => $update_id, 'felhasznalo' => Yii::$app->user->id]);
+        }
+
         if ($model->load(Yii::$app->request->post())) {
+            $model->torolt = 0;
             $model->save();
             return $this->redirect("/site/categories?tipus=".$model->tipus);
         }
@@ -210,6 +280,32 @@ class SiteController extends Controller
         return $this->render('categories',[
             'model' => $model,
             'tipus' => $tipus,
+        ]);
+    }
+
+    public function actionWallets($delete_id = null, $update_id = null)
+    {
+        if ($delete_id) {
+            $model = Penztarca::findOne(['id' => $delete_id, 'felhasznalo' => Yii::$app->user->id]);
+            $model->torolt = 1;
+            $model->save(false);
+            return $this->redirect("/site/wallets");
+        }
+
+        $model = new Penztarca();
+
+        if ($update_id) {
+            $model = Penztarca::findOne(['id' => $update_id, 'felhasznalo' => Yii::$app->user->id]);
+        }
+
+        if ($model->load(Yii::$app->request->post())) {
+            $model->torolt = 0;
+            $model->save();
+            return $this->redirect("/site/wallets");
+        }
+
+        return $this->render('wallets',[
+            'model' => $model,
         ]);
     }
 

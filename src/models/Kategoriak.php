@@ -15,6 +15,7 @@ use yii\db\ActiveRecord;
 class Kategoriak extends ActiveRecord
 {
 
+    public $fokategoria_;
     /**
      * @return array the validation rules.
      */
@@ -22,6 +23,7 @@ class Kategoriak extends ActiveRecord
     {
         return [
             // username and password are both required
+            [['tipus', 'fokategoria', 'fokategoria_', 'nev'], 'safe'],
             [['tipus', 'fokategoria', 'nev'], 'required'],
         ];
     }
@@ -34,16 +36,30 @@ class Kategoriak extends ActiveRecord
         return "kategoriak";
     }
 
+    public function attributeLabels()
+    {
+        return [
+            "tipus" => "Típus",
+            "fokategoria" => "Főkategória",
+            "fokategoria_" => "Új főkategória",
+            "nev" => "Név",
+        ];
+    }
+
     public function beforeValidate()
     {
         if (!Yii::$app->user->isGuest) {
             $this->felhasznalo = Yii::$app->user->id;
         }
 
+        if ($this->fokategoria_ != "") {
+            $this->fokategoria = $this->fokategoria_;
+        }
+
         return parent::beforeValidate();
     }
 
-    public static function getFokategoriakLista() {
+    public static function getFokategoriakLista($indexed = false) {
         $kategoriak = Self::find()
         ->where(["felhasznalo" => Yii::$app->user->id, "torolt" => 0])
         ->groupBy('fokategoria')
@@ -52,7 +68,11 @@ class Kategoriak extends ActiveRecord
     $kat_arr = [];
 
     foreach ($kategoriak as $id=>$arr) {
-        $kat_arr[$arr->fokategoria] = $arr->fokategoria;
+        if ($indexed) {
+            $kat_arr[] = $arr->fokategoria;
+        } else {
+            $kat_arr[$arr->fokategoria] = $arr->fokategoria;
+        }
     }
 
     return $kat_arr;
@@ -95,12 +115,14 @@ class Kategoriak extends ActiveRecord
     public static function getFokategoriaSumTeny($fokategorianev, $tol, $ig, $tipus) {
         return Yii::$app->db->createCommand("
             select ifnull(sum(osszeg),0) from mozgas 
+            left join penztarca on penztarca.id = mozgas.penztarca_id
             where kategoria_id in (select id from kategoriak where fokategoria = :fokategorianev and felhasznalo = :felhasznalo and technikai = 0)
-                and felhasznalo = :felhasznalo
-                and datum >= :tol
-                and datum <= :ig
-                and torolt=0
-                and tipus= :tipus"
+                and mozgas.felhasznalo = :felhasznalo
+                and mozgas.datum >= :tol
+                and mozgas.datum <= :ig
+                and mozgas.torolt = 0
+                and mozgas.tipus= :tipus
+                and penztarca.torolt = 0"
         )
         ->bindValues([':felhasznalo' => Yii::$app->user->id, ':fokategorianev' => $fokategorianev, ':tol' => $tol, ':ig' => $ig, ':tipus' => $tipus])
         ->queryScalar();
@@ -150,12 +172,14 @@ class Kategoriak extends ActiveRecord
 
     public static function getKategoriaSumTeny($kategoria_id, $tol, $ig) {
         return Yii::$app->db->createCommand("
-            select ifnull(sum(osszeg),0) from mozgas 
+            select ifnull(sum(osszeg),0) from mozgas
+            left join penztarca on penztarca.id=mozgas.penztarca_id
             where kategoria_id = :kategoria_id
-                and felhasznalo = :felhasznalo
-                and datum >= :tol
-                and datum <= :ig
-                and torolt=0"
+                and mozgas.felhasznalo = :felhasznalo
+                and mozgas.datum >= :tol
+                and mozgas.datum <= :ig
+                and mozgas.torolt=0
+                and penztarca.torolt=0"
         )
         ->bindValues([':felhasznalo' => Yii::$app->user->id, ':kategoria_id' => $kategoria_id, ':tol' => $tol, ':ig' => $ig])
         ->queryScalar();

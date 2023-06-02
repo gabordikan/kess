@@ -24,6 +24,7 @@ else {
     ?>
     <div class="site-recordkess">
         <?php $form = ActiveForm::begin([
+            'action' => ['site/recordkess','update_id' => $model->id],
             'id' => 'recordkess-form',
             'layout' => 'horizontal',
             'fieldConfig' => [

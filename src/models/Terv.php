@@ -24,7 +24,7 @@ class Terv extends ActiveRecord
             [['kategoria_id', 'osszeg', 'idoszak_tipus', 'idoszak', 'felhasznalo'], 'safe'],
             [['idoszak'], 'default', 'value' => date('Y-m')],
             // rememberMe must be a boolean value
-            ['osszeg', 'integer'],
+            ['osszeg', 'number'],
         ];
     }
 
