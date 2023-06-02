@@ -22,7 +22,7 @@ class Mozgas extends ActiveRecord
     {
         return [
             // username and password are both required
-            [['penztarca_id', 'felhasznalo'], 'required'],
+            [['penztarca_id', 'felhasznalo', 'osszeg', 'tipus', 'kategoria_id'], 'required'],
             [['penztarca_id', 'tipus', 'kategoria_id', 'osszeg', 'felhasznalo'], 'safe'],
             [['datum'], 'default', 'value' => date('Y-m-d')],
             // rememberMe must be a boolean value

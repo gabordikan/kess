@@ -128,7 +128,7 @@ class SiteController extends Controller
         return $this->render('about');
     }
 
-    public function actionRecordkess($penztarca_id = null)
+    public function actionRecordkess($penztarca_id = null, $tipus = 'Kiadás')
     {
         $model = new Mozgas();
         if ($model->load(Yii::$app->request->post())) {
@@ -136,11 +136,17 @@ class SiteController extends Controller
             $model->id = 0;
             $model->osszeg=null;
             $model->kategoria_id=null; 
-        } elseif ($penztarca_id) {
+        } 
+        if ($penztarca_id) {
             $model->penztarca_id = $penztarca_id;
+        }
+        if ($tipus) {
+            $model->tipus = $tipus;
         }
         return $this->render('recordkess',[
             'model' => $model,
+            'penztarca_id' => $penztarca_id,
+            'tipus' => $tipus,
         ]);
     }
 
