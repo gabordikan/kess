@@ -21,6 +21,8 @@ class Penztarca extends ActiveRecord
     public function rules()
     {
         return [
+            [['id', 'nev'], 'safe'],
+            [['nev'], 'required'],
         ];
     }
 
@@ -30,6 +32,21 @@ class Penztarca extends ActiveRecord
     public static function tableName()
     {
         return "penztarca";
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'nev' => 'Név',
+        ];
+    }
+
+    public function beforeValidate()
+    {
+        if (!Yii::$app->user->isGuest) {
+            $this->felhasznalo = Yii::$app->user->id;
+        }
+        return parent::beforeValidate();
     }
 
     public static function getEgyenleg($id)
@@ -46,9 +63,11 @@ class Penztarca extends ActiveRecord
     public static function getOsszEgyenleg()
     {
         return Yii::$app->db->createCommand("
-            select ifnull(sum(tipus*osszeg),0) from mozgas 
-            where felhasznalo = :felhasznalo
-                and torolt=0"
+            select ifnull(sum(tipus*osszeg),0) from mozgas
+            left join penztarca on penztarca.id = mozgas.penztarca_id
+            where mozgas.felhasznalo = :felhasznalo
+                and penztarca.torolt = 0
+                and mozgas.torolt = 0"
         )
         ->bindValues([':felhasznalo' => Yii::$app->user->id])
         ->queryScalar();
@@ -56,7 +75,7 @@ class Penztarca extends ActiveRecord
 
     public static function getPenztarcak()
     {
-        $penztarcak = self::findAll(['felhasznalo' => Yii::$app->user->id]);
+        $penztarcak = self::findAll(['felhasznalo' => Yii::$app->user->id, 'torolt' => 0]);
         foreach ($penztarcak as $id => $penztarca) {
             $pt_arr[$penztarca->id] = $penztarca->nev. " (".number_format(self::getEgyenleg($penztarca->id), 0, ',', ' ').")";
         }

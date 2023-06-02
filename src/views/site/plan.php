@@ -16,7 +16,7 @@ use yii\grid\DataColumn;
 use yii\grid\ActionColumn;
 
 
-$this->title = 'Kess';
+$this->title = 'Terv';
 
 $kategoriak = Kategoriak::getKategoriak();
 ?>
@@ -31,6 +31,7 @@ else {
 ?>
     <div class="site-recordplan">
     <?php $form = ActiveForm::begin([
+        'action' => ['site/plan','update_id' => $model->id],
         'id' => 'recordplan-form',
         'layout' => 'horizontal',
         'fieldConfig' => [
@@ -126,11 +127,16 @@ else {
                 'class' => ActionColumn::class,
                 'visibleButtons' => [
                     'view' => false,
-                    'update' => false,
+                    'update' => true,
                     'delete' => true,
                 ],
                 'urlCreator' => function ($action, $model, $key, $index, $column) {
-                    return '/site/plan?delete_id='.$model->id;
+                    switch ($action) {
+                        case "update":
+                            return '/site/plan?update_id='.$model->id;
+                        case "delete":
+                            return '/site/plan?delete_id='.$model->id;
+                    }
                 },
                 'contentOptions' => ['style'=>'text-align: center'],
             ],

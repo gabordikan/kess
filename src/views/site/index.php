@@ -24,7 +24,9 @@ if (Yii::$app->user->isGuest) {
 }
 else {
     $dataProvider = new ActiveDataProvider([
-        'query' => Penztarca::find()->where(['felhasznalo' => Yii::$app->user->id]),
+        'query' => Penztarca::find()
+            ->where(['felhasznalo' => Yii::$app->user->id, 'torolt' => 0])
+            ->orderBy(['nev' => SORT_ASC]),
     ]);
 
     echo GridView::widget([
@@ -128,7 +130,7 @@ else {
         ],
         'data' => [
             'radius' =>  "90%",
-            'labels' => Kategoriak::getFokategoriakLista(), // Your labels
+            'labels' => Kategoriak::getFokategoriakLista(true), // Your labels
             'datasets' => [
                 [
                     'data' => Kategoriak::getFokategoriakListaEgyenleg($tol, $ig, 1), // Your dataset
@@ -151,7 +153,7 @@ else {
         'clientOptions' => [
             'legend' => [
                 'display' => true,
-                'position' => 'bottom',
+                'position' => 'top',
                 'labels' => [
                     'fontSize' => 14,
                     'fontColor' => "#425062",
