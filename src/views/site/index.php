@@ -192,6 +192,7 @@ else {
         'type' => 'horizontalBar',
         'id' => 'structurePie2',
         'options' => [
+            'maintainAspectRatio' => false,
             'height' => count($kategoriakKiadasList)*15,
         ],
         'data' => [
