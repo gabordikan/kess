@@ -193,7 +193,7 @@ else {
         'id' => 'structurePie2',
         'clientOptions' => [
             'responsive' => true,
-            'aspectRatio' => 14/count($kategoriakKiadasList),
+            'aspectRatio' => 10/count($kategoriakKiadasList) < 0.7 ? 0.7 : 10/count($kategoriakKiadasList),
         ],
         'data' => [
             'labels' => $kategoriakKiadasList,
@@ -245,7 +245,7 @@ else {
         'id' => 'structurePie3',
         'clientOptions' => [
             'responsive' => true,
-            'aspectRatio' => 10/count($kategoriakBevetelList),
+            'aspectRatio' => 10/count($kategoriakBevetelList) < 0.7 ? 0.7 : 10/count($kategoriakBevetelList),
         ],
         'data' => [
             'labels' => $kategoriakBevetelList,
