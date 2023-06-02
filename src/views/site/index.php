@@ -188,39 +188,42 @@ else {
     $kategoriakKiadasSumTerv = array_values($kategoriakKiadasSumTerv);
     $kategoriakKiadasSumTeny = array_values($kategoriakKiadasSumTeny);
 
-    echo ChartJs::widget([
-        'type' => 'horizontalBar',
-        'id' => 'structurePie2',
-        'clientOptions' => [
-            'responsive' => true,
-            'aspectRatio' => 10/count($kategoriakKiadasList) < 0.7 ? 0.7 : 10/count($kategoriakKiadasList),
-        ],
-        'data' => [
-            'labels' => $kategoriakKiadasList,
-            'datasets' => [
-                [
-                    'label' => "Terv",
-                    'backgroundColor' => "rgba(255,10,0,0.5)",
-                    'borderColor' => "rgba(255,10,0,1)",
-                    'pointBackgroundColor' => "rgba(255,10,0,1)",
-                    'pointBorderColor' => "#fff",
-                    'pointHoverBackgroundColor' => "#fff",
-                    'pointHoverBorderColor' => "rgba(255,10,0,1)",
-                    'data' => $kategoriakKiadasSumTerv,
-                ],
-                [
-                    'label' => "Tény",
-                    'backgroundColor' => "rgba(10,255,0,0.5)",
-                    'borderColor' => "rgba(10,255,0,1)",
-                    'pointBackgroundColor' => "rgba(10,255,0,1)",
-                    'pointBorderColor' => "#fff",
-                    'pointHoverBackgroundColor' => "#fff",
-                    'pointHoverBorderColor' => "rgba(10,255,0,1)",
-                    'data' => $kategoriakKiadasSumTeny,
+    if (count($kategoriakKiadasList)>0) {
+
+        echo ChartJs::widget([
+            'type' => 'horizontalBar',
+            'id' => 'structurePie2',
+            'clientOptions' => [
+                'responsive' => true,
+                'aspectRatio' => 10/count($kategoriakKiadasList) < 0.7 ? 0.7 : 10/count($kategoriakKiadasList),
+            ],
+            'data' => [
+                'labels' => $kategoriakKiadasList,
+                'datasets' => [
+                    [
+                        'label' => "Terv",
+                        'backgroundColor' => "rgba(255,10,0,0.5)",
+                        'borderColor' => "rgba(255,10,0,1)",
+                        'pointBackgroundColor' => "rgba(255,10,0,1)",
+                        'pointBorderColor' => "#fff",
+                        'pointHoverBackgroundColor' => "#fff",
+                        'pointHoverBorderColor' => "rgba(255,10,0,1)",
+                        'data' => $kategoriakKiadasSumTerv,
+                    ],
+                    [
+                        'label' => "Tény",
+                        'backgroundColor' => "rgba(10,255,0,0.5)",
+                        'borderColor' => "rgba(10,255,0,1)",
+                        'pointBackgroundColor' => "rgba(10,255,0,1)",
+                        'pointBorderColor' => "#fff",
+                        'pointHoverBackgroundColor' => "#fff",
+                        'pointHoverBorderColor' => "rgba(10,255,0,1)",
+                        'data' => $kategoriakKiadasSumTeny,
+                    ]
                 ]
             ]
-        ]
-    ]);
+        ]);
+    }
 
     echo "</div><div>";
 
@@ -240,39 +243,42 @@ else {
     $kategoriakBevetelSumTerv = array_values($kategoriakBevetelSumTerv);
     $kategoriakBevetelSumTeny = array_values($kategoriakBevetelSumTeny);
 
-    echo ChartJs::widget([
-        'type' => 'horizontalBar',
-        'id' => 'structurePie3',
-        'clientOptions' => [
-            'responsive' => true,
-            'aspectRatio' => 10/count($kategoriakBevetelList) < 0.7 ? 0.7 : 10/count($kategoriakBevetelList),
-        ],
-        'data' => [
-            'labels' => $kategoriakBevetelList,
-            'datasets' => [
-                [
-                    'label' => "Terv",
-                    'backgroundColor' => "rgba(255,10,0,0.5)",
-                    'borderColor' => "rgba(255,10,0,1)",
-                    'pointBackgroundColor' => "rgba(255,10,0,1)",
-                    'pointBorderColor' => "#fff",
-                    'pointHoverBackgroundColor' => "#fff",
-                    'pointHoverBorderColor' => "rgba(255,10,0,1)",
-                    'data' => $kategoriakBevetelSumTerv,
-                ],
-                [
-                    'label' => "Tény",
-                    'backgroundColor' => "rgba(10,255,0,0.5)",
-                    'borderColor' => "rgba(10,255,0,1)",
-                    'pointBackgroundColor' => "rgba(10,255,0,1)",
-                    'pointBorderColor' => "#fff",
-                    'pointHoverBackgroundColor' => "#fff",
-                    'pointHoverBorderColor' => "rgba(10,255,0,1)",
-                    'data' => $kategoriakBevetelSumTeny,
+    if(count($kategoriakBevetelList)>0) {
+
+        echo ChartJs::widget([
+            'type' => 'horizontalBar',
+            'id' => 'structurePie3',
+            'clientOptions' => [
+                'responsive' => true,
+                'aspectRatio' => 10/count($kategoriakBevetelList) < 0.7 ? 0.7 : 10/count($kategoriakBevetelList),
+            ],
+            'data' => [
+                'labels' => $kategoriakBevetelList,
+                'datasets' => [
+                    [
+                        'label' => "Terv",
+                        'backgroundColor' => "rgba(255,10,0,0.5)",
+                        'borderColor' => "rgba(255,10,0,1)",
+                        'pointBackgroundColor' => "rgba(255,10,0,1)",
+                        'pointBorderColor' => "#fff",
+                        'pointHoverBackgroundColor' => "#fff",
+                        'pointHoverBorderColor' => "rgba(255,10,0,1)",
+                        'data' => $kategoriakBevetelSumTerv,
+                    ],
+                    [
+                        'label' => "Tény",
+                        'backgroundColor' => "rgba(10,255,0,0.5)",
+                        'borderColor' => "rgba(10,255,0,1)",
+                        'pointBackgroundColor' => "rgba(10,255,0,1)",
+                        'pointBorderColor' => "#fff",
+                        'pointHoverBackgroundColor' => "#fff",
+                        'pointHoverBorderColor' => "rgba(10,255,0,1)",
+                        'data' => $kategoriakBevetelSumTeny,
+                    ]
                 ]
             ]
-        ]
-    ]);
+        ]);
+    }
 }
 ?>
 </div>
