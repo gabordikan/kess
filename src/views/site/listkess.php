@@ -94,6 +94,6 @@ else {
 <script>
     var penztarca = document.getElementsByName('penztarca')[0];
     penztarca.addEventListener("change", function(evt) {
-        window.location.href = 'index.php?r=site%2Flistkess&penztarca_id=' + evt.target.value;
+        window.location.href = '/site/listkess?penztarca_id=' + evt.target.value;
     });
 </script>
