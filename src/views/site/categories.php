@@ -41,15 +41,17 @@ else {
         ],
     ]); ?>
 
-        <?= $form->field($model, 'idoszak')->widget(DatePicker::classname(), [
-            'dateFormat' => 'yyyy-MM',
-        ]) ?>
-
-        <?= $form->field($model, 'kategoria_id')->dropDownList(
-                $kategoriak,
+        <?= $form->field($model, 'tipus')->dropDownList(
+                ['Bevétel' => 'Bevétel', 'Kiadás' => 'Kiadás'],
             []) ?>
 
-        <?= $form->field($model, 'osszeg')->textInput() ?>
+        <?= $form->field($model, 'fokategoria')->dropDownList(
+                Kategoriak::getFokategoriakLista(),
+            []) ?>
+
+        <?= $form->field($model, 'nev')->textInput() ?>
+
+        <?= $form->field($model, 'technikai')->checkbox([], []) ?>
 
         <div class="form-group">
             <div">
@@ -62,65 +64,42 @@ else {
     </div>
     <div class="site-planlist">
     <?php $dataProvider = new ActiveDataProvider([
-        'query' => Terv::find()
-            ->joinWith('kategoria')
+        'query' => Kategoriak::find()
             ->where(
             [
-                'terv.felhasznalo' => Yii::$app->user->id,
-                'terv.torolt' => 0,
-                'terv.idoszak' => date('Y-m'),
+                'felhasznalo' => Yii::$app->user->id,
+                'torolt' => 0,
+                'tipus' => $tipus,
             ]
-        )->orderBy(['tipus' => SORT_ASC, 'fokategoria' => SORT_ASC, 'nev' => SORT_ASC]),
+        )->orderBy(['fokategoria' => SORT_ASC, 'nev' => SORT_ASC]),
         'pagination' => [
             'pageSize' => 100,
         ],
     ]);
 
     echo GridView::widget([
-        'showFooter' => true,
+        'showFooter' => false,
         'footerRowOptions'=>['style'=>'text-align: right'],
         'columns' => [
             ['class' => SerialColumn::class],
             [
                 'class' => DataColumn::class, // this line is optional
-                'attribute' => 'idoszak_tipus',
+                'attribute' => 'fokategoria',
                 'format' => 'text',
             ],
             [
                 'class' => DataColumn::class, // this line is optional
-                'attribute' => 'idoszak',
+                'attribute' => 'nev',
                 'format' => 'text',
             ],
             [
                 'class' => DataColumn::class, // this line is optional
                 'value' => function ($model, $key, $index, $column) {
-                    $kategoria = Kategoriak::findOne([ 'id' => $model->kategoria_id]);
-                    return $kategoria->tipus;
+                    $technikai = $model->technikai;
+                    return $technikai==1 ? 'Igen' : '';
                 },
                 'format' => 'text',
-                'label' => 'Típus',
-            ],
-            [
-                'class' => DataColumn::class, // this line is optional
-                'value' => function ($model, $key, $index, $column) {
-                    $kategoria = Kategoriak::findOne([ 'id' => $model->kategoria_id]);
-                    return $kategoria->fokategoria."/".$kategoria->nev;
-                },
-                'format' => 'text',
-                'label' => 'Kategória',
-            ],
-            [
-                'class' => DataColumn::class, // this line is optional
-                'value' => function ($model, $key, $index, $column) {
-                    return $model->osszeg; 
-                },
-                'format' => ['currency', 'HUF'],
-                'label' => 'Összeg',
-                'contentOptions' => ['style'=>'text-align: right'],
-                'footer' => 
-                    Yii::$app->formatter->asCurrency(
-                        Terv::getTervSum('Bevétel', date('Y-m'), date('Y-m')) - Terv::getTervSum('Kiadás', date('Y-m'), date('Y-m')), 'HUF'
-                    ),
+                'label' => 'Technikai',
             ],
             [
                 'class' => ActionColumn::class,
@@ -130,7 +109,7 @@ else {
                     'delete' => true,
                 ],
                 'urlCreator' => function ($action, $model, $key, $index, $column) {
-                    return '/site/plan?delete_id='.$model->id;
+                    return '/site/categories?delete_id='.$model->id;
                 },
                 'contentOptions' => ['style'=>'text-align: center'],
             ],
@@ -140,3 +119,10 @@ else {
 }
 ?>
 </div>
+<script>
+    var penztarca = document.getElementsByName('Kategoriak[tipus]')[0];
+    penztarca.addEventListener("change", function(evt) {
+        var penztarca_id = document.getElementsByName('Kategoriak[tipus]')[0].value;
+        window.location.href = '/site/categories?&tipus=' + evt.target.value;
+    });
+</script>

@@ -44,6 +44,11 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => '/favi
             ['label' => 'Rögzítés', 'url' => ['/site/recordkess']],
             ['label' => 'Tételek', 'url' => ['/site/listkess']],
             ['label' => 'Terv', 'url' => ['/site/plan']],
+            ['label' => 'Kategóriák', 'url' => ['/site/categories']],
+            ['label' => 'Beállítások', 'url' => ['/site/settings']],
+            Yii::$app->user->id == 1
+                ? ['label' => 'Admin', 'url' => ['/site/admin']]
+                : '',
             Yii::$app->user->isGuest
                 ? ['label' => 'Belépés', 'url' => ['/site/login']]
                 : '<li class="nav-item">'
