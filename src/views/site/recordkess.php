@@ -19,7 +19,7 @@ if (Yii::$app->user->isGuest) {
 }
 else {
 
-    $kategoriak = Kategoriak::getKategoriak();
+    $kategoriak = Kategoriak::getKategoriak($tipus);
 
     ?>
     <div class="site-recordkess">
@@ -44,6 +44,10 @@ else {
                 Penztarca::getPenztarcak(),
                 ['autofocus' => true]) ?>
 
+            <?= $form->field($model, 'tipus')->dropDownList(
+                    ['Bevétel' => 'Bevétel', 'Kiadás' => 'Kiadás'],
+                []) ?>
+
             <?= $form->field($model, 'kategoria_id')->dropDownList(
                     $kategoriak,
                 []) ?>
@@ -52,6 +56,12 @@ else {
 
             <div class="form-group">
                 <div class="offset-lg-1 col-lg-11">
+                    <?= Html::button('500', ['class' => 'btn btn-secondary', 'name' => '1000-button', 'value' => 500]) ?>
+                    <?= Html::button('1 000', ['class' => 'btn btn-secondary', 'name' => '1000-button', 'value' => 1000]) ?>
+                    <?= Html::button('5 000', ['class' => 'btn btn-secondary', 'name' => '5000-button', 'value' => 5000]) ?>
+                    <?= Html::button('10 000', ['class' => 'btn btn-secondary', 'name' => '10000-button', 'value' => 10000]) ?>
+                    <?= Html::button('50 000', ['class' => 'btn btn-secondary', 'name' => '50000-button', 'value' => 50000]) ?>
+                    <?= Html::button('100 000', ['class' => 'btn btn-secondary', 'name' => '100000-button', 'value' => 100000]) ?>
                     <?= Html::submitButton('Mentés', ['class' => 'btn btn-primary', 'name' => 'save-button']) ?>
                 </div>
             </div>
@@ -60,3 +70,26 @@ else {
 }
 ?>
 </div>
+
+<script>
+    var penztarca = document.getElementsByName('Mozgas[tipus]')[0];
+    penztarca.addEventListener("change", function(evt) {
+        var penztarca_id = document.getElementsByName('Mozgas[penztarca_id]')[0].value;
+        window.location.href = '/site/recordkess?penztarca_id='+penztarca_id+'&tipus=' + evt.target.value;
+    });
+
+    var buttons = document.getElementsByClassName('btn btn-secondary');
+    for (btn of buttons) {
+        btn.addEventListener("click", function(evt) {
+            var osszeg_selector = document.getElementsByName('Mozgas[osszeg]')[0];
+            var osszeg = osszeg_selector.value;
+            if (osszeg == "") {
+                osszeg = 0;
+            } else {
+                osszeg = parseInt(osszeg);
+            }
+            osszeg += parseInt(evt.target.value);
+            osszeg_selector.value = osszeg;
+        });
+    }
+</script>
