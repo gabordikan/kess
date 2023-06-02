@@ -188,15 +188,12 @@ else {
     $kategoriakKiadasSumTerv = array_values($kategoriakKiadasSumTerv);
     $kategoriakKiadasSumTeny = array_values($kategoriakKiadasSumTeny);
 
-    var_dump(count($kategoriakKiadasList)*20);
-
     echo ChartJs::widget([
         'type' => 'horizontalBar',
         'id' => 'structurePie2',
-        'options' => [
-            'height' => count($kategoriakKiadasList)*20<300 ? 300 :count($kategoriakKiadasList)*20 ,
+        'clientOptions' => [
             'responsive' => true,
-            'maintainAspectRatio' => false,
+            'aspectRatio' => 14/count($kategoriakKiadasList),
         ],
         'data' => [
             'labels' => $kategoriakKiadasList,
@@ -246,9 +243,9 @@ else {
     echo ChartJs::widget([
         'type' => 'horizontalBar',
         'id' => 'structurePie3',
-        'options' => [
-            'height' => count($kategoriakBevetelList)*20 < 150 ? 150 : count($kategoriakBevetelList)*20,
-
+        'clientOptions' => [
+            'responsive' => true,
+            'aspectRatio' => 14/count($kategoriakBevetelList),
         ],
         'data' => [
             'labels' => $kategoriakBevetelList,
