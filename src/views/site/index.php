@@ -172,14 +172,30 @@ else {
 
     echo "</div><div>";
 
+    $kategoriakKiadasList = Kategoriak::getKategoriakLista('Bevétel');
+    $kategoriakKiadasSumTerv = Kategoriak::getSumTerv('Bevétel', $tol, $ig);
+    $kategoriakKiadasSumTeny = Kategoriak::getSumTeny('Bevétel', $tol, $ig);
+
+    foreach ($kategoriakKiadasList as $key=>$value) {
+        if ($kategoriakKiadasSumTerv[$key] == 0 && $kategoriakKiadasSumTeny[$key] == 0) {
+            unset($kategoriakKiadasList[$key]);
+            unset($kategoriakKiadasSumTerv[$key]);
+            unset($kategoriakKiadasSumTeny[$key]);
+        }
+    }
+
+    $kategoriakKiadasList = array_values($kategoriakKiadasList);
+    $kategoriakKiadasSumTerv = array_values($kategoriakKiadasSumTerv);
+    $kategoriakKiadasSumTeny = array_values($kategoriakKiadasSumTeny);
+
     echo ChartJs::widget([
-        'type' => 'bar',
+        'type' => 'horizontalBar',
         'id' => 'structurePie2',
         'options' => [
-            'indexAxis' => 'y',
+            'height' => 40 + count($kategoriakKiadasList)*20,
         ],
         'data' => [
-            'labels' => Kategoriak::getKategoriakLista('Kiadás'),
+            'labels' => $kategoriakKiadasList,
             'datasets' => [
                 [
                     'label' => "Terv",
@@ -189,7 +205,7 @@ else {
                     'pointBorderColor' => "#fff",
                     'pointHoverBackgroundColor' => "#fff",
                     'pointHoverBorderColor' => "rgba(255,10,0,1)",
-                    'data' => Kategoriak::getSumTerv('Kiadás', $tol, $ig)
+                    'data' => $kategoriakKiadasSumTerv,
                 ],
                 [
                     'label' => "Tény",
@@ -199,7 +215,7 @@ else {
                     'pointBorderColor' => "#fff",
                     'pointHoverBackgroundColor' => "#fff",
                     'pointHoverBorderColor' => "rgba(10,255,0,1)",
-                    'data' => Kategoriak::getSumTeny('Kiadás', $tol, $ig)
+                    'data' => $kategoriakKiadasSumTeny,
                 ]
             ]
         ]
@@ -207,14 +223,32 @@ else {
 
     echo "</div><div>";
 
+    $kategoriakBevetelList = Kategoriak::getKategoriakLista('Bevétel');
+    $kategoriakBevetelSumTerv = Kategoriak::getSumTerv('Bevétel', $tol, $ig);
+    $kategoriakBevetelSumTeny = Kategoriak::getSumTeny('Bevétel', $tol, $ig);
+
+    foreach ($kategoriakBevetelList as $key=>$value) {
+        if ($kategoriakBevetelSumTerv[$key] == 0 && $kategoriakBevetelSumTeny[$key] == 0) {
+            unset($kategoriakBevetelList[$key]);
+            unset($kategoriakBevetelSumTerv[$key]);
+            unset($kategoriakBevetelSumTeny[$key]);
+        }
+    }
+
+    $kategoriakBevetelList = array_values($kategoriakBevetelList);
+    $kategoriakBevetelSumTerv = array_values($kategoriakBevetelSumTerv);
+    $kategoriakBevetelSumTeny = array_values($kategoriakBevetelSumTeny);
+
+    var_dump(count($kategoriakBevetelList)*10);
+
     echo ChartJs::widget([
-        'type' => 'bar',
+        'type' => 'horizontalBar',
         'id' => 'structurePie3',
         'options' => [
-            'indexAxis' => 'y',
+            'height' => 40 + count($kategoriakBevetelList)*20,
         ],
         'data' => [
-            'labels' => Kategoriak::getKategoriakLista('Bevétel'),
+            'labels' => $kategoriakBevetelList,
             'datasets' => [
                 [
                     'label' => "Terv",
@@ -224,7 +258,7 @@ else {
                     'pointBorderColor' => "#fff",
                     'pointHoverBackgroundColor' => "#fff",
                     'pointHoverBorderColor' => "rgba(255,10,0,1)",
-                    'data' => Kategoriak::getSumTerv('Bevétel', $tol, $ig)
+                    'data' => $kategoriakBevetelSumTerv,
                 ],
                 [
                     'label' => "Tény",
@@ -234,7 +268,7 @@ else {
                     'pointBorderColor' => "#fff",
                     'pointHoverBackgroundColor' => "#fff",
                     'pointHoverBorderColor' => "rgba(10,255,0,1)",
-                    'data' => Kategoriak::getSumTeny('Bevétel', $tol, $ig)
+                    'data' => $kategoriakBevetelSumTeny,
                 ]
             ]
         ]
