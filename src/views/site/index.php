@@ -192,7 +192,7 @@ else {
         'type' => 'horizontalBar',
         'id' => 'structurePie2',
         'options' => [
-            'height' => 40 + count($kategoriakKiadasList)*20,
+            'height' => 20 + count($kategoriakKiadasList)*15,
         ],
         'data' => [
             'labels' => $kategoriakKiadasList,
@@ -243,7 +243,7 @@ else {
         'type' => 'horizontalBar',
         'id' => 'structurePie3',
         'options' => [
-            'height' => 40 + count($kategoriakBevetelList)*20,
+            'height' => 20 + count($kategoriakBevetelList)*15,
         ],
         'data' => [
             'labels' => $kategoriakBevetelList,
