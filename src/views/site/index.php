@@ -194,7 +194,7 @@ else {
         'type' => 'horizontalBar',
         'id' => 'structurePie2',
         'options' => [
-            'height' => count($kategoriakKiadasList)*20,
+            'height' => count($kategoriakKiadasList)*20<300 ? 300 :count($kategoriakKiadasList)*20 ,
             'responsive' => true,
             'maintainAspectRatio' => false,
         ],
@@ -247,7 +247,7 @@ else {
         'type' => 'horizontalBar',
         'id' => 'structurePie3',
         'options' => [
-            'height' => count($kategoriakBevetelList)*20,
+            'height' => count($kategoriakBevetelList)*20 < 300 ? 300 : count($kategoriakBevetelList)*20,
             'responsive' => true,
             'maintainAspectRatio' => false,
         ],
