@@ -22,7 +22,7 @@ class Kategoriak extends ActiveRecord
     {
         return [
             // username and password are both required
-            [['id, tipus, fokategoria, nev'], 'required'],
+            [['tipus', 'fokategoria', 'nev'], 'required'],
         ];
     }
 
@@ -34,16 +34,25 @@ class Kategoriak extends ActiveRecord
         return "kategoriak";
     }
 
+    public function beforeValidate()
+    {
+        if (!Yii::$app->user->isGuest) {
+            $this->felhasznalo = Yii::$app->user->id;
+        }
+
+        return parent::beforeValidate();
+    }
+
     public static function getFokategoriakLista() {
         $kategoriak = Self::find()
-        ->where(["felhasznalo" => Yii::$app->user->id])
+        ->where(["felhasznalo" => Yii::$app->user->id, "torolt" => 0])
         ->groupBy('fokategoria')
         ->orderBy(['tipus'=>SORT_ASC, 'fokategoria'=>SORT_ASC])->all();
 
     $kat_arr = [];
 
     foreach ($kategoriak as $id=>$arr) {
-        $kat_arr[] = $arr->fokategoria;
+        $kat_arr[$arr->fokategoria] = $arr->fokategoria;
     }
 
     return $kat_arr;

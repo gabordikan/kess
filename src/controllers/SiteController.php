@@ -11,6 +11,9 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Mozgas;
 use app\models\Terv;
+use app\models\Kategoriak;
+use app\models\Settings;
+use app\models\User;
 
 class SiteController extends Controller
 {
@@ -184,6 +187,57 @@ class SiteController extends Controller
 
         return $this->render('plan',[
             'model' => $model,
+        ]);
+    }
+
+    public function actionCategories($tipus = 'Kiadás', $delete_id = null)
+    {
+        if ($delete_id) {
+            $model = Kategoriak::findOne(['id' => $delete_id, 'felhasznalo' => Yii::$app->user->id]);
+            $model->torolt = 1;
+            $model->save(false);
+            return $this->redirect("/site/categories?tipus=".$tipus);
+        }
+
+        $model = new Kategoriak();
+        if ($model->load(Yii::$app->request->post())) {
+            $model->save();
+            return $this->redirect("/site/categories?tipus=".$model->tipus);
+        }
+
+        $model->tipus = $tipus;
+
+        return $this->render('categories',[
+            'model' => $model,
+            'tipus' => $tipus,
+        ]);
+    }
+
+    public function actionSettings()
+    {
+        $setting = new Settings();
+        $user = User::findOne(["id" => Yii::$app->user->id]);
+
+        if ($setting->load(Yii::$app->request->post())) {
+            if ($setting->email) {
+                $user->email = $setting->email;
+                $user->phone = $setting->phone; 
+                $user->save();
+                return $this->redirect("/site/settings");
+            }
+            if ($setting->oldpassword || $setting->newpassword) {
+                if($setting->validate()) {
+                    $user->savePassword($setting->newpassword);
+                    return $this->redirect("/site/settings");
+                }
+            }
+
+        }
+
+        $setting->email = $user->email;
+        $setting->phone = $user->phone;
+        return $this->render('settings',[
+            'model' => $setting,
         ]);
     }
 }
