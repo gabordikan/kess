@@ -245,7 +245,7 @@ else {
         'id' => 'structurePie3',
         'clientOptions' => [
             'responsive' => true,
-            'aspectRatio' => 14/count($kategoriakBevetelList),
+            'aspectRatio' => 10/count($kategoriakBevetelList),
         ],
         'data' => [
             'labels' => $kategoriakBevetelList,
