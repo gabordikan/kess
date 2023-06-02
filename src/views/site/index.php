@@ -172,9 +172,9 @@ else {
 
     echo "</div><div>";
 
-    $kategoriakKiadasList = Kategoriak::getKategoriakLista('Bevétel');
-    $kategoriakKiadasSumTerv = Kategoriak::getSumTerv('Bevétel', $tol, $ig);
-    $kategoriakKiadasSumTeny = Kategoriak::getSumTeny('Bevétel', $tol, $ig);
+    $kategoriakKiadasList = Kategoriak::getKategoriakLista('Kiadás');
+    $kategoriakKiadasSumTerv = Kategoriak::getSumTerv('Kiadás', $tol, $ig);
+    $kategoriakKiadasSumTeny = Kategoriak::getSumTeny('Kiadás', $tol, $ig);
 
     foreach ($kategoriakKiadasList as $key=>$value) {
         if ($kategoriakKiadasSumTerv[$key] == 0 && $kategoriakKiadasSumTeny[$key] == 0) {
@@ -238,8 +238,6 @@ else {
     $kategoriakBevetelList = array_values($kategoriakBevetelList);
     $kategoriakBevetelSumTerv = array_values($kategoriakBevetelSumTerv);
     $kategoriakBevetelSumTeny = array_values($kategoriakBevetelSumTeny);
-
-    var_dump(count($kategoriakBevetelList)*10);
 
     echo ChartJs::widget([
         'type' => 'horizontalBar',
