@@ -247,9 +247,8 @@ else {
         'type' => 'horizontalBar',
         'id' => 'structurePie3',
         'options' => [
-            'height' => count($kategoriakBevetelList)*20 < 300 ? 300 : count($kategoriakBevetelList)*20,
-            'responsive' => true,
-            'maintainAspectRatio' => false,
+            'height' => count($kategoriakBevetelList)*20 < 150 ? 150 : count($kategoriakBevetelList)*20,
+
         ],
         'data' => [
             'labels' => $kategoriakBevetelList,
