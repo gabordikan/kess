@@ -116,7 +116,9 @@ else {
         };
 
         document.getElementsByName('Mozgas[kategoria_id]')[0].addEventListener("change",function(evt) {
-            if (planValues[evt.target.value] != 0) {
+            if (parseInt(planValues[evt.target.value]) != 0
+                && parseInt(planValues[evt.target.value]) != NaN
+                ) {
                 document.getElementsByName('plan-button')[0].value = planValues[evt.target.value];
                 document.getElementsByName('plan-button')[0].text = planValues[evt.target.value];
                 document.getElementsByName('plan-button')[0].style.display = '';
