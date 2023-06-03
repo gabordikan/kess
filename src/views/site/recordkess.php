@@ -120,6 +120,7 @@ else {
             }
         }
     }
+    echo json_encode($planValues);
 ?>;
 
         document.getElementsByName('Mozgas[kategoria_id]')[0].addEventListener("change",function(evt) {
