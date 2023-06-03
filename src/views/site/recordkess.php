@@ -124,6 +124,7 @@ else {
                 document.getElementsByName('plan-button')[0].text = planValues[evt.target.value];
                 document.getElementsByName('plan-button')[0].style.display = '';
             } else {
+                console.log('Hide');
                 document.getElementsByName('plan-button')[0].style.display = 'none';
                 document.getElementsByName('plan-button')[0].text = '';
                 document.getElementsByName('plan-button')[0].value = 0;
