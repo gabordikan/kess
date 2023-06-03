@@ -153,6 +153,21 @@ class SiteController extends Controller
             } else {
                 $user->torolt = 0;
                 $user->save();
+
+                $penztarca = new Penztarca(
+                    [
+                        'nev' => 'Pénztárca',
+                    ]
+                );
+                $penztarca->save();
+
+                Yii::$app->db->createCommand('insert into kategoriak 
+                    (tipus,fokategoria,nev,technikai,felhasznalo) 
+                    (select 
+                        tipus,fokategoria,nev,technikai,'.$user->id.' from kategoriak 
+                        where felhasznalo=1 
+                            and torolt=0)')->execute();  
+
                 $msg = "Sikeresen aktiváltad a fiókodat, most már bejelentkezhetsz";
             }
         } else {
