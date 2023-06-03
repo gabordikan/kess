@@ -118,11 +118,11 @@ else {
         document.getElementsByName('Mozgas[kategoria_id]')[0].addEventListener("change",function(evt) {
             if (planValues[evt.target.value] != 0) {
                 document.getElementsByName('plan-button')[0].value = planValues[evt.target.value];
-                document.getElementsByName('plan-button')[0].outerText = planValues[evt.target.value];
+                document.getElementsByName('plan-button')[0].text = planValues[evt.target.value];
                 document.getElementsByName('plan-button')[0].style.display = '';
             } else {
                 document.getElementsByName('plan-button')[0].style.display = 'none';
-                document.getElementsByName('plan-button')[0].outerText = '';
+                document.getElementsByName('plan-button')[0].text = '';
                 document.getElementsByName('plan-button')[0].value = 0;
             }
         });
