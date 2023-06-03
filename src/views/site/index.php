@@ -98,8 +98,7 @@ else {
 
     }
 
-    echo "<BR><H1>Terv (HUF)</H1>";
-    echo "<div><p>Időszak: "
+    echo "<BR/><div><p>Statisztika időszak: "
     .DatePicker::widget([
         'id' => 'idoszakselector',
         'value' => $idoszak,
@@ -111,7 +110,9 @@ else {
                 }"),
         ],
     ], [])
-    . "</div><BR/>";
+    . "</div>";
+
+    echo "<BR><H1>Terv (HUF)</H1>";
 
     $dataProvider = new ActiveDataProvider([
         'query' => Kategoriak::find()
