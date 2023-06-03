@@ -110,7 +110,7 @@ else {
         }
 
         var planValues = 
-<?
+<?php
     foreach ($kategoriak as $kategoria) {
         $planValues[$kategoria->id] = 
             Kategoriak::getKategoriaSumTerv($kategoria->id, date('Y-m'), date('Y-m'))
