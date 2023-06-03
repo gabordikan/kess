@@ -157,6 +157,7 @@ class SiteController extends Controller
                 $penztarca = new Penztarca(
                     [
                         'nev' => 'Pénztárca',
+                        'felhasznalo' => $user->id,
                     ]
                 );
                 $penztarca->save();
