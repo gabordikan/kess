@@ -22,6 +22,8 @@ class Settings extends Model
             [['email', 'phone', 'oldpassword', 'newpassword', 'newpassword2'], 'safe'],
             [['oldpassword'], 'validateOldPassword'],
             [['newpassword', 'newpassword2'], 'validateNewPassword'],
+            [['email'], 'validateEmail'],
+            [['phone'], 'validatePhone'],
         ];
     }
 
@@ -61,6 +63,24 @@ class Settings extends Model
             }
             if ($this->newpassword != $this->newpassword2) {
                 $this->addError($attribute, 'A megadott két jelszó nem egyezik');
+            }
+        }
+    }
+
+    public function validateEmail($attribute, $params)
+    {
+        if (!$this->hasErrors()) {
+            if(!preg_match('/^[\w+-\.]+@([\w-]+\.)+[\w-]{2,4}$/', $this->email)) {
+                $this->addError($attribute, 'Hibás email cím formátum');
+            }
+        }
+    }
+
+    public function validatePhone($attribute, $params)
+    {
+        if (!$this->hasErrors()) {
+            if(!preg_match('/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/', $this->phone)) {
+                $this->addError($attribute, 'Hibás telefonszám formátum');
             }
         }
     }
