@@ -4,9 +4,9 @@
 use yii\db\Migration;
 
 /**
- * Class m230602_103200_torolt_hozzaadasa_penztarcahoz
+ * Class m230603_132900_deviza_hozzaadasa_penztarcahoz
  */
-class m230602_103200_torolt_hozzaadasa_penztarcahoz extends Migration
+class m230603_132900_deviza_hozzaadasa_penztarcahoz extends Migration
 {
     /**
      * {@inheritdoc}
