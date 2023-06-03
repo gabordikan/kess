@@ -89,7 +89,7 @@ class Penztarca extends ActiveRecord
             ->select('deviza')
             ->where(['felhasznalo' => Yii::$app->user->id, 'torolt' => 0])
             ->groupBy('deviza')
-            ->execute();
+            ->query();
     }
 
 }
