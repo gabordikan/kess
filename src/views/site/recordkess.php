@@ -67,7 +67,7 @@ else {
                     <?= Html::button('50 000', ['class' => 'btn btn-secondary', 'name' => '50000-button', 'value' => 50000]) ?>
                     <?= Html::button('100 000', ['class' => 'btn btn-secondary', 'name' => '100000-button', 'value' => 100000]) ?>
                     <?php
-                        echo Html::button('100 000', ['style'=>'display: none', 'class' => 'btn btn-secondary', 'name' => 'plan-button', 'value' => 0]);
+                        echo Html::button('Plan', ['style'=>'display: none', 'class' => 'btn btn-secondary', 'name' => 'plan-button', 'value' => 0]);
                     ?>
                 </div>
             </div>
@@ -94,10 +94,10 @@ else {
         for (btn of buttons) {
             if(btn.name != 'plan-button') {
                 btn.addEventListener("click", function(evt) {
+                    var osszeg_selector = document.getElementsByName('Mozgas[osszeg]')[0];
                     if (parseInt(evt.target.value) == 0) {
                         osszeg_selector.value = 0;
                     } else {
-                        var osszeg_selector = document.getElementsByName('Mozgas[osszeg]')[0];
                         var osszeg = osszeg_selector.value;
                         if (osszeg == "") {
                             osszeg = 0;
@@ -118,9 +118,12 @@ else {
         document.getElementsByName('Mozgas[kategoria_id]')[0].addEventListener("change",function(evt) {
             if (planValues[evt.target.value] != 0) {
                 document.getElementsByName('plan-button')[0].value = planValues[evt.target.value];
+                document.getElementsByName('plan-button')[0].outerText = planValues[evt.target.value];
                 document.getElementsByName('plan-button')[0].style.display = '';
             } else {
                 document.getElementsByName('plan-button')[0].style.display = 'none';
+                document.getElementsByName('plan-button')[0].outerText = '';
+                document.getElementsByName('plan-button')[0].value = 0;
             }
         });
 
