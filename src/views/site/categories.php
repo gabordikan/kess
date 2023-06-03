@@ -82,6 +82,7 @@ else {
 
     echo GridView::widget([
         'showFooter' => false,
+        'summary' => '{begin}-{end}, Összesen: {totalCount}',
         'footerRowOptions'=>['style'=>'text-align: right'],
         'columns' => [
             ['class' => SerialColumn::class],
