@@ -23,6 +23,9 @@ if (Yii::$app->user->isGuest) {
 <?php
 }
 else {
+
+    echo "<H2>Egyenleg</H2>";
+
     $dataProvider = new ActiveDataProvider([
         'query' => Penztarca::find()
             ->where(['felhasznalo' => Yii::$app->user->id, 'torolt' => 0])
@@ -77,12 +80,14 @@ else {
 
     foreach ($devizak as $deviza) {
 
-        echo "<div><H1>Összesen: ".
+        echo "<div><H3>Összesen: ".
             Yii::$app->formatter->asCurrency(
                 Penztarca::getOsszEgyenleg($deviza->deviza), $deviza->deviza
-        )."</H1></div>";
+        )."</H3></div>";
 
     }
+
+    echo "<H2>Terv</H2>";
 
     $dataProvider = new ActiveDataProvider([
         'query' => Kategoriak::find()
