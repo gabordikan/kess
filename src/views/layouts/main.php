@@ -46,9 +46,9 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => '/favi
             Yii::$app->user->isGuest ? '' : ['label' => 'Terv', 'url' => ['/site/plan']],
             Yii::$app->user->isGuest ? '' : ['label' => 'Kategóriák', 'url' => ['/site/categories']],
             Yii::$app->user->isGuest ? '' : ['label' => 'Pénztárcák', 'url' => ['/site/wallets']],
-            'settings' => [
+            ['label' => 'Beállítások', 'items' => [
                 Yii::$app->user->isGuest ? '' : ['label' => 'Beállítások', 'url' => ['/site/settings']],
-            ],
+            ]],
             Yii::$app->user->id == 1
                 ? ['label' => 'Admin', 'url' => ['/site/admin']]
                 : ['label' => 'Névjegy', 'url' => ['/site/about']],
