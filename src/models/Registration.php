@@ -24,6 +24,8 @@ class Registration extends Model
             [['username', 'email', 'password', 'passwordverification', 'kepcsa'], 'required'],
             [['username'], 'validateUsername'],
             [['password', 'passwordverification'], 'validateNewPassword'],
+            [['email'], 'validateEmail'],
+            [['phone'], 'validatePhone'],
             [['kepcsa'], 'kepcsaValidation'],
         ];
     }
@@ -81,6 +83,24 @@ class Registration extends Model
             }
             if(!preg_match('/^.*(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!_*$%.,-]).*$/', $this->password)) {
                 $this->addError($attribute, 'A jelszónak tartalmaznia kell legalább egy kisbetűt, egy nagybetűt, egy számot és egy speciális karaktert (!_*$%.,-) ');
+            }
+        }
+    }
+
+    public function validateEmail($attribute, $params)
+    {
+        if (!$this->hasErrors()) {
+            if(!preg_match('/^[\w+-\.]+@([\w-]+\.)+[\w-]{2,4}$/', $this->email)) {
+                $this->addError($attribute, 'Hibás email cím formátum');
+            }
+        }
+    }
+
+    public function validatePhone($attribute, $params)
+    {
+        if (!$this->hasErrors()) {
+            if(!preg_match('/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/', $this->phone)) {
+                $this->addError($attribute, 'Hibás telefonszám formátum');
             }
         }
     }
