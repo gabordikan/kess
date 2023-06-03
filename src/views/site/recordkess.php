@@ -113,10 +113,10 @@ else {
 <?php
     foreach ($kategoriak as $tipusok) {
         foreach ($tipusok as $fokategoriak) {
-            foreach ($fokategoriak as $kategoria) {
-                $planValues[$kategoria->id] = 
-                    Kategoriak::getKategoriaSumTerv($kategoria->id, date('Y-m'), date('Y-m'))
-                        - Kategoriak::getKategoriaSumTeny($kategoria->id, date('Y-m-01'), date('Y-m-31'));
+            foreach ($fokategoriak as $id => $kategoria) {
+                $planValues[$id] = 
+                    Kategoriak::getKategoriaSumTerv($id, date('Y-m'), date('Y-m'))
+                        - Kategoriak::getKategoriaSumTeny($id, date('Y-m-01'), date('Y-m-31'));
             }
         }
     }
