@@ -55,12 +55,20 @@ else {
 
             <div class="form-group">
                 <div>
+                    <?= Html::button('Töröl', ['class' => 'btn btn-secondary', 'name' => '1000-button', 'value' => 0]) ?> 
                     <?= Html::button('500', ['class' => 'btn btn-secondary', 'name' => '1000-button', 'value' => 500]) ?>
                     <?= Html::button('1 000', ['class' => 'btn btn-secondary', 'name' => '1000-button', 'value' => 1000]) ?>
+                    <?= Html::button('2 000', ['class' => 'btn btn-secondary', 'name' => '1000-button', 'value' => 2000]) ?> 
                     <?= Html::button('5 000', ['class' => 'btn btn-secondary', 'name' => '5000-button', 'value' => 5000]) ?>
+            </div>
+            <div>
                     <?= Html::button('10 000', ['class' => 'btn btn-secondary', 'name' => '10000-button', 'value' => 10000]) ?>
+                    <?= Html::button('20 000', ['class' => 'btn btn-secondary', 'name' => '10000-button', 'value' => 20000]) ?>
                     <?= Html::button('50 000', ['class' => 'btn btn-secondary', 'name' => '50000-button', 'value' => 50000]) ?>
                     <?= Html::button('100 000', ['class' => 'btn btn-secondary', 'name' => '100000-button', 'value' => 100000]) ?>
+                    <?php
+                        echo Html::button('100 000', ['style'=>'display: none', 'class' => 'btn btn-secondary', 'name' => 'plan-button', 'value' => 0]);
+                    ?>
                 </div>
             </div>
 
@@ -84,18 +92,49 @@ else {
 
         var buttons = document.getElementsByClassName('btn btn-secondary');
         for (btn of buttons) {
-            btn.addEventListener("click", function(evt) {
-                var osszeg_selector = document.getElementsByName('Mozgas[osszeg]')[0];
-                var osszeg = osszeg_selector.value;
-                if (osszeg == "") {
-                    osszeg = 0;
-                } else {
-                    osszeg = parseInt(osszeg);
-                }
-                osszeg += parseInt(evt.target.value);
-                osszeg_selector.value = osszeg;
-            });
+            if(btn.name != 'plan-button') {
+                btn.addEventListener("click", function(evt) {
+                    if (parseInt(evt.target.value) == 0) {
+                        osszeg_selector.value = 0;
+                    } else {
+                        var osszeg_selector = document.getElementsByName('Mozgas[osszeg]')[0];
+                        var osszeg = osszeg_selector.value;
+                        if (osszeg == "") {
+                            osszeg = 0;
+                        } else {
+                            osszeg = parseInt(osszeg);
+                        }
+                        osszeg += parseInt(evt.target.value);
+                        osszeg_selector.value = osszeg;
+                    }
+                });
+            }
         }
+
+        var planValues = {
+            63:134652,
+        };
+
+        document.getElementsByName('Mozgas[kategoria_id]')[0].addEventListener("change",function(evt) {
+            if (planValues[evt.target.value] != 0) {
+                document.getElementsByName('plan-button')[0].value = planValues[evt.target.value];
+                document.getElementsByName('plan-button')[0].style.display = '';
+            } else {
+                document.getElementsByName('plan-button')[0].style.display = 'none';
+            }
+        });
+
+        document.getElementsByName('plan-button')[0].addEventListener("click", function(evt) {
+                    var osszeg_selector = document.getElementsByName('Mozgas[osszeg]')[0];
+                    var osszeg = osszeg_selector.value;
+                    if (osszeg == "") {
+                        osszeg = 0;
+                    } else {
+                        osszeg = parseInt(osszeg);
+                    }
+                    osszeg += parseInt(evt.target.value);
+                    osszeg_selector.value = osszeg;
+                });
     </script>
     <?php
 }
