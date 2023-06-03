@@ -144,10 +144,10 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionActivation($username, $accessToken)
+    public function actionActivation($user, $token)
     {
-        $user = User::findOne(["username" => $username]);
-        if ($user && $user->accessToken == $accessToken) {
+        $user = User::findOne(["username" => $user]);
+        if ($user && $user->accessToken == $token) {
             if ($user->torolt == 0) {
                 $msg = "Ez a fiók már aktiválva van";
             } else {
