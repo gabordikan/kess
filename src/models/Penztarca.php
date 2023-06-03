@@ -83,4 +83,13 @@ class Penztarca extends ActiveRecord
         return $pt_arr;
     }
 
+    public static function getDevizaList()
+    {
+        return Penztarca::find()
+            ->select('deviza')
+            ->where(['felhasznalo' => Yii::$app->user->id, 'torolt' => 0])
+            ->groupBy('deviza')
+            ->execute();
+    }
+
 }
