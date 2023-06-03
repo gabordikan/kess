@@ -24,7 +24,7 @@ class Kategoriak extends ActiveRecord
         return [
             // username and password are both required
             [['tipus', 'fokategoria', 'fokategoria_', 'technikai', 'nev'], 'safe'],
-            [['tipus', 'fokategoria', 'nev'], 'required'],
+            [['tipus', 'nev'], 'required'],
         ];
     }
 
@@ -122,7 +122,8 @@ class Kategoriak extends ActiveRecord
                 and mozgas.datum <= :ig
                 and mozgas.torolt = 0
                 and mozgas.tipus= :tipus
-                and penztarca.torolt = 0"
+                and penztarca.torolt = 0
+                and penztarca.deviza = 'HUF'"
         )
         ->bindValues([':felhasznalo' => Yii::$app->user->id, ':fokategorianev' => $fokategorianev, ':tol' => $tol, ':ig' => $ig, ':tipus' => $tipus])
         ->queryScalar();
@@ -178,8 +179,9 @@ class Kategoriak extends ActiveRecord
                 and mozgas.felhasznalo = :felhasznalo
                 and mozgas.datum >= :tol
                 and mozgas.datum <= :ig
-                and mozgas.torolt=0
-                and penztarca.torolt=0"
+                and mozgas.torolt = 0
+                and penztarca.torolt = 0
+                and penztarca.deviza = 'HUF'"
         )
         ->bindValues([':felhasznalo' => Yii::$app->user->id, ':kategoria_id' => $kategoria_id, ':tol' => $tol, ':ig' => $ig])
         ->queryScalar();

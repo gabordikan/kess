@@ -5,13 +5,17 @@
 use app\models\Kategoriak;
 use app\models\Penztarca;
 use app\models\Terv;
+use app\models\Mozgas;
 use yii\grid\GridView;
 use yii\data\ActiveDataProvider;
 use yii\grid\SerialColumn;
 use yii\grid\DataColumn;
 use yii\grid\ActionColumn;
 
+use yii\jui\DatePicker;
+
 use dosamigos\chartjs\ChartJs;
+use yii\helpers\Html;
 
 $this->title = 'Kess';
 ?>
@@ -24,8 +28,15 @@ if (Yii::$app->user->isGuest) {
 }
 else {
 
-    echo "<H2>Egyenleg</H2>";
+    if (!$idoszak) {
+        $idoszak = date('Y-m');
+    }
 
+    $tol = $idoszak.'-01';
+    $ig = $idoszak.'-31';
+
+    echo "<div style='width: 100px'><H1>Egyenleg</H1></div>";
+        
     $dataProvider = new ActiveDataProvider([
         'query' => Penztarca::find()
             ->where(['felhasznalo' => Yii::$app->user->id, 'torolt' => 0])
@@ -87,7 +98,20 @@ else {
 
     }
 
-    echo "<H2>Terv</H2>";
+    echo "<BR><H1>Terv (HUF)</H1>";
+    echo "<div><p>Időszak: "
+    .DatePicker::widget([
+        'id' => 'idoszakselector',
+        'value' => $idoszak,
+        'language' => 'hu',
+        'dateFormat' => 'yyyy-MM',
+        'clientOptions' => [
+            'onSelect' => new \yii\web\JsExpression("function(dateText, inst) {
+                window.location = '/site/index?idoszak='+dateText;
+                }"),
+        ],
+    ], [])
+    . "</div><BR/>";
 
     $dataProvider = new ActiveDataProvider([
         'query' => Kategoriak::find()
@@ -110,7 +134,8 @@ else {
             [
                 'class' => DataColumn::class, // this line is optional
                 'value' => function ($model, $key, $index, $column) {
-                    return Terv::getTervSum($model->tipus, date('Y-m'), date('Y-m'));
+                    $idoszak = empty(Yii::$app->request->get('idoszak'))? date('Y-m') : Yii::$app->request->get('idoszak');
+                    return Terv::getTervSum($model->tipus, $idoszak, $idoszak);
                 },
                 'format' => ['currency','HUF'],
                 'label' => 'Terv',
@@ -120,16 +145,14 @@ else {
         'dataProvider' => $dataProvider,
     ]);
 
-    echo "<div><H1>Összesen: ".
+    echo "<div><H3>Összesen: ".
         Yii::$app->formatter->asCurrency(
-            Terv::getTervSum('Bevétel', date('Y-m'), date('Y-m')) - Terv::getTervSum('Kiadás', date('Y-m'), date('Y-m')), 'HUF'
-    )."</H1></div>";
-
-    //todo hónap választás
-    $tol = date('Y-m-01');
-    $ig = date('Y-m-31');
+            Terv::getTervSum('Bevétel', $idoszak, $idoszak) - Terv::getTervSum('Kiadás', $idoszak, $idoszak), 'HUF'
+    )."</H3></div>";
 
     echo "</div><div>";
+
+    echo "<BR><H1>Kiadás/Bevétel (HUF)</H1>";
 
     echo ChartJs::widget([
         'type' => 'doughnut',
@@ -181,6 +204,8 @@ else {
         ]]);
 
     echo "</div><div>";
+
+    echo "<BR><H1>Terv/Tény (HUF/Kiadás)</H1>";
 
     $kategoriakKiadasList = Kategoriak::getKategoriakLista('Kiadás');
     $kategoriakKiadasSumTerv = Kategoriak::getSumTerv('Kiadás', $tol, $ig);
@@ -236,6 +261,7 @@ else {
     }
 
     echo "</div><div>";
+    echo "<BR><H1>Terv/Tény (HUF/Bevétel)</H1>";
 
     $kategoriakBevetelList = Kategoriak::getKategoriakLista('Bevétel');
     $kategoriakBevetelSumTerv = Kategoriak::getSumTerv('Bevétel', $tol, $ig);

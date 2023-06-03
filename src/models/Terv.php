@@ -73,4 +73,39 @@ class Terv extends ActiveRecord
         ->bindValues([':felhasznalo' => Yii::$app->user->id, ':tipus' => $tipus, ':tol' => $tol, ':ig' => $ig, ':tipus' => $tipus])
         ->queryScalar();
     }
+
+    public static function copyPlan($idoszak)
+    {
+        $elozoidoszak = date('Y-m', strtotime($idoszak . ' -1 month'));
+
+        Yii::$app->db->createCommand(
+            "
+                insert into terv (
+                    kategoria_id,
+                    osszeg,
+                    idoszak_tipus,
+                    idoszak,
+                    felhasznalo
+                    )
+                (select                     
+                    kategoria_id,
+                    osszeg,
+                    idoszak_tipus,
+                    :idoszak,
+                    felhasznalo
+                from terv
+                where
+                    idoszak=:elozoidoszak
+                    and felhasznalo = :felhasznalo
+                    and torolt = 0
+                    and osszeg != 0)
+            "
+        )
+        ->bindValues([
+            ':idoszak' => $idoszak,
+            ':elozoidoszak' => $elozoidoszak,
+            ':felhasznalo' => Yii::$app->user->id
+        ])
+        ->execute();
+    }
 }

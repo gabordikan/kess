@@ -14,8 +14,14 @@ use yii\grid\SerialColumn;
 use yii\grid\DataColumn;
 use yii\grid\ActionColumn;
 
+use yii\jui\DatePicker;
 
 $this->title = 'Kess';
+
+if (empty($idoszak)) {
+    $idoszak = date('Y-m');
+}
+
 ?>
 <div class="site-index">
 <?php
@@ -29,6 +35,17 @@ else {
     $penztarca_id = $penztarca_id ?? array_key_first($penztarcak);
 
     echo Html::dropDownList('penztarca', $penztarca_id , $penztarcak);
+    echo DatePicker::widget([
+        'id' => 'idoszakselector',
+        'value' => $idoszak,
+        'language' => 'hu',
+        'dateFormat' => 'yyyy-MM',
+        'clientOptions' => [
+            'onSelect' => new \yii\web\JsExpression("function(dateText, inst) {
+                window.location = '/site/listkess?penztarca_id=".$penztarca_id."&idoszak='+dateText;
+                }"),
+        ],
+    ], []);
 
     if($penztarca_id != null) {
 
@@ -39,7 +56,10 @@ else {
                     'torolt' => 0,
                     'penztarca_id' => $penztarca_id,
                 ]
-            )->orderBy(['datum' => SORT_DESC, 'id' => SORT_DESC]),
+            )
+            ->andWhere(['>=','datum',$idoszak.'-01'])
+            ->andWhere(['<=','datum',$idoszak.'-31'])
+            ->orderBy(['datum' => SORT_DESC, 'id' => SORT_DESC]),
             'pagination' => [
                 'pageSize' => 20,
             ],
