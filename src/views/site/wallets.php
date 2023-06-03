@@ -73,12 +73,17 @@ else {
         'columns' => [
             ['class' => SerialColumn::class],
             [
-                'class' => DataColumn::class, // this line is optional
+                'class' => DataColumn::class,
                 'attribute' => 'nev',
                 'format' => 'text',
             ],
             [
-                'class' => DataColumn::class, // this line is optional
+                'class' => DataColumn::class,
+                'attribute' => 'deviza',
+                'format' => 'text',
+            ],
+            [
+                'class' => DataColumn::class,
                 'value' => function ($model, $key, $index, $column) {
                     return $model->torolt ? 'Igen' : ''; 
                 },
