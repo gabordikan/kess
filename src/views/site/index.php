@@ -73,11 +73,16 @@ else {
         'dataProvider' => $dataProvider,
     ]);
 
-    echo "<div><H1>Összesen: ".
-        Yii::$app->formatter->asCurrency(
-            Penztarca::getOsszEgyenleg(), 'HUF'
-    )."</H1></div>";
+    $devizak = Penztarca::getDevizaList();
 
+    foreach ($devizak as $deviza) {
+
+        echo "<div><H1>Összesen: ".
+            Yii::$app->formatter->asCurrency(
+                Penztarca::getOsszEgyenleg(), 'HUF'
+        )."</H1></div>";
+
+    }
 
     $dataProvider = new ActiveDataProvider([
         'query' => Kategoriak::find()
