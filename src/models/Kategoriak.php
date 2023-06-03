@@ -23,7 +23,7 @@ class Kategoriak extends ActiveRecord
     {
         return [
             // username and password are both required
-            [['tipus', 'fokategoria', 'fokategoria_', 'nev'], 'safe'],
+            [['tipus', 'fokategoria', 'fokategoria_', 'technikai', 'nev'], 'safe'],
             [['tipus', 'fokategoria', 'nev'], 'required'],
         ];
     }
