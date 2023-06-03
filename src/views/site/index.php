@@ -79,7 +79,7 @@ else {
 
         echo "<div><H1>Összesen: ".
             Yii::$app->formatter->asCurrency(
-                Penztarca::getOsszEgyenleg(), 'HUF'
+                Penztarca::getOsszEgyenleg(), $deviza->deviza
         )."</H1></div>";
 
     }

@@ -10,6 +10,7 @@ services:
     image: mariadb:10.4
     environment:
       - MARIADB_ROOT_PASSWORD=secret
+      - MARIADB_DATABASE=kess
     volumes:
       - db:/var/lib/mysql
 
