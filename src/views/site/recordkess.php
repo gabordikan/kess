@@ -61,6 +61,7 @@ else {
                     <?= Html::button('2 000', ['class' => 'btn btn-secondary', 'name' => '1000-button', 'value' => 2000]) ?> 
                     <?= Html::button('5 000', ['class' => 'btn btn-secondary', 'name' => '5000-button', 'value' => 5000]) ?>
             </div>
+            <BR/>
             <div>
                     <?= Html::button('10 000', ['class' => 'btn btn-secondary', 'name' => '10000-button', 'value' => 10000]) ?>
                     <?= Html::button('20 000', ['class' => 'btn btn-secondary', 'name' => '10000-button', 'value' => 20000]) ?>
