@@ -66,9 +66,7 @@ else {
                     <?= Html::button('20 000', ['class' => 'btn btn-secondary', 'name' => '10000-button', 'value' => 20000]) ?>
                     <?= Html::button('50 000', ['class' => 'btn btn-secondary', 'name' => '50000-button', 'value' => 50000]) ?>
                     <?= Html::button('100 000', ['class' => 'btn btn-secondary', 'name' => '100000-button', 'value' => 100000]) ?>
-                    <?php
-                        echo Html::button('Plan', ['style'=>'display: none', 'class' => 'btn btn-secondary', 'name' => 'plan-button', 'value' => 0]);
-                    ?>
+                    <?= Html::button('Plan', ['style'=>'display: none', 'class' => 'btn btn-secondary', 'name' => 'plan-button', 'value' => 0]) ?>
                 </div>
             </div>
 
@@ -111,12 +109,16 @@ else {
             }
         }
 
-        var planValues = {
-            63:134652,
-        };
+        var planValues = 
+<?
+    foreach ($kategoriak as $kategoria) {
+        $planValues[$kategoria->id] = 
+            Kategoriak::getKategoriaSumTerv($kategoria->id, date('Y-m'), date('Y-m'))
+                - Kategoriak::getKategoriaSumTeny($kategoria->id, date('Y-m-01'), date('Y-m-31'));
+    }
+?>;
 
         document.getElementsByName('Mozgas[kategoria_id]')[0].addEventListener("change",function(evt) {
-            console.log(parseInt(planValues[evt.target.value]));
             if (parseInt(planValues[evt.target.value]) != 0
                 && !isNaN(parseInt(planValues[evt.target.value]))
                 ) {
@@ -124,7 +126,6 @@ else {
                 document.getElementsByName('plan-button')[0].innerText = planValues[evt.target.value];
                 document.getElementsByName('plan-button')[0].style.display = '';
             } else {
-                console.log('Hide');
                 document.getElementsByName('plan-button')[0].style.display = 'none';
                 document.getElementsByName('plan-button')[0].innerText = '';
                 document.getElementsByName('plan-button')[0].value = 0;
