@@ -45,7 +45,7 @@ else {
             [
                 'class' => DataColumn::class, // this line is optional
                 'value' => function ($model, $key, $index, $column) {
-                    return Yii::$app->formatter->asCurrency(Penztarca::getEgyenleg($model->id), 'HUF'); 
+                    return Yii::$app->formatter->asCurrency(Penztarca::getEgyenleg($model->id), $model->deviza); 
                 },
                 'format' => 'raw',
                 'label' => 'Egyenleg',
