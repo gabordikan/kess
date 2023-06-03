@@ -213,7 +213,7 @@ class SiteController extends Controller
             $model->osszeg=null;
             $model->kategoria_id=null; 
             if ($update_id) {
-                return $this->redirect("/site/listkess?penztarca_id=".$model->penztarca_id);
+                return $this->redirect("/site/listkess?idoszak=".substr($model->datum,0,7)."&penztarca_id=".$model->penztarca_id);
             }
         } 
 
