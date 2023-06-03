@@ -42,6 +42,7 @@ else {
     ]); ?>
 
         <?= $form->field($model, 'nev')->textInput() ?>
+        <?= $form->field($model, 'deviza')->textInput(['maxlength' => '3']) ?>
 
         <div class="form-group">
             <div">
