@@ -67,13 +67,15 @@ class SiteController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex($idoszak=null)
     {
         if (Yii::$app->user->isGuest) {
             return $this->redirect('/site/about');
         }
 
-        return $this->render('index');
+        return $this->render('index', [
+            'idoszak' => $idoszak,  
+        ]);
     }
 
     /**
@@ -228,7 +230,7 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionListkess($penztarca_id = null, $delete_id = null)
+    public function actionListkess($penztarca_id = null, $delete_id = null, $idoszak = null)
     {
         $penztarca_id = $penztarca_id;
 
@@ -240,10 +242,11 @@ class SiteController extends Controller
 
         return $this->render('listkess',[
             'penztarca_id' => $penztarca_id,
+            'idoszak' => $idoszak,
         ]);
     }
 
-    public function actionPlan($delete_id = null, $update_id = null)
+    public function actionPlan($delete_id = null, $update_id = null, $idoszak = null)
     {
         if ($delete_id) {
             $model = Terv::findOne(['id' => $delete_id, 'felhasznalo' => Yii::$app->user->id]);
@@ -253,6 +256,7 @@ class SiteController extends Controller
         }
 
         $model = new Terv();
+        $model->idoszak = $idoszak;
 
         if ($update_id) {
             $model = Terv::findOne(['id' => $update_id, 'felhasznalo' => Yii::$app->user->id]);
@@ -267,7 +271,16 @@ class SiteController extends Controller
 
         return $this->render('plan',[
             'model' => $model,
+            'idoszak' => $idoszak,
+            'update_id' => $update_id,
         ]);
+    }
+
+    public function actionCopyplan($idoszak)
+    {
+        Terv::copyPlan($idoszak);
+
+        return $this->redirect("/site/plan?idoszak=".$idoszak);
     }
 
     public function actionCategories($tipus = 'Kiadás', $delete_id = null, $update_id = null)
