@@ -121,12 +121,12 @@ else {
                 && !isNaN(parseInt(planValues[evt.target.value]))
                 ) {
                 document.getElementsByName('plan-button')[0].value = planValues[evt.target.value];
-                document.getElementsByName('plan-button')[0].text = planValues[evt.target.value];
+                document.getElementsByName('plan-button')[0].innerText = planValues[evt.target.value];
                 document.getElementsByName('plan-button')[0].style.display = '';
             } else {
                 console.log('Hide');
                 document.getElementsByName('plan-button')[0].style.display = 'none';
-                document.getElementsByName('plan-button')[0].text = '';
+                document.getElementsByName('plan-button')[0].innerText = '';
                 document.getElementsByName('plan-button')[0].value = 0;
             }
         });
