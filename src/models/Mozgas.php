@@ -51,7 +51,8 @@ class Mozgas extends ActiveRecord
         return "mozgas";
     }
 
-    public function attributeLabels() {
+    public function attributeLabels() 
+    {
         return array(
             'datum' => 'Dátum',
             'penztarca_id' => 'Pénztárca',
@@ -59,5 +60,20 @@ class Mozgas extends ActiveRecord
             'kategoria_id' => 'Kategória',
             'osszeg' => 'Összeg',
         );
+    }
+
+    public function getPenztarca()
+    {
+        return $this->hasOne(Penztarca::class, ['id' => 'penztarca_id']);
+    }
+
+    public function getKategoria()
+    {
+        return $this->hasOne(Kategoriak::class, ['id' => 'kategoria_id']);
+    }
+
+    public function getFelhasznalo()
+    {
+        return $this->hasOne(User::class, ['id' => 'felhasznalo_id']);
     }
 }
