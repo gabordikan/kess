@@ -21,7 +21,7 @@ class Penztarca extends ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'nev'], 'safe'],
+            [['id', 'nev', 'deviza'], 'safe'],
             [['nev'], 'required'],
         ];
     }
