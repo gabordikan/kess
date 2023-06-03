@@ -332,10 +332,12 @@ class SiteController extends Controller
 
         if ($setting->load(Yii::$app->request->post())) {
             if ($setting->email) {
-                $user->email = $setting->email;
-                $user->phone = $setting->phone; 
-                $user->save();
-                return $this->redirect("/site/settings");
+                if($setting->validate()) {
+                    $user->email = $setting->email;
+                    $user->phone = $setting->phone; 
+                    $user->save();
+                    return $this->redirect("/site/settings");
+                }
             }
             if ($setting->oldpassword || $setting->newpassword) {
                 if($setting->validate()) {
