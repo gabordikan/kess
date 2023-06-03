@@ -60,16 +60,17 @@ class Penztarca extends ActiveRecord
         ->queryScalar();
     }
 
-    public static function getOsszEgyenleg()
+    public static function getOsszEgyenleg($deviza = 'HUF')
     {
         return Yii::$app->db->createCommand("
             select ifnull(sum(tipus*osszeg),0) from mozgas
             left join penztarca on penztarca.id = mozgas.penztarca_id
             where mozgas.felhasznalo = :felhasznalo
                 and penztarca.torolt = 0
-                and mozgas.torolt = 0"
+                and mozgas.torolt = 0
+                and penztarca.deviza = :deviza"
         )
-        ->bindValues([':felhasznalo' => Yii::$app->user->id])
+        ->bindValues([':felhasznalo' => Yii::$app->user->id, ':deviza' => $deviza])
         ->queryScalar();
     }
 
