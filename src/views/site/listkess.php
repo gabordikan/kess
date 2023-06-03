@@ -46,6 +46,7 @@ else {
         ]);
 
         echo GridView::widget([
+            'summary' => '{begin}-{end}, Összesen: {totalCount}',
             'columns' => [
                 ['class' => SerialColumn::class],
                 [
