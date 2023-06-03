@@ -54,7 +54,7 @@ else {
 
         <?= $form->field($model, 'nev')->textInput() ?>
 
-        <?= $form->field($model, 'technikai')->checkbox(["uncheck"=>null]) ?>
+        <?= $form->field($model, 'technikai')->checkbox() ?>
 
         <div class="form-group">
             <div">
