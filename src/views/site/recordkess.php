@@ -116,6 +116,7 @@ else {
         };
 
         document.getElementsByName('Mozgas[kategoria_id]')[0].addEventListener("change",function(evt) {
+            console.log(parseInt(planValues[evt.target.value]));
             if (parseInt(planValues[evt.target.value]) != 0
                 && parseInt(planValues[evt.target.value]) != NaN
                 ) {
