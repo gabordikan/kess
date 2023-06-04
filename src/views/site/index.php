@@ -233,7 +233,7 @@ else {
             'clientOptions' => [
                 'indexAxis' => 'y',
                 'maintainAspectRatio' => true,
-                'aspectRatio' => 20/count($kategoriakKiadasList) < 0.7 ? 0.7 : 20/count($kategoriakKiadasList),
+                'aspectRatio' => 5/count($kategoriakKiadasList) < 0.7 ? 0.7 : 50/count($kategoriakKiadasList),
             ],
             'data' => [
                 'labels' => $kategoriakKiadasList,
