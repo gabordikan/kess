@@ -255,11 +255,14 @@ else {
         echo ChartJs::widget([
             'type' => 'bar',
             'id' => 'structurePie2',
-            'options' => [
-                'height' => 20+20*count($kategoriakKiadasList),
+	    'options' => [
+		'width' => '600',
+                'height' => 60+20*count($kategoriakKiadasList),
             ],
             'clientOptions' => [
                 'indexAxis' => 'y',
+		'responsive' => false,
+		'maintainAspectRatio' => false,
             ],
             'data' => [
                 'labels' => $kategoriakKiadasList,
@@ -316,12 +319,14 @@ else {
         echo ChartJs::widget([
             'type' => 'bar',
             'id' => 'structurePie3',
-            'options' => [
-                'height' => 20+20*count($kategoriakBevetelList),
+	    'options' => [
+		'width' => 600,
+                'height' => 60+20*count($kategoriakBevetelList),
             ],
             'clientOptions' => [
                 'indexAxis' => 'y',
-                'responsive' => true,
+		'responsive' => false,
+		'maitainAspectRatio' => false,
             ],
             'data' => [
                 'labels' => $kategoriakBevetelList,
