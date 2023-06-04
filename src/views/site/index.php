@@ -232,6 +232,7 @@ else {
             'id' => 'structurePie2',
             'clientOptions' => [
                 'indexAxis' => 'y',
+                'maintainAspectRatio' => false,
                 //'aspectRatio' => 10/count($kategoriakKiadasList) < 0.7 ? 0.7 : 10/count($kategoriakKiadasList),
             ],
             'data' => [
