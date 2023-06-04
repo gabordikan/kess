@@ -60,14 +60,17 @@ else {
                     <?= Html::button('1 000', ['class' => 'btn btn-secondary', 'name' => '1000-button', 'value' => 1000]) ?>
                     <?= Html::button('2 000', ['class' => 'btn btn-secondary', 'name' => '1000-button', 'value' => 2000]) ?> 
                     <?= Html::button('5 000', ['class' => 'btn btn-secondary', 'name' => '5000-button', 'value' => 5000]) ?>
-            </div>
-            <BR/>
-            <div>
+                </div>
+                <BR/>
+                <div>
                     <?= Html::button('10 000', ['class' => 'btn btn-secondary', 'name' => '10000-button', 'value' => 10000]) ?>
                     <?= Html::button('20 000', ['class' => 'btn btn-secondary', 'name' => '10000-button', 'value' => 20000]) ?>
                     <?= Html::button('50 000', ['class' => 'btn btn-secondary', 'name' => '50000-button', 'value' => 50000]) ?>
                     <?= Html::button('100 000', ['class' => 'btn btn-secondary', 'name' => '100000-button', 'value' => 100000]) ?>
-                    <?= Html::button('Plan', ['style'=>'display: none', 'class' => 'btn btn-secondary', 'name' => 'plan-button', 'value' => 0]) ?>
+                </div>
+                <BR/>
+                <div>
+                    <?= Html::button('Plan', ['style'=>'display: none', 'class' => 'btn btn-success', 'name' => 'plan-button', 'value' => 0]) ?>
                 </div>
             </div>
 
