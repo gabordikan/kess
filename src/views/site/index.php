@@ -155,54 +155,75 @@ else {
 
     echo "<BR><H1>Kiadás/Bevétel (HUF)</H1>";
 
-    echo ChartJs::widget([
-        'type' => 'doughnut',
-        'id' => 'structurePie',
-        'clientOptions' => [
-            'legend' => [
-                'display' => true,
-                'position' => 'top',
-                'labels' => [
-                    'fontSize' => 14,
-                    'fontColor' => "#425062",
-                ]
-            ],
-            'tooltips' => [
-                'enabled' => true,
-                'intersect' => true
-            ],
-            'hover' => [
-                'mode' => false
-            ],
-            'maintainAspectRatio' => true,
-            'responsive' => true,
-            'aspectRatio' => 1,
+    $bevetelData = Kategoriak::getFokategoriakListaEgyenleg($tol, $ig, 1);
+    $kiadasData = Kategoriak::getFokategoriakListaEgyenleg($tol, $ig, -1);
 
-        ],
-        'data' => [
-            'radius' =>  "90%",
-            'labels' => Kategoriak::getFokategoriakLista(true), // Your labels
-            'datasets' => [
-                [
-                    'data' => Kategoriak::getFokategoriakListaEgyenleg($tol, $ig, 1), // Your dataset
-                    'label' => '',
-                    'backgroundColor' => Kategoriak::getFokategoriakSzinek(),
-                    'borderColor' => '#FFFFFF',
-                    'borderWidth' => 1,
-                    'hoverBorderColor'=>"#999",
+    $vanAdat = false;
+
+    foreach ($bevetelData as $adat) {
+        if ($adat != 0) {
+            $vanAdat = true;
+        }
+    }
+
+    foreach ($kiadasData as $adat) {
+        if ($adat != 0) {
+            $vanAdat = true;
+        }
+    }
+
+    if ($vanAdat) {
+
+        echo ChartJs::widget([
+            'type' => 'doughnut',
+            'id' => 'structurePie',
+            'clientOptions' => [
+                'legend' => [
+                    'display' => true,
+                    'position' => 'top',
+                    'labels' => [
+                        'fontSize' => 14,
+                        'fontColor' => "#425062",
+                    ]
                 ],
-                [
-                    'data' => Kategoriak::getFokategoriakListaEgyenleg($tol, $ig, -1), // Your dataset
-                    'label' => '',
-                    'backgroundColor' => Kategoriak::getFokategoriakSzinek(),
-                    'borderColor' =>  '#fff',
-                    'borderWidth' => 1,
-                    'hoverBorderColor'=>"#999",
-                ]
-            ]
-        ],
-]);
+                'tooltips' => [
+                    'enabled' => true,
+                    'intersect' => true
+                ],
+                'hover' => [
+                    'mode' => false
+                ],
+                'maintainAspectRatio' => true,
+                'responsive' => true,
+                'aspectRatio' => 1,
 
+            ],
+            'data' => [
+                'radius' =>  "90%",
+                'labels' => Kategoriak::getFokategoriakLista(true), // Your labels
+                'datasets' => [
+                    [
+                        'data' => $bevetelData, // Your dataset
+                        'label' => '',
+                        'backgroundColor' => Kategoriak::getFokategoriakSzinek(),
+                        'borderColor' => '#FFFFFF',
+                        'borderWidth' => 1,
+                        'hoverBorderColor'=>"#999",
+                    ],
+                    [
+                        'data' => $kiadasData, // Your dataset
+                        'label' => '',
+                        'backgroundColor' => Kategoriak::getFokategoriakSzinek(),
+                        'borderColor' =>  '#fff',
+                        'borderWidth' => 1,
+                        'hoverBorderColor'=>"#999",
+                    ]
+                ]
+            ],
+        ]);
+    } else {
+        echo "<p>Nincs adat";
+    }
 
     echo "</div>";
     echo "<div>";
@@ -262,6 +283,8 @@ else {
                 ]
             ]
         ]);
+    } else {
+        echo "<p>Nincs adat";
     }
 
     echo "</div>";
@@ -322,6 +345,8 @@ else {
                 ]
             ]
         ]);
+    } else {
+        echo "<p>Nincs adat";
     }
 }
 ?>
