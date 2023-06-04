@@ -232,7 +232,7 @@ else {
             'id' => 'structurePie2',
             'clientOptions' => [
                 'indexAxis' => 'y',
-                'height' => count($kategoriakKiadasList)*20,
+                'height' => 20,
             ],
             'data' => [
                 'labels' => $kategoriakKiadasList,
