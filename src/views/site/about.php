@@ -10,7 +10,7 @@ $this->title = 'Névjegy';
     <h2>Mi az a Kess?</h2>
 
     <p align="justify">A Kess<img src="/favicon.png" width="24px", height="24px"> egy személyes használatra készült költségregisztráló és elemző alkalmazás. Rögzítheted benne kategóriánként a pénzügyi terveid, naplózhatod a megvalósult bevételeidet és költéseidet.
-    <p align="justify">A program jelenleg csak HUF tranzakciókat kezel, de tervben van a devizák kezelése is.
+    <p align="justify">A program kezel több devizát a tranzakciók logolásához (pénztárcánként egyet), a tervezést egyelőre csak HUF alapon lehet megadni.
 
     <h2>Bejelentkezés</h2>
 
