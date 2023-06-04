@@ -151,9 +151,10 @@ else {
             Terv::getTervSum('Bevétel', $idoszak, $idoszak) - Terv::getTervSum('Kiadás', $idoszak, $idoszak), 'HUF'
     )."</H3></div>";
 
-    echo "</div><div>";
-
+    echo "</div<div>";
     echo "<BR><H1>Kiadás/Bevétel (HUF)</H1>";
+    
+    echo "<div style='max-width: 600px; margin: auto;'>";
 
     $bevetelData = Kategoriak::getFokategoriakListaEgyenleg($tol, $ig, 1);
     $kiadasData = Kategoriak::getFokategoriakListaEgyenleg($tol, $ig, -1);
@@ -177,6 +178,8 @@ else {
         echo ChartJs::widget([
             'type' => 'doughnut',
             'id' => 'structurePie',
+	    'options' => [
+	    ],
             'clientOptions' => [
                 'legend' => [
                     'display' => true,
@@ -220,12 +223,13 @@ else {
                     ]
                 ]
             ],
-        ]);
+	], [
+	]);
     } else {
         echo "<p>Nincs adat";
     }
 
-    echo "</div>";
+    echo "</div></div>";
     echo "<div>";
 
     echo "<BR><H1>Terv/Tény (HUF/Kiadás)</H1>";
