@@ -19,6 +19,10 @@ use yii\grid\ActionColumn;
 $this->title = 'Terv';
 
 $kategoriak = Kategoriak::getKategoriak();
+
+if (empty($idoszak)) {
+    $idoszak = date('Y-m');
+}
 ?>
 <div class="site-index">
 <?php

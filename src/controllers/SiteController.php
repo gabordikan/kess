@@ -252,11 +252,11 @@ class SiteController extends Controller
             $model = Terv::findOne(['id' => $delete_id, 'felhasznalo' => Yii::$app->user->id]);
             $model->torolt = 1;
             $model->save(false);
-            return $this->redirect("/site/plan");
+            return $this->redirect("/site/plan?idoszak=".$idoszak);
         }
 
         $model = new Terv();
-        $model->idoszak = $idoszak;
+        $model->idoszak = $idoszak ?? date('Y-m');
 
         if ($update_id) {
             $model = Terv::findOne(['id' => $update_id, 'felhasznalo' => Yii::$app->user->id]);
