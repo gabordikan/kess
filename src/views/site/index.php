@@ -151,7 +151,7 @@ else {
             Terv::getTervSum('Bevétel', $idoszak, $idoszak) - Terv::getTervSum('Kiadás', $idoszak, $idoszak), 'HUF'
     )."</H3></div>";
 
-    echo "</div><div height=400>";
+    echo "</div><div>";
 
     echo "<BR><H1>Kiadás/Bevétel (HUF)</H1>";
 
@@ -230,9 +230,11 @@ else {
         echo ChartJs::widget([
             'type' => 'bar',
             'id' => 'structurePie2',
+            'options' => [
+                'height' => 46+20*count($kategoriakKiadasList),
+            ],
             'clientOptions' => [
                 'indexAxis' => 'y',
-                'height' => 20,
             ],
             'data' => [
                 'labels' => $kategoriakKiadasList,
@@ -287,10 +289,12 @@ else {
         echo ChartJs::widget([
             'type' => 'bar',
             'id' => 'structurePie3',
+            'options' => [
+                'height' => 26+29*count($kategoriakBevetelList),
+            ],
             'clientOptions' => [
                 'indexAxis' => 'y',
                 'responsive' => true,
-                'aspectRatio' => 10/count($kategoriakBevetelList) < 0.7 ? 0.7 : 10/count($kategoriakBevetelList),
             ],
             'data' => [
                 'labels' => $kategoriakBevetelList,
