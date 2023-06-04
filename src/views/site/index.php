@@ -256,7 +256,7 @@ else {
             'type' => 'bar',
             'id' => 'structurePie2',
             'options' => [
-                'height' => 46+20*count($kategoriakKiadasList),
+                'height' => 20+20*count($kategoriakKiadasList),
             ],
             'clientOptions' => [
                 'indexAxis' => 'y',
@@ -317,7 +317,7 @@ else {
             'type' => 'bar',
             'id' => 'structurePie3',
             'options' => [
-                'height' => 26+29*count($kategoriakBevetelList),
+                'height' => 20+20*count($kategoriakBevetelList),
             ],
             'clientOptions' => [
                 'indexAxis' => 'y',
