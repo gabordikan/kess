@@ -14,7 +14,7 @@ use yii\grid\ActionColumn;
 
 use yii\jui\DatePicker;
 
-use dosamigos\chartjs\ChartJs;
+use app\models\ChartJs;
 use yii\helpers\Html;
 
 $this->title = 'Kess';
@@ -151,16 +151,33 @@ else {
             Terv::getTervSum('Bevétel', $idoszak, $idoszak) - Terv::getTervSum('Kiadás', $idoszak, $idoszak), 'HUF'
     )."</H3></div>";
 
-    echo "</div><div>";
+    echo "</div><div height=400>";
 
     echo "<BR><H1>Kiadás/Bevétel (HUF)</H1>";
 
     echo ChartJs::widget([
         'type' => 'doughnut',
         'id' => 'structurePie',
-        'options' => [
-            'width' => 300,
-            'height' => 400,
+        'clientOptions' => [
+            'legend' => [
+                'display' => true,
+                'position' => 'top',
+                'labels' => [
+                    'fontSize' => 14,
+                    'fontColor' => "#425062",
+                ]
+            ],
+            'tooltips' => [
+                'enabled' => true,
+                'intersect' => true
+            ],
+            'hover' => [
+                'mode' => false
+            ],
+            'maintainAspectRatio' => true,
+            'responsive' => true,
+            'aspectRatio' => 1,
+
         ],
         'data' => [
             'radius' =>  "90%",
@@ -184,27 +201,11 @@ else {
                 ]
             ]
         ],
-        'clientOptions' => [
-            'legend' => [
-                'display' => true,
-                'position' => 'top',
-                'labels' => [
-                    'fontSize' => 14,
-                    'fontColor' => "#425062",
-                ]
-            ],
-            'tooltips' => [
-                'enabled' => true,
-                'intersect' => true
-            ],
-            'hover' => [
-                'mode' => false
-            ],
-            'maintainAspectRatio' => false,
+]);
 
-        ]]);
 
-    echo "</div><div>";
+    echo "</div>";
+    echo "<div>";
 
     echo "<BR><H1>Terv/Tény (HUF/Kiadás)</H1>";
 
@@ -227,9 +228,10 @@ else {
     if (count($kategoriakKiadasList)>0) {
 
         echo ChartJs::widget([
-            'type' => 'horizontalBar',
+            'type' => 'bar',
             'id' => 'structurePie2',
             'clientOptions' => [
+                'indexAxis' => 'y',
                 'responsive' => true,
                 'aspectRatio' => 10/count($kategoriakKiadasList) < 0.7 ? 0.7 : 10/count($kategoriakKiadasList),
             ],
@@ -261,7 +263,8 @@ else {
         ]);
     }
 
-    echo "</div><div>";
+    echo "</div>";
+    echo "<div>";
     echo "<BR><H1>Terv/Tény (HUF/Bevétel)</H1>";
 
     $kategoriakBevetelList = Kategoriak::getKategoriakLista('Bevétel');
@@ -283,9 +286,10 @@ else {
     if(count($kategoriakBevetelList)>0) {
 
         echo ChartJs::widget([
-            'type' => 'horizontalBar',
+            'type' => 'bar',
             'id' => 'structurePie3',
             'clientOptions' => [
+                'indexAxis' => 'y',
                 'responsive' => true,
                 'aspectRatio' => 10/count($kategoriakBevetelList) < 0.7 ? 0.7 : 10/count($kategoriakBevetelList),
             ],
