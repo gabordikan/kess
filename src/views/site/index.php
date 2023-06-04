@@ -178,8 +178,8 @@ else {
         echo ChartJs::widget([
             'type' => 'doughnut',
             'id' => 'structurePie',
-	    'options' => [
-	    ],
+            'options' => [
+            ],
             'clientOptions' => [
                 'legend' => [
                     'display' => true,
@@ -255,14 +255,13 @@ else {
         echo ChartJs::widget([
             'type' => 'bar',
             'id' => 'structurePie2',
-	    'options' => [
-		'width' => '600',
-                'height' => 60+20*count($kategoriakKiadasList),
+            'options' => [
+                'style' => 'width: 100%; height: '.(60+20*count($kategoriakKiadasList)).'px',
             ],
             'clientOptions' => [
                 'indexAxis' => 'y',
-		'responsive' => false,
-		'maintainAspectRatio' => false,
+                'responsive' => false,
+                'maintainAspectRatio' => false,
             ],
             'data' => [
                 'labels' => $kategoriakKiadasList,
@@ -319,14 +318,13 @@ else {
         echo ChartJs::widget([
             'type' => 'bar',
             'id' => 'structurePie3',
-	    'options' => [
-		'width' => 600,
-                'height' => 60+20*count($kategoriakBevetelList),
+	        'options' => [
+                'style' => 'width: 100%; height: '.(60+20*count($kategoriakBevetelList)).'px',
             ],
             'clientOptions' => [
                 'indexAxis' => 'y',
-		'responsive' => false,
-		'maitainAspectRatio' => false,
+		        'responsive' => false,
+		        'maitainAspectRatio' => false,
             ],
             'data' => [
                 'labels' => $kategoriakBevetelList,
