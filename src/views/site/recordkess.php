@@ -68,16 +68,13 @@ else {
                     <?= Html::button('50 000', ['class' => 'btn btn-secondary', 'name' => '50000-button', 'value' => 50000]) ?>
                     <?= Html::button('100 000', ['class' => 'btn btn-secondary', 'name' => '100000-button', 'value' => 100000]) ?>
                 </div>
-                <BR/>
-                <div>
-                    <?= Html::button('Plan', ['style'=>'display: none', 'class' => 'btn btn-success', 'name' => 'plan-button', 'value' => 0]) ?>
-                </div>
             </div>
 
             <br/><br/>
 
             <div class="form-group">
                 <div>
+                    <?= Html::button('Plan', ['style'=>'display: none', 'class' => 'btn btn-success', 'name' => 'plan-button', 'value' => 0]) ?>
                     <?= Html::submitButton('Mentés', ['class' => 'btn btn-primary', 'name' => 'save-button']) ?>
                 </div>
             </div>
