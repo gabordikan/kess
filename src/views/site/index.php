@@ -151,9 +151,10 @@ else {
             Terv::getTervSum('Bevétel', $idoszak, $idoszak) - Terv::getTervSum('Kiadás', $idoszak, $idoszak), 'HUF'
     )."</H3></div>";
 
-    echo "</div><div>";
-
+    echo "</div<div>";
     echo "<BR><H1>Kiadás/Bevétel (HUF)</H1>";
+    
+    echo "<div style='max-width: 600px; margin: auto;'>";
 
     $bevetelData = Kategoriak::getFokategoriakListaEgyenleg($tol, $ig, 1);
     $kiadasData = Kategoriak::getFokategoriakListaEgyenleg($tol, $ig, -1);
@@ -177,6 +178,8 @@ else {
         echo ChartJs::widget([
             'type' => 'doughnut',
             'id' => 'structurePie',
+            'options' => [
+            ],
             'clientOptions' => [
                 'legend' => [
                     'display' => true,
@@ -220,12 +223,13 @@ else {
                     ]
                 ]
             ],
-        ]);
+	], [
+	]);
     } else {
         echo "<p>Nincs adat";
     }
 
-    echo "</div>";
+    echo "</div></div>";
     echo "<div>";
 
     echo "<BR><H1>Terv/Tény (HUF/Kiadás)</H1>";
@@ -252,10 +256,12 @@ else {
             'type' => 'bar',
             'id' => 'structurePie2',
             'options' => [
-                'height' => 46+20*count($kategoriakKiadasList),
+                'style' => 'width: 100%; height: '.(60+20*count($kategoriakKiadasList)).'px',
             ],
             'clientOptions' => [
                 'indexAxis' => 'y',
+                'responsive' => false,
+                'maintainAspectRatio' => false,
             ],
             'data' => [
                 'labels' => $kategoriakKiadasList,
@@ -312,12 +318,13 @@ else {
         echo ChartJs::widget([
             'type' => 'bar',
             'id' => 'structurePie3',
-            'options' => [
-                'height' => 26+29*count($kategoriakBevetelList),
+	        'options' => [
+                'style' => 'width: 100%; height: '.(60+20*count($kategoriakBevetelList)).'px',
             ],
             'clientOptions' => [
                 'indexAxis' => 'y',
-                'responsive' => true,
+		        'responsive' => false,
+		        'maitainAspectRatio' => false,
             ],
             'data' => [
                 'labels' => $kategoriakBevetelList,
