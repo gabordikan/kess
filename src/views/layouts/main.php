@@ -18,6 +18,7 @@ $this->registerMetaTag(['name' => 'viewport', 'content' => 'width=device-width, 
 $this->registerMetaTag(['name' => 'description', 'content' => $this->params['meta_description'] ?? '']);
 $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_keywords'] ?? '']);
 $this->registerMetaTag(['name' => 'apple-mobile-web-app', 'Kess']);
+$this->registerMetaTag(['name' => 'apple-mobile-web-app-capable', 'yes']);
 //$this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii::getAlias('@web/favicon.ico')]);
 $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => '/favicon.png']);
 $this->registerLinkTag(['rel' => 'apple-touch-icon', 'type' => 'image/png', 'href' => '/favicon.png']);
