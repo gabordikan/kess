@@ -214,6 +214,8 @@ class SiteController extends Controller
             $model->kategoria_id=null; 
             if ($update_id) {
                 return $this->redirect("/site/listkess?idoszak=".substr($model->datum,0,7)."&penztarca_id=".$model->penztarca_id);
+            } else {
+                return $this->redirect("/site/recordkess?penztarca_id=".$model->panztarca_id);
             }
         } 
 
