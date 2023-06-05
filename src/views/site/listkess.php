@@ -34,7 +34,7 @@ else {
     $penztarcak = Penztarca::getPenztarcak();
     $penztarca_id = $penztarca_id ?? array_key_first($penztarcak);
 
-    echo Html::dropDownList('penztarca', $penztarca_id , $penztarcak);
+    echo Html::dropDownList('penztarca', $penztarca_id , $penztarcak, ['class' => 'form-select']);
     echo DatePicker::widget([
         'id' => 'idoszakselector',
         'value' => $idoszak,
@@ -45,7 +45,7 @@ else {
                 window.location = '/site/listkess?penztarca_id=".$penztarca_id."&idoszak='+dateText;
                 }"),
         ],
-    ], []);
+    ],  ['class' => 'form-select']);
 
     if($penztarca_id != null) {
 
