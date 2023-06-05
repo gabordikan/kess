@@ -26,7 +26,7 @@ class Mozgas extends ActiveRecord
             [['penztarca_id', 'tipus', 'kategoria_id', 'osszeg', 'felhasznalo'], 'safe'],
             [['datum'], 'default', 'value' => date('Y-m-d')],
             // rememberMe must be a boolean value
-            ['osszeg', 'integer'],
+            ['osszeg', 'number'],
         ];
     }
 
