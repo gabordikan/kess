@@ -58,8 +58,8 @@ class Registration extends Model
                 $this->addError($attribute, 'Ez a felhasználónév már regisztrálva van. A jelszava: *************************');
             }
             if (!$user) {
-                if (!preg_match("/^[a-zA-Z0-9]{5,}$/", $this->username)) {
-                    $this->addError($attribute, 'A felhasználónév csak angol kis és nagybetűket, valamint számot tartalmazhat és legalább öt karakter hosszúnak kell lennie');
+                if (!preg_match("/^[a-zA-Z0-9\-_]{5,}$/", $this->username)) {
+                    $this->addError($attribute, 'A felhasználónév csak angol kis és nagybetűket, kötőjelet, aláhúzást, valamint számot tartalmazhat és legalább öt karakter hosszúnak kell lennie');
                 }
             }
         }
