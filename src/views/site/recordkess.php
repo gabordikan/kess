@@ -86,7 +86,11 @@ else {
         var penztarca = document.getElementsByName('Mozgas[tipus]')[0];
         penztarca.addEventListener("change", function(evt) {
             var penztarca_id = document.getElementsByName('Mozgas[penztarca_id]')[0].value;
-            window.location.href = '/site/recordkess?penztarca_id='+penztarca_id+'&tipus=' + evt.target.value;
+            window.location.href = '/site/recordkess?penztarca_id='+penztarca_id+'&tipus=' + evt.target.value <?php
+                if ($update_id) {
+                    echo '&update_id='.$update_id;
+                }
+            ?>;
         });
 
         var buttons = document.getElementsByClassName('btn btn-secondary');
