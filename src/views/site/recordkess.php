@@ -19,7 +19,7 @@ if (Yii::$app->user->isGuest) {
 }
 else {
 
-    $kategoriak = Kategoriak::getKategoriak($tipus);
+    $kategoriak = Kategoriak::getKategoriak($tipus == 1 ? 'Bevétel' : 'Kiadás');
 
     ?>
     <div class="site-recordkess">
@@ -44,7 +44,7 @@ else {
                 ['autofocus' => true]) ?>
 
             <?= $form->field($model, 'tipus')->dropDownList(
-                    ['Bevétel' => 'Bevétel', 'Kiadás' => 'Kiadás'],
+                    [1 => 'Bevétel', -1 => 'Kiadás'],
                 []) ?>
 
             <?= $form->field($model, 'kategoria_id')->dropDownList(
