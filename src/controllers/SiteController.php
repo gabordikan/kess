@@ -198,9 +198,10 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionRecordkess($penztarca_id = null, $tipus = 'Kiadás', $update_id = null)
+    public function actionRecordkess($penztarca_id = null, $tipus = -1, $update_id = null)
     {
         $model = new Mozgas();
+        $model->tipus = -1;
 
         if ($update_id) {
             $model = Mozgas::findOne(["id" => $update_id, "felhasznalo" => Yii::$app->user->id]);
@@ -229,7 +230,7 @@ class SiteController extends Controller
             'model' => $model,
             'penztarca_id' => $penztarca_id,
             'update_id' => $update_id,
-            'tipus' => $tipus,
+            'tipus' => $model->tipus,
         ]);
     }
 
