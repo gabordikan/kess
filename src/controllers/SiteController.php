@@ -268,9 +268,7 @@ class SiteController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $model->save();
-            $model->id = 0;
-            $model->osszeg=null;
-            $model->kategoria_id=null; 
+            return $this->redirect("/site/plan?idoszak=".$idoszak);
         }
 
         return $this->render('plan',[
