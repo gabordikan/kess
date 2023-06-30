@@ -30,6 +30,11 @@ class Mozgas extends ActiveRecord
         ];
     }
 
+    public function afterFind()
+    {
+        $this->tipus = $this->tipus == 1 ? 'Bevétel' : 'Kiadás';
+    }
+
     public function beforeValidate()
     {
         if (!Yii::$app->user->isGuest) {
