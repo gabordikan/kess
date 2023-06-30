@@ -228,6 +228,7 @@ class SiteController extends Controller
         return $this->render('recordkess',[
             'model' => $model,
             'penztarca_id' => $penztarca_id,
+            'update_id' => $update_id,
             'tipus' => $tipus,
         ]);
     }
