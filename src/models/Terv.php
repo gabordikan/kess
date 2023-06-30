@@ -74,6 +74,21 @@ class Terv extends ActiveRecord
         ->queryScalar();
     }
 
+    public static function getTenySum($tipus, $tol, $ig, $deviza = 'HUF') {
+        return Yii::$app->db->createCommand("
+            select ifnull(sum(osszeg),0) from mozgas 
+            left join penztarca on penztarca.id = mozgas.penztarca_id
+            where kategoria_id in (select id from kategoriak where tipus = :tipus and felhasznalo = :felhasznalo and technikai = 0)
+                and mozgas.felhasznalo = :felhasznalo
+                and idoszak >= :tol
+                and idoszak <= :ig
+                and mozgas.torolt=0
+                and penztarca.deviza = :deviza"
+        )
+        ->bindValues([':felhasznalo' => Yii::$app->user->id, ':tipus' => $tipus, ':tol' => $tol, ':ig' => $ig, ':tipus' => $tipus, ':deviza' => $deviza])
+        ->queryScalar();
+    }
+
     public static function copyPlan($idoszak)
     {
         $elozoidoszak = date('Y-m', strtotime($idoszak . ' -1 month'));
