@@ -113,7 +113,44 @@ else {
     . "</div>";
 
     echo "</div<div>";
-    echo "<BR><H1>Kiadás/Bevétel (HUF)</H1>";
+    echo "<BR><H1>=Bevétel/Kiadás (HUF)</H1>";
+
+    $dataProvider = new ActiveDataProvider([
+        'query' => Kategoriak::find()
+            ->where(['felhasznalo' => Yii::$app->user->id])
+            ->groupBy('tipus'),
+    ]);
+
+    echo GridView::widget([
+        'showHeader' => false,
+        'summary' => '',
+        'columns' => [
+            [
+                'class' => DataColumn::class, // this line is optional
+                'value' => function ($model, $key, $index, $column) {
+                    return $model->tipus; 
+                },
+                'format' => 'text',
+                'label' => '',
+            ],
+            [
+                'class' => DataColumn::class, // this line is optional
+                'value' => function ($model, $key, $index, $column) {
+                    $idoszak = empty(Yii::$app->request->get('idoszak'))? date('Y-m') : Yii::$app->request->get('idoszak');
+                    return Terv::getTenySum($model->tipus, $idoszak, $idoszak);
+                },
+                'format' => ['currency','HUF'],
+                'label' => 'Terv',
+                'contentOptions' => ['style'=>'text-align: right'],
+            ],
+        ],
+        'dataProvider' => $dataProvider,
+    ]);
+
+    echo "<div><H3>Összesen: ".
+        Yii::$app->formatter->asCurrency(
+            Terv::getTervSum('Bevétel', $idoszak, $idoszak) - Terv::getTenySum('Kiadás', $idoszak, $idoszak), 'HUF'
+    )."</H3></div>";
     
     echo "<div style='max-width: 600px; margin: auto;'>";
 
