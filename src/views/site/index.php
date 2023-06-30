@@ -296,7 +296,7 @@ else {
             'type' => 'bar',
             'id' => 'structurePie2',
             'options' => [
-                'style' => 'width: 100%; height: '.(60+22*count($kategoriakKiadasList)).'px',
+                'style' => 'width: 100%; height: '.(80+20*count($kategoriakKiadasList)).'px',
             ],
             'clientOptions' => [
                 'indexAxis' => 'y',
@@ -359,7 +359,7 @@ else {
             'type' => 'bar',
             'id' => 'structurePie3',
 	        'options' => [
-                'style' => 'width: 100%; height: '.(60+22*count($kategoriakBevetelList)).'px',
+                'style' => 'width: 100%; height: '.(80+20*count($kategoriakBevetelList)).'px',
             ],
             'clientOptions' => [
                 'indexAxis' => 'y',
