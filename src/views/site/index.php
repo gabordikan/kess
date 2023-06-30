@@ -147,6 +147,8 @@ else {
         'dataProvider' => $dataProvider,
     ]);
 
+var_dump(Terv::getTenySum('Bevétel', $idoszak, $idoszak) - Terv::getTenySum('Kiadás', $idoszak, $idoszak));
+
     echo "<div><H3>Összesen: ".
         Yii::$app->formatter->asCurrency(
             Terv::getTenySum('Bevétel', $idoszak, $idoszak) - Terv::getTenySum('Kiadás', $idoszak, $idoszak), 'HUF'
