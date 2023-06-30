@@ -198,7 +198,7 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionRecordkess($penztarca_id = null, $tipus = -1, $update_id = null)
+    public function actionRecordkess($penztarca_id = null, $tipus = null, $update_id = null)
     {
         $model = new Mozgas();
         $model->tipus = -1;
