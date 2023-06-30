@@ -113,7 +113,7 @@ else {
     . "</div>";
 
     echo "</div<div>";
-    echo "<BR><H1>=Bevétel/Kiadás (HUF)</H1>";
+    echo "<BR><H1>Bevétel/Kiadás (HUF)</H1>";
 
     $dataProvider = new ActiveDataProvider([
         'query' => Kategoriak::find()
@@ -149,7 +149,7 @@ else {
 
     echo "<div><H3>Összesen: ".
         Yii::$app->formatter->asCurrency(
-            Terv::getTervSum('Bevétel', $idoszak, $idoszak) - Terv::getTenySum('Kiadás', $idoszak, $idoszak), 'HUF'
+            Terv::getTenySum('Bevétel', $idoszak, $idoszak) - Terv::getTenySum('Kiadás', $idoszak, $idoszak), 'HUF'
     )."</H3></div>";
     
     echo "<div style='max-width: 600px; margin: auto;'>";
