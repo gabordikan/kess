@@ -35,7 +35,7 @@ else {
 ?>
     <div class="site-recordplan">
     <?php $form = ActiveForm::begin([
-        'action' => ['site/plan','update_id' => $model->id],
+        'action' => ['site/plan','update_id' => $model->id, 'idoszak' => $idoszak],
         'id' => 'recordplan-form',
         'layout' => 'horizontal',
         'fieldConfig' => [
