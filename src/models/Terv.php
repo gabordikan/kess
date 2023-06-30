@@ -80,8 +80,8 @@ class Terv extends ActiveRecord
             left join penztarca on penztarca.id = mozgas.penztarca_id
             where kategoria_id in (select id from kategoriak where tipus = :tipus and felhasznalo = :felhasznalo and technikai = 0)
                 and mozgas.felhasznalo = :felhasznalo
-                and idoszak >= :tol
-                and idoszak <= :ig
+                and datum >= :tol
+                and datum <= :ig
                 and mozgas.torolt=0
                 and penztarca.deviza = :deviza"
         )
