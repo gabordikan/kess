@@ -142,11 +142,12 @@ else {
                     'delete' => true,
                 ],
                 'urlCreator' => function ($action, $model, $key, $index, $column) {
+                    $idoszak = empty(Yii::$app->request->get('idoszak'))? date('Y-m') : Yii::$app->request->get('idoszak');
                     switch ($action) {
                         case "update":
-                            return '/site/plan?update_id='.$model->id;
+                            return '/site/plan?update_id='.$model->id.'&idoszak='.$idoszak;
                         case "delete":
-                            return '/site/plan?delete_id='.$model->id;
+                            return '/site/plan?delete_id='.$model->id.'&idoszak='.$idoszak;
                     }
                 },
                 'contentOptions' => ['style'=>'text-align: center'],
