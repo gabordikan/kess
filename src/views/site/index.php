@@ -137,7 +137,7 @@ else {
                 'class' => DataColumn::class, // this line is optional
                 'value' => function ($model, $key, $index, $column) {
                     $idoszak = empty(Yii::$app->request->get('idoszak'))? date('Y-m') : Yii::$app->request->get('idoszak');
-                    return Terv::getTenySum($model->tipus, $idoszak, $idoszak);
+                    return Terv::getTenySum($model->tipus, $idoszak.'-01', $idoszak.'-31');
                 },
                 'format' => ['currency','HUF'],
                 'label' => 'Terv',
