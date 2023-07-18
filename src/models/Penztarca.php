@@ -76,7 +76,9 @@ class Penztarca extends ActiveRecord
 
     public static function getPenztarcak()
     {
-        $penztarcak = self::findAll(['felhasznalo' => Yii::$app->user->id, 'torolt' => 0]);
+        $penztarcak = self::find()
+        ->where(['felhasznalo' => Yii::$app->user->id, 'torolt' => 0])
+        ->orderBy(["nev" => SORT_ASC]);
         foreach ($penztarcak as $id => $penztarca) {
             $pt_arr[$penztarca->id] = $penztarca->nev. " (".number_format(self::getEgyenleg($penztarca->id), 0, ',', ' ').")";
         }
