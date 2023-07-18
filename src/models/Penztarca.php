@@ -78,7 +78,8 @@ class Penztarca extends ActiveRecord
     {
         $penztarcak = self::find()
         ->where(['felhasznalo' => Yii::$app->user->id, 'torolt' => 0])
-        ->orderBy(["nev" => SORT_ASC]);
+        ->orderBy(["nev" => SORT_ASC])
+        ->all();
         foreach ($penztarcak as $id => $penztarca) {
             $pt_arr[$penztarca->id] = $penztarca->nev. " (".number_format(self::getEgyenleg($penztarca->id), 0, ',', ' ').")";
         }
