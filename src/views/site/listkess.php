@@ -57,7 +57,7 @@ else {
 
         switch (substr($searchText,0,1)) {
             case '<':
-                $searchOpreator = '<';
+                $searchOperator = '<';
                 $searchText2 = substr($searchText,1);
                 break;
             case '>':
