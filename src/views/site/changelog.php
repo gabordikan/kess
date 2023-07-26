@@ -1,3 +1,8 @@
+<H1>1.09</H1>
+<p>
+    <li><i>Fejlesztés:</i> Új alkalmazásikon</li>
+</p>
+
 <H1>1.08</H1>
 <p>
     <li><i>Fejlesztés:</i> Tétellista keresés kibővítése kategóri névre</li>
