@@ -45,6 +45,7 @@ $this->registerLinkTag(['rel' => 'apple-touch-icon', 'type' => 'image/png', 'hre
 <header id="header">
     <?php
     NavBar::begin([
+        'brandImage' => '/favicon_32.png',
         'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
         'options' => ['class' => 'navbar-expand-md navbar-dark bg-dark fixed-top']
