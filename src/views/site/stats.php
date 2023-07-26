@@ -195,13 +195,13 @@ use yii\helpers\Html;
 
     if (count($kategoriakKiadasList)>0) {
 
-        echo "<div style='max-width: 90vw; margin: auto;'>";
+        echo "<div style='max-width: 1200px; margin: auto;'>";
 
         echo ChartJs::widget([
             'type' => 'bar',
             'id' => 'structurePie2'.$deviza,
             'options' => [
-                'style' => 'width: 90vw; height: '.(80+20*count($kategoriakKiadasList)).'px',
+                'style' => 'width: 90vw; max-width:1200px; height: '.(80+20*count($kategoriakKiadasList)).'px',
             ],
             'clientOptions' => [
                 'indexAxis' => 'y',
@@ -262,13 +262,13 @@ use yii\helpers\Html;
 
     if(count($kategoriakBevetelList)>0) {
 
-        echo "<div style='max-width: 90vw; margin: auto;'>";
+        echo "<div style='max-width: 1200px; margin: auto;'>";
 
         echo ChartJs::widget([
             'type' => 'bar',
             'id' => 'structurePie3'.$deviza,
 	        'options' => [
-                'style' => 'width: 90vw; height: '.(80+20*count($kategoriakBevetelList)).'px',
+                'style' => 'width: 90vw; max-width:1200px; height: '.(80+20*count($kategoriakBevetelList)).'px',
             ],
             'clientOptions' => [
                 'indexAxis' => 'y',
