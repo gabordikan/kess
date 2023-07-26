@@ -1,3 +1,7 @@
+<H1>1.05</H1>
+<p>
+    <li><i>Hibajavítás:</i> Tervezés módosításnál rossz devizalista tölt be</li>
+</p>
 <H1>1.04</H1>
 <p>
     <li><i>Új funkció:</i> Statisztika devizánként
