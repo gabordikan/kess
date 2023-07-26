@@ -11,6 +11,7 @@ class Terv extends ActiveRecord
 
     public function init() {
         parent::init();
+        $this->deviza = 'HUF';
     }
 
     /**
@@ -21,7 +22,7 @@ class Terv extends ActiveRecord
         return [
             // username and password are both required
             [['felhasznalo'], 'required'],
-            [['kategoria_id', 'osszeg', 'idoszak_tipus', 'idoszak', 'felhasznalo'], 'safe'],
+            [['kategoria_id', 'deviza', 'osszeg', 'idoszak_tipus', 'idoszak', 'felhasznalo'], 'safe'],
             [['idoszak'], 'default', 'value' => date('Y-m')],
             // rememberMe must be a boolean value
             ['osszeg', 'number'],
@@ -61,16 +62,17 @@ class Terv extends ActiveRecord
         return $this->hasOne(Kategoriak::class, ['id' => 'kategoria_id']);
     }
 
-    public static function getTervSum($tipus, $tol, $ig) {
+    public static function getTervSum($tipus, $tol, $ig, $deviza = 'HUF') {
         return Yii::$app->db->createCommand("
             select ifnull(sum(osszeg),0) from terv 
             where kategoria_id in (select id from kategoriak where tipus = :tipus and felhasznalo = :felhasznalo and technikai = 0)
                 and felhasznalo = :felhasznalo
                 and idoszak >= :tol
                 and idoszak <= :ig
-                and torolt=0"
+                and torolt=0
+                and deviza = :deviza"
         )
-        ->bindValues([':felhasznalo' => Yii::$app->user->id, ':tipus' => $tipus, ':tol' => $tol, ':ig' => $ig, ':tipus' => $tipus])
+        ->bindValues([':felhasznalo' => Yii::$app->user->id, ':tipus' => $tipus, ':tol' => $tol, ':ig' => $ig, ':tipus' => $tipus, ':deviza' => $deviza])
         ->queryScalar();
     }
 

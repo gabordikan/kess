@@ -76,6 +76,7 @@ class Penztarca extends ActiveRecord
 
     public static function getPenztarcak()
     {
+        $pt_arr = [];
         $penztarcak = self::find()
         ->where(['felhasznalo' => Yii::$app->user->id, 'torolt' => 0])
         ->orderBy(["nev" => SORT_ASC])
@@ -85,6 +86,21 @@ class Penztarca extends ActiveRecord
         }
 
         return $pt_arr;
+    }
+
+    public static function getDevizak()
+    {
+        $dev_arr = [];
+        $devizak = Penztarca::find()
+            ->select('deviza')
+            ->where(['felhasznalo' => Yii::$app->user->id, 'torolt' => 0])
+            ->groupBy('deviza')
+            ->all();
+        foreach ($devizak as $id => $deviza) {
+            $dev_arr[$deviza->deviza] = $deviza->deviza;
+        }
+
+        return $dev_arr;
     }
 
     public static function getDevizaList()

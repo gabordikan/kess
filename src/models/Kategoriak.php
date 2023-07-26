@@ -112,7 +112,7 @@ class Kategoriak extends ActiveRecord
         return $kat_arr;
     }
 
-    public static function getFokategoriaSumTeny($fokategorianev, $tol, $ig, $tipus) {
+    public static function getFokategoriaSumTeny($fokategorianev, $tol, $ig, $tipus, $deviza = 'HUF') {
         return Yii::$app->db->createCommand("
             select ifnull(sum(osszeg),0) from mozgas 
             left join penztarca on penztarca.id = mozgas.penztarca_id
@@ -123,19 +123,19 @@ class Kategoriak extends ActiveRecord
                 and mozgas.torolt = 0
                 and mozgas.tipus= :tipus
                 and penztarca.torolt = 0
-                and penztarca.deviza = 'HUF'"
+                and penztarca.deviza = :deviza"
         )
-        ->bindValues([':felhasznalo' => Yii::$app->user->id, ':fokategorianev' => $fokategorianev, ':tol' => $tol, ':ig' => $ig, ':tipus' => $tipus])
+        ->bindValues([':felhasznalo' => Yii::$app->user->id, ':fokategorianev' => $fokategorianev, ':tol' => $tol, ':ig' => $ig, ':tipus' => $tipus, ':deviza' => $deviza])
         ->queryScalar();
     }
 
-    public static function getFokategoriakListaEgyenleg($tol, $ig, $tipus) {
+    public static function getFokategoriakListaEgyenleg($tol, $ig, $tipus, $deviza = 'HUF') {
         $fokategoriak = self::getFokategoriakLista();
 
         $fokat_arr = [];
 
         foreach ($fokategoriak as $fokategorianev) {
-            $fokat_arr[] = self::getFokategoriaSumTeny($fokategorianev, $tol, $ig, $tipus);
+            $fokat_arr[] = self::getFokategoriaSumTeny($fokategorianev, $tol, $ig, $tipus, $deviza);
         }
 
         return $fokat_arr;
@@ -158,20 +158,21 @@ class Kategoriak extends ActiveRecord
         return $fokat_arr;
     }
 
-    public static function getKategoriaSumTerv($kategoria_id, $tol, $ig) {
+    public static function getKategoriaSumTerv($kategoria_id, $tol, $ig, $deviza = 'HUF') {
         return Yii::$app->db->createCommand("
             select ifnull(sum(osszeg),0) from terv 
             where kategoria_id = :kategoria_id
                 and felhasznalo = :felhasznalo
                 and idoszak >= :tol
                 and idoszak <= :ig
-                and torolt=0"
+                and torolt=0
+                and deviza = :deviza"
         )
-        ->bindValues([':felhasznalo' => Yii::$app->user->id, ':kategoria_id' => $kategoria_id, ':tol' => substr($tol,0,7), ':ig' => substr($ig,0,7)])
+        ->bindValues([':felhasznalo' => Yii::$app->user->id, ':kategoria_id' => $kategoria_id, ':tol' => substr($tol,0,7), ':ig' => substr($ig,0,7), ':deviza' => $deviza])
         ->queryScalar();
     }
 
-    public static function getKategoriaSumTeny($kategoria_id, $tol, $ig) {
+    public static function getKategoriaSumTeny($kategoria_id, $tol, $ig, $deviza = 'HUF') {
         return Yii::$app->db->createCommand("
             select ifnull(sum(osszeg),0) from mozgas
             left join penztarca on penztarca.id=mozgas.penztarca_id
@@ -181,13 +182,13 @@ class Kategoriak extends ActiveRecord
                 and mozgas.datum <= :ig
                 and mozgas.torolt = 0
                 and penztarca.torolt = 0
-                and penztarca.deviza = 'HUF'"
+                and penztarca.deviza = :deviza"
         )
-        ->bindValues([':felhasznalo' => Yii::$app->user->id, ':kategoria_id' => $kategoria_id, ':tol' => $tol, ':ig' => $ig])
+        ->bindValues([':felhasznalo' => Yii::$app->user->id, ':kategoria_id' => $kategoria_id, ':tol' => $tol, ':ig' => $ig, ':deviza' => $deviza])
         ->queryScalar();
     }
 
-    public static function getSumTerv($tipus = 'Kiadás', $tol, $ig) {
+    public static function getSumTerv($tipus = 'Kiadás', $tol, $ig, $deviza = 'HUF') {
         $kategoriak = Self::find()
             ->where(["felhasznalo" => Yii::$app->user->id, "tipus" => $tipus, "torolt" => 0, "technikai"=> 0])
             ->orderBy(['tipus'=>SORT_ASC, 'fokategoria'=>SORT_ASC, 'nev'=>SORT_ASC])->all();
@@ -195,13 +196,13 @@ class Kategoriak extends ActiveRecord
         $kat_arr = [];
 
         foreach ($kategoriak as $id=>$arr) {
-            $kat_arr[] = self::getKategoriaSumTerv($arr->id, $tol, $ig);
+            $kat_arr[] = self::getKategoriaSumTerv($arr->id, $tol, $ig, $deviza);
         }
 
         return $kat_arr;
     }
 
-    public static function getSumTeny($tipus = 'Kiadás', $tol, $ig) {
+    public static function getSumTeny($tipus = 'Kiadás', $tol, $ig, $deviza = 'HUF') {
         $kategoriak = Self::find()
             ->where(["felhasznalo" => Yii::$app->user->id, "tipus" => $tipus, "torolt" => 0, "technikai"=> 0])
             ->orderBy(['tipus'=>SORT_ASC, 'fokategoria'=>SORT_ASC, 'nev'=>SORT_ASC])->all();
@@ -209,7 +210,7 @@ class Kategoriak extends ActiveRecord
         $kat_arr = [];
 
         foreach ($kategoriak as $id=>$arr) {
-            $kat_arr[] = self::getKategoriaSumTeny($arr->id, $tol, $ig);
+            $kat_arr[] = self::getKategoriaSumTeny($arr->id, $tol, $ig, $deviza);
         }
 
         return $kat_arr;

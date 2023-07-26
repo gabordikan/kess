@@ -62,6 +62,11 @@ class SiteController extends Controller
         ];
     }
 
+    public function actionChangelog() 
+    {
+        return $this->render('changelog');    
+    }
+
     /**
      * Displays homepage.
      *
@@ -234,7 +239,7 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionListkess($penztarca_id = null, $delete_id = null, $idoszak = null)
+    public function actionListkess($penztarca_id = null, $delete_id = null, $idoszak = null, $searchText = null)
     {
         $penztarca_id = $penztarca_id;
 
@@ -247,20 +252,22 @@ class SiteController extends Controller
         return $this->render('listkess',[
             'penztarca_id' => $penztarca_id,
             'idoszak' => $idoszak,
+            'searchText' => $searchText,
         ]);
     }
 
-    public function actionPlan($delete_id = null, $update_id = null, $idoszak = null)
+    public function actionPlan($delete_id = null, $update_id = null, $idoszak = null, $deviza = 'HUF')
     {
         if ($delete_id) {
             $model = Terv::findOne(['id' => $delete_id, 'felhasznalo' => Yii::$app->user->id]);
             $model->torolt = 1;
             $model->save(false);
-            return $this->redirect("/site/plan?idoszak=".$idoszak);
+            return $this->redirect("/site/plan?deviza=".$model->deviza."&idoszak=".$idoszak);
         }
 
         $model = new Terv();
         $model->idoszak = $idoszak ?? date('Y-m');
+        $model->deviza = $deviza;   
 
         if ($update_id) {
             $model = Terv::findOne(['id' => $update_id, 'felhasznalo' => Yii::$app->user->id]);
@@ -268,21 +275,22 @@ class SiteController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $model->save();
-            return $this->redirect("/site/plan?idoszak=".$idoszak);
+            return $this->redirect("/site/plan?deviza=".$model->deviza."&idoszak=".$idoszak);
         }
 
         return $this->render('plan',[
             'model' => $model,
+            'deviza' => $deviza,
             'idoszak' => $idoszak,
             'update_id' => $update_id,
         ]);
     }
 
-    public function actionCopyplan($idoszak)
+    public function actionCopyplan($idoszak, $deviza = 'HUF')
     {
         Terv::copyPlan($idoszak);
 
-        return $this->redirect("/site/plan?idoszak=".$idoszak);
+        return $this->redirect("/site/plan?deviza=".$deviza."&idoszak=".$idoszak);
     }
 
     public function actionCategories($tipus = 'Kiadás', $delete_id = null, $update_id = null)

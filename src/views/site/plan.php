@@ -8,6 +8,7 @@ use yii\jui\DatePicker;
 
 use app\models\Kategoriak;
 use app\models\Terv;
+use app\models\Penztarca;
 
 use yii\grid\GridView;
 use yii\data\ActiveDataProvider;
@@ -22,6 +23,10 @@ $kategoriak = Kategoriak::getKategoriak();
 
 if (empty($idoszak)) {
     $idoszak = date('Y-m');
+}
+
+if (empty($deviza)) {
+    $deviza = 'HUF';
 }
 ?>
 <div class="site-index">
@@ -58,6 +63,10 @@ else {
         <?= $form->field($model, 'kategoria_id')->dropDownList(
                 $kategoriak,
             []) ?>
+        
+        <?= $form->field($model, 'deviza')->dropDownList(
+                Penztarca::getDevizak(),
+            []) ?>
 
         <?= $form->field($model, 'osszeg')->textInput() ?>
 
@@ -80,6 +89,7 @@ else {
                 'terv.felhasznalo' => Yii::$app->user->id,
                 'terv.torolt' => 0,
                 'terv.idoszak' => $idoszak,
+                'terv.deviza' => $deviza,
             ]
         )->orderBy(['tipus' => SORT_ASC, 'fokategoria' => SORT_ASC, 'nev' => SORT_ASC]),
         'pagination' => [
@@ -126,12 +136,12 @@ else {
                 'value' => function ($model, $key, $index, $column) {
                     return $model->osszeg; 
                 },
-                'format' => ['currency', 'HUF'],
+                'format' => ['currency', $deviza],
                 'label' => 'Összeg',
                 'contentOptions' => ['style'=>'text-align: right'],
                 'footer' => 
                     Yii::$app->formatter->asCurrency(
-                        Terv::getTervSum('Bevétel', $idoszak, $idoszak) - Terv::getTervSum('Kiadás', $idoszak, $idoszak), 'HUF'
+                        Terv::getTervSum('Bevétel', $idoszak, $idoszak, $deviza) - Terv::getTervSum('Kiadás', $idoszak, $idoszak, $deviza), $deviza
                     ),
             ],
             [
@@ -161,17 +171,25 @@ else {
 <script>
     var idoszakselector = document.getElementsByName('Terv[idoszak]')[0];
 
+    var idoszak = '<?= $idoszak ?>';
     var update_id = '<?= $update_id ?>';
+    var deviza = '<?= $deviza ?? 'HUF' ?>';
 
     idoszakselector.addEventListener('change', function (evt) {
-        window.location = '/site/plan?update_id=' + update_id + '&idoszak='+evt.target.value;
+        window.location = '/site/plan?deviza=' + deviza + '&update_id=' + update_id + '&idoszak=' + evt.target.value;
     });
 
     idoszakselector.addEventListener('select', function (evt) {
-        window.location = '/site/plan?update_id=' + update_id + '&idoszak='+evt.target.value;
+        window.location = '/site/plan?deviza=' + deviza + '&update_id=' + update_id + '&idoszak=' + evt.target.value;
     });
 
     document.getElementsByName('copyplan-button')[0].addEventListener('click', function() {
-        window.location = "/site/copyplan?idoszak="+idoszakselector.value;
+        window.location = '/site/copyplan?deviza=' + deviza + '&idoszak=' + idoszakselector.value;
+    });
+
+    var devizaselector = document.getElementsByName('Terv[deviza]')[0];
+
+    devizaselector.addEventListener('change', function (evt) {
+        window.location = '/site/plan?deviza=' + evt.target.value + '&update_id=' + update_id + '&idoszak=' + idoszak ;
     });
 </script>
