@@ -95,7 +95,7 @@ $this->registerLinkTag(['rel' => 'apple-touch-icon', 'type' => 'image/png', 'hre
     <div class="container">
         <div class="row text-muted">
             <div class="col-md-6 text-center text-md-start">&copy; Dikán Gábor</div>
-            <div class="col-md-6 text-right text-md-end">Verzió: <a href="/site/changelog"><?= file_get_contents('/app/VERSION') ?></a></div>
+            <div class="col-md-6 text-center text-md-end">Verzió: <a href="/site/changelog"><?= file_get_contents('/app/VERSION') ?></a></div>
         </div>
     </div>
 </footer>
