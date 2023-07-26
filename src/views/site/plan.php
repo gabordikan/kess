@@ -59,13 +59,13 @@ else {
                     }"),
             ],
         ]) ?>
-
-        <?= $form->field($model, 'kategoria_id')->dropDownList(
-                $kategoriak,
-            []) ?>
         
         <?= $form->field($model, 'deviza')->dropDownList(
                 Penztarca::getDevizak(),
+            []) ?>
+
+        <?= $form->field($model, 'kategoria_id')->dropDownList(
+                $kategoriak,
             []) ?>
 
         <?= $form->field($model, 'osszeg')->textInput() ?>

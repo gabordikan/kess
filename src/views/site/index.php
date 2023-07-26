@@ -10,7 +10,7 @@ use yii\grid\DataColumn;
 use yii\grid\ActionColumn;
 use yii\bootstrap5\Tabs;
 
-use yii\jui\DatePicker;
+use app\widgets\MyDatePicker;
 use yii\helpers\Html;
 
 $this->title = 'Kess';
@@ -31,7 +31,7 @@ else {
     $tol = $idoszak.'-01';
     $ig = $idoszak.'-31';
 
-    echo "<div style='width: 100px'><H1>Egyenleg</H1></div>";
+    echo "<div style='width: 300px'><H1><i class='fa-solid fa-bars'>&nbsp;</i>Egyenleg</H1></div>";
         
     $dataProvider = new ActiveDataProvider([
         'query' => Penztarca::find()
@@ -96,7 +96,8 @@ else {
 
     echo "<BR/><div>"
     .Html::label('Statisztika időszak: ')
-    .DatePicker::widget([
+    ."&nbsp;"
+    .MyDatePicker::widget([
         'id' => 'idoszakselector',
         'value' => $idoszak,
         'language' => 'hu',
@@ -106,8 +107,8 @@ else {
                 window.location = '/site/index?idoszak='+dateText;
                 }"),
         ],
-    ], [])
-    . "</div>";
+    ])
+    ."</div>";
 
     $items = [];
 
