@@ -280,7 +280,7 @@ class SiteController extends Controller
 
         return $this->render('plan',[
             'model' => $model,
-            'deviza' => $deviza,
+            'deviza' => $model->deviza,
             'idoszak' => $idoszak,
             'update_id' => $update_id,
         ]);
