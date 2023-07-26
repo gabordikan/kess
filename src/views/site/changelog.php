@@ -1,3 +1,8 @@
+<H1>1.07</H1>
+<p>
+    <li><i>Hibajavítás:</i> Apróbb hibajavítások</li>
+</p>
+
 <H1>1.06</H1>
 <p>
     <li><i>Fejlesztés:</i> Főoldalra ikonok kerültek</li>
