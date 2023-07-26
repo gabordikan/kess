@@ -268,7 +268,7 @@ use yii\helpers\Html;
             'type' => 'bar',
             'id' => 'structurePie3'.$deviza,
 	        'options' => [
-                'style' => 'width: 100%; height: '.(80+20*count($kategoriakBevetelList)).'px',
+                'style' => 'width: 600px; height: '.(80+20*count($kategoriakBevetelList)).'px',
             ],
             'clientOptions' => [
                 'indexAxis' => 'y',
