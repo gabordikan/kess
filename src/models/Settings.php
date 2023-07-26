@@ -64,6 +64,10 @@ class Settings extends Model
             if ($this->newpassword != $this->newpassword2) {
                 $this->addError($attribute, 'A megadott két jelszó nem egyezik');
             }
+            if(!preg_match('/^.*(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!_*$%.,-]).*$/', $this->newpassword)
+            && !(strlen($this->newpassword) >=15 && preg_match('/^.*(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/', $this->newpassword))) {
+               $this->addError($attribute, 'A jelszónak tartalmaznia kell legalább egy kisbetűt, egy nagybetűt, egy számot és egy speciális karaktert (!_*$%.,-) ');
+           }
         }
     }
 
