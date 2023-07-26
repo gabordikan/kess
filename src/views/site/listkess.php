@@ -79,6 +79,7 @@ else {
             ->joinWith('kategoria')
             ->andWhere([$searchOperator, 'osszeg', $searchText2])
             ->orWhere([$searchOperator, 'kategoriak.nev', $searchText2])
+            ->orWhere([$searchOperator, 'kategoriak.fokategoria', $searchText2])
             ->andWhere(
                 [
                     'mozgas.felhasznalo' => Yii::$app->user->id,
