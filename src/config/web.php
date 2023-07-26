@@ -51,7 +51,7 @@ $config = [
         ],
         'db' => $db,
         'formatter' => [
-            'thousandSeparator' => ' ',
+            'thousandSeparator' => '&nbsp;',
             'decimalSeparator' => ',',
             'currencyDecimalSeparator' => ',',
             'currencyCode' => 'HUF',
