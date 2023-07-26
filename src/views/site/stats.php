@@ -55,8 +55,6 @@ use yii\helpers\Html;
         Yii::$app->formatter->asCurrency(
             Terv::getTenySum('Bevétel', $tol, $ig, $deviza) - Terv::getTenySum('Kiadás', $tol, $ig, $deviza), $deviza
     )."</H3></div>";
-    
-    echo "<div style='max-width: 600px; margin: auto;'>";
 
     $bevetelData = Kategoriak::getFokategoriakListaEgyenleg($tol, $ig, 1, $deviza);
     $kiadasData = Kategoriak::getFokategoriakListaEgyenleg($tol, $ig, -1, $deviza);
@@ -76,6 +74,8 @@ use yii\helpers\Html;
     }
 
     if ($vanAdat) {
+
+        echo "<div style='max-width: 600px; margin: auto;'>";
 
         echo ChartJs::widget([
             'type' => 'doughnut',
@@ -125,13 +125,13 @@ use yii\helpers\Html;
                     ]
                 ]
             ],
-	], [
-	]);
+        ], []);
+
+        echo "</div>";
     } else {
         echo "<p>Nincs adat";
     }
 
-    echo "</div>";
     echo "<div>";
     echo "<BR><H1><i class='fa-solid fa-pen-to-square'>&nbsp;</i>Terv</H1>";
 
