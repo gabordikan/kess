@@ -43,7 +43,7 @@ else {
         'showHeader' => false,
         'summary' => '',
         'columns' => [
-            ['class' => SerialColumn::class],
+            //['class' => SerialColumn::class],
             [
                 'class' => DataColumn::class, // this line is optional
                 'value' => function ($model, $key, $index, $column) {
