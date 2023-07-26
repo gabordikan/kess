@@ -19,9 +19,18 @@ $this->registerMetaTag(['name' => 'description', 'content' => $this->params['met
 $this->registerMetaTag(['name' => 'keywords', 'content' => $this->params['meta_keywords'] ?? '']);
 $this->registerMetaTag(['name' => 'apple-mobile-web-app', 'Kess']);
 $this->registerMetaTag(['name' => 'apple-mobile-web-app-capable', 'yes']);
+//$this->registerLinkTag(['rel' => 'stylesheet', 'href' => '//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css']);
+//$this->registerLinkTag(['rel' => 'stylesheet', 'href'=> '//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css']);
+//$this->registerJsFile("https://kit.fontawesome.com/06a902394d.js", ["crossorigin" => "anonymous"]);
+
+$this->registerLinkTag(['rel' => 'stylesheet', 'href' => "/assets/fontawesome/css/fontawesome.css"]);
+$this->registerLinkTag(['rel' => 'stylesheet', 'href' => "/assets//fontawesome/css/brands.css"]);
+$this->registerLinkTag(['rel' => 'stylesheet', 'href' => "/assets//fontawesome/css/solid.css"]);
+
 //$this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii::getAlias('@web/favicon.ico')]);
 $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => '/favicon.png']);
 $this->registerLinkTag(['rel' => 'apple-touch-icon', 'type' => 'image/png', 'href' => '/favicon.png']);
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

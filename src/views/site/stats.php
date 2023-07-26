@@ -17,7 +17,7 @@ use yii\jui\DatePicker;
 use app\models\ChartJs;
 use yii\helpers\Html;
 
-    echo "<BR><H1>Bevétel/Kiadás</H1>";
+    echo "<BR><H1><i class='fa-solid fa-arrow-right-arrow-left'>&nbsp;</i>Bevétel/Kiadás</H1>";
 
     $dataProvider = new ActiveDataProvider([
         'query' => Kategoriak::find()
@@ -133,7 +133,7 @@ use yii\helpers\Html;
 
     echo "</div>";
     echo "<div>";
-    echo "<BR><H1>Terv</H1>";
+    echo "<BR><H1><i class='fa-solid fa-pen-to-square'>&nbsp;</i>Terv</H1>";
 
     $dataProvider = new ActiveDataProvider([
         'query' => Kategoriak::find()
@@ -175,7 +175,7 @@ use yii\helpers\Html;
 
     echo "</div<div>";
 
-    echo "<BR><H1>Terv/Tény (Kiadás)</H1>";
+    echo "<BR><H1><i class='fa-solid fa-arrow-right'>&nbsp;</i>Terv/Tény (Kiadás)</H1>";
 
     $kategoriakKiadasList = Kategoriak::getKategoriakLista('Kiadás');
     $kategoriakKiadasSumTerv = Kategoriak::getSumTerv('Kiadás', $tol, $ig, $deviza);
@@ -242,7 +242,7 @@ use yii\helpers\Html;
 
     echo "</div>";
     echo "<div>";
-    echo "<BR><H1>Terv/Tény (Bevétel)</H1>";
+    echo "<BR><H1><i class='fa-solid fa-arrow-left'>&nbsp;</i>Terv/Tény (Bevétel)</H1>";
 
     $kategoriakBevetelList = Kategoriak::getKategoriakLista('Bevétel');
     $kategoriakBevetelSumTerv = Kategoriak::getSumTerv('Bevétel', $tol, $ig, $deviza);
@@ -268,7 +268,7 @@ use yii\helpers\Html;
             'type' => 'bar',
             'id' => 'structurePie3'.$deviza,
 	        'options' => [
-                'style' => 'width: 600px; height: '.(80+20*count($kategoriakBevetelList)).'px',
+                'style' => 'width: 100%; height: '.(80+20*count($kategoriakBevetelList)).'px',
             ],
             'clientOptions' => [
                 'indexAxis' => 'y',

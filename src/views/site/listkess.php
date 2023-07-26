@@ -7,14 +7,13 @@ use yii\bootstrap5\Html;
 use app\models\Kategoriak;
 use app\models\Penztarca;
 use app\models\Mozgas;
+use app\widgets\MyDatePicker;
 use Codeception\PHPUnit\ResultPrinter\HTML as ResultPrinterHTML;
 use yii\grid\GridView;
 use yii\data\ActiveDataProvider;
 use yii\grid\SerialColumn;
 use yii\grid\DataColumn;
 use yii\grid\ActionColumn;
-
-use yii\jui\DatePicker;
 
 $this->title = 'Kess';
 
@@ -36,7 +35,7 @@ else {
 
     echo Html::label('Pénztárca:').'&nbsp;'.Html::dropDownList('penztarca', $penztarca_id , $penztarcak, ['style' => 'width:300px !important; display: ;']);
     echo "&nbsp;&nbsp;&nbsp;";
-    echo Html::label('Statisztika időszak: ')."&nbsp;".DatePicker::widget([
+    echo Html::label('Statisztika időszak: ')."&nbsp;".MyDatePicker::widget([
         'id' => 'idoszakselector',
         'value' => $idoszak,
         'language' => 'hu',
