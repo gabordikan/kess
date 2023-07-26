@@ -1,3 +1,8 @@
+<H1>1.08</H1>
+<p>
+    <li><i>Fejlesztés:</i> Tétellista keresés kibővítése kategóri névre</li>
+</p>
+
 <H1>1.07</H1>
 <p>
     <li><i>Hibajavítás:</i> Apróbb hibajavítások</li>

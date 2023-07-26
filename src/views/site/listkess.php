@@ -75,17 +75,20 @@ else {
         }
 
         $dataProvider = new ActiveDataProvider([
-            'query' => Mozgas::find()->where(
+            'query' => Mozgas::find()
+            ->joinWith('kategoria')
+            ->andWhere([$searchOperator, 'osszeg', $searchText2])
+            ->orWhere([$searchOperator, 'kategoriak.nev', $searchText2])
+            ->andWhere(
                 [
-                    'felhasznalo' => Yii::$app->user->id,
-                    'torolt' => 0,
-                    'penztarca_id' => $penztarca_id,
+                    'mozgas.felhasznalo' => Yii::$app->user->id,
+                    'mozgas.torolt' => 0,
+                    'mozgas.penztarca_id' => $penztarca_id,
                 ]
             )
-            ->andWhere(['>=','datum',$idoszak.'-01'])
-            ->andWhere(['<=','datum',$idoszak.'-31'])
-            ->andWhere([$searchOperator, 'osszeg', $searchText2])
-            ->orderBy(['datum' => SORT_DESC, 'id' => SORT_DESC]),
+            ->andWhere(['>=','mozgas.datum',$idoszak.'-01'])
+            ->andWhere(['<=','mozgas.datum',$idoszak.'-31'])
+            ->orderBy(['mozgas.datum' => SORT_DESC, 'mozgas.id' => SORT_DESC]),
             'pagination' => [
                 'pageSize' => 20,
             ],
@@ -157,4 +160,10 @@ else {
     searchButton.addEventListener('click', function (evt) {
         window.location.href = '/site/listkess?penztarca_id=' + penztarca.value + '&idoszak=' + idoszakSelector.value + '&searchText=' + searchTextField.value;
     })
+
+    searchTextField.addEventListener('keyup', function(evt) {
+        if (evt.key === 'Enter' || evt.keyCode === 13) {
+            window.location.href = '/site/listkess?penztarca_id=' + penztarca.value + '&idoszak=' + idoszakSelector.value + '&searchText=' + searchTextField.value;
+        }
+    });
 </script>
