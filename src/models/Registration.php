@@ -81,7 +81,8 @@ class Registration extends Model
             if ($this->password != $this->passwordverification) {
                 $this->addError($attribute, 'Az ellenőrző jelszó nem egyezik az elsővel');
             }
-            if(!preg_match('/^.*(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!_*$%.,-]).*$/', $this->password)) {
+            if(!preg_match('/^.*(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!_*$%.,-]).*$/', $this->password)
+             && !(strlen($this->password) >=15 && preg_match('/^.*(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/', $this->password))) {
                 $this->addError($attribute, 'A jelszónak tartalmaznia kell legalább egy kisbetűt, egy nagybetűt, egy számot és egy speciális karaktert (!_*$%.,-) ');
             }
         }
