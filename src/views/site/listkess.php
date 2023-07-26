@@ -96,7 +96,6 @@ else {
             'footerRowOptions' => ['style' => 'text-align: right;'],
             'summary' => '{begin}-{end}, Összesen: {totalCount}',
             'columns' => [
-                ['class' => SerialColumn::class],
                 [
                     'class' => DataColumn::class, // this line is optional
                     'attribute' => 'datum',
