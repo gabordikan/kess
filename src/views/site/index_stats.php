@@ -175,73 +175,6 @@ use yii\helpers\Html;
 
     echo "</div<div>";
 
-    echo "<BR><H1><i class='fa-solid fa-arrow-right'>&nbsp;</i>Terv/Tény (Kiadás)</H1>";
-
-    $kategoriakKiadasList = Kategoriak::getKategoriakLista('Kiadás');
-    $kategoriakKiadasSumTerv = Kategoriak::getSumTerv('Kiadás', $tol, $ig, $deviza);
-    $kategoriakKiadasSumTeny = Kategoriak::getSumTeny('Kiadás', $tol, $ig, $deviza);
-
-    foreach ($kategoriakKiadasList as $key=>$value) {
-        if ($kategoriakKiadasSumTerv[$key] == 0 && $kategoriakKiadasSumTeny[$key] == 0) {
-            unset($kategoriakKiadasList[$key]);
-            unset($kategoriakKiadasSumTerv[$key]);
-            unset($kategoriakKiadasSumTeny[$key]);
-        }
-    }
-
-    $kategoriakKiadasList = array_values($kategoriakKiadasList);
-    $kategoriakKiadasSumTerv = array_values($kategoriakKiadasSumTerv);
-    $kategoriakKiadasSumTeny = array_values($kategoriakKiadasSumTeny);
-
-    if (count($kategoriakKiadasList)>0) {
-
-        echo "<div style='max-width: 1200px; margin: auto;'>";
-
-        echo ChartJs::widget([
-            'type' => 'bar',
-            'id' => 'structurePie2'.$deviza,
-            'options' => [
-                'style' => 'width: 90vw; max-width:1200px; height: '.(80+20*count($kategoriakKiadasList)).'px',
-            ],
-            'clientOptions' => [
-                'indexAxis' => 'y',
-                'responsive' => false,
-                'maintainAspectRatio' => false,
-            ],
-            'data' => [
-                'labels' => $kategoriakKiadasList,
-                'datasets' => [
-                    [
-                        'label' => "Terv",
-                        'backgroundColor' => "rgba(255,10,0,0.5)",
-                        'borderColor' => "rgba(255,10,0,1)",
-                        'pointBackgroundColor' => "rgba(255,10,0,1)",
-                        'pointBorderColor' => "#fff",
-                        'pointHoverBackgroundColor' => "#fff",
-                        'pointHoverBorderColor' => "rgba(255,10,0,1)",
-                        'data' => $kategoriakKiadasSumTerv,
-                    ],
-                    [
-                        'label' => "Tény",
-                        'backgroundColor' => "rgba(10,255,0,0.5)",
-                        'borderColor' => "rgba(10,255,0,1)",
-                        'pointBackgroundColor' => "rgba(10,255,0,1)",
-                        'pointBorderColor' => "#fff",
-                        'pointHoverBackgroundColor' => "#fff",
-                        'pointHoverBorderColor' => "rgba(10,255,0,1)",
-                        'data' => $kategoriakKiadasSumTeny,
-                    ]
-                ]
-            ]
-        ]);
-
-        echo "</div>";
-    } else {
-        echo "<p>Nincs adat";
-    }
-
-    echo "</div>";
-    echo "<div>";
     echo "<BR><H1><i class='fa-solid fa-arrow-left'>&nbsp;</i>Terv/Tény (Bevétel)</H1>";
 
     $kategoriakBevetelList = Kategoriak::getKategoriakLista('Bevétel');
@@ -297,6 +230,73 @@ use yii\helpers\Html;
                         'pointHoverBackgroundColor' => "#fff",
                         'pointHoverBorderColor' => "rgba(10,255,0,1)",
                         'data' => $kategoriakBevetelSumTeny,
+                    ]
+                ]
+            ]
+        ]);
+
+        echo "</div>";
+    } else {
+        echo "<p>Nincs adat";
+    }
+
+    echo "</div><div>";
+
+    echo "<BR><H1><i class='fa-solid fa-arrow-right'>&nbsp;</i>Terv/Tény (Kiadás)</H1>";
+
+    $kategoriakKiadasList = Kategoriak::getKategoriakLista('Kiadás');
+    $kategoriakKiadasSumTerv = Kategoriak::getSumTerv('Kiadás', $tol, $ig, $deviza);
+    $kategoriakKiadasSumTeny = Kategoriak::getSumTeny('Kiadás', $tol, $ig, $deviza);
+
+    foreach ($kategoriakKiadasList as $key=>$value) {
+        if ($kategoriakKiadasSumTerv[$key] == 0 && $kategoriakKiadasSumTeny[$key] == 0) {
+            unset($kategoriakKiadasList[$key]);
+            unset($kategoriakKiadasSumTerv[$key]);
+            unset($kategoriakKiadasSumTeny[$key]);
+        }
+    }
+
+    $kategoriakKiadasList = array_values($kategoriakKiadasList);
+    $kategoriakKiadasSumTerv = array_values($kategoriakKiadasSumTerv);
+    $kategoriakKiadasSumTeny = array_values($kategoriakKiadasSumTeny);
+
+    if (count($kategoriakKiadasList)>0) {
+
+        echo "<div style='max-width: 1200px; margin: auto;'>";
+
+        echo ChartJs::widget([
+            'type' => 'bar',
+            'id' => 'structurePie2'.$deviza,
+            'options' => [
+                'style' => 'width: 90vw; max-width:1200px; height: '.(80+20*count($kategoriakKiadasList)).'px',
+            ],
+            'clientOptions' => [
+                'indexAxis' => 'y',
+                'responsive' => false,
+                'maintainAspectRatio' => false,
+            ],
+            'data' => [
+                'labels' => $kategoriakKiadasList,
+                'datasets' => [
+                    [
+                        'label' => "Terv",
+                        'backgroundColor' => "rgba(255,10,0,0.5)",
+                        'borderColor' => "rgba(255,10,0,1)",
+                        'pointBackgroundColor' => "rgba(255,10,0,1)",
+                        'pointBorderColor' => "#fff",
+                        'pointHoverBackgroundColor' => "#fff",
+                        'pointHoverBorderColor' => "rgba(255,10,0,1)",
+                        'data' => $kategoriakKiadasSumTerv,
+                    ],
+                    [
+                        'label' => "Tény",
+                        'backgroundColor' => "rgba(10,255,0,0.5)",
+                        'borderColor' => "rgba(10,255,0,1)",
+                        'pointBackgroundColor' => "rgba(10,255,0,1)",
+                        'pointBorderColor' => "#fff",
+                        'pointHoverBackgroundColor' => "#fff",
+                        'pointHoverBorderColor' => "rgba(10,255,0,1)",
+                        'data' => $kategoriakKiadasSumTeny,
                     ]
                 ]
             ]

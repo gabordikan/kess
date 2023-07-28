@@ -47,7 +47,7 @@ else {
             []) ?>
 
         <?= $form->field($model, 'fokategoria')->dropDownList(
-                Kategoriak::getFokategoriakLista(),
+                Kategoriak::getFokategoriakLista(false, $tipus),
             []) ?>
 
         <?= $form->field($model, 'fokategoria_')->textInput() ?>
@@ -85,7 +85,6 @@ else {
         'summary' => '{begin}-{end}, Összesen: {totalCount}',
         'footerRowOptions'=>['style'=>'text-align: right'],
         'columns' => [
-            ['class' => SerialColumn::class],
             [
                 'class' => DataColumn::class, // this line is optional
                 'attribute' => 'fokategoria',

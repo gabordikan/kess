@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-use Yii;
+use app\components\VerificationHelper;
 use yii\base\Model;
 
 class Registration extends Model
@@ -75,15 +75,11 @@ class Registration extends Model
     public function validateNewPassword($attribute, $params)
     {
         if (!$this->hasErrors()) {
-            if (strlen($this->password) < 8) {
-                $this->addError($attribute, 'A jelszónak legalább 8 hosszúnak kell lennie');
-            }
             if ($this->password != $this->passwordverification) {
                 $this->addError($attribute, 'Az ellenőrző jelszó nem egyezik az elsővel');
             }
-            if(!preg_match('/^.*(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!_*$%.,-]).*$/', $this->password)
-             && !(strlen($this->password) >=15 && preg_match('/^.*(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/', $this->password))) {
-                $this->addError($attribute, 'A jelszónak tartalmaznia kell legalább egy kisbetűt, egy nagybetűt, egy számot és egy speciális karaktert (!_*$%.,-) ');
+            if(!VerificationHelper::verifyPasswordComplexity($this->password)) {
+                $this->addError($attribute, 'A jelszónak legalább 8 hosszúnak kell lennie és tartalmaznia kell legalább egy kisbetűt, egy nagybetűt, egy számot és egy speciális karaktert (!_*$%.,-)');
             }
         }
     }
@@ -91,7 +87,7 @@ class Registration extends Model
     public function validateEmail($attribute, $params)
     {
         if (!$this->hasErrors()) {
-            if(!preg_match('/^[\w+-\.]+@([\w-]+\.)+[\w-]{2,4}$/', $this->email)) {
+            if(!VerificationHelper::verifyEmail($this->email)) {
                 $this->addError($attribute, 'Hibás email cím formátum');
             }
         }
@@ -100,7 +96,7 @@ class Registration extends Model
     public function validatePhone($attribute, $params)
     {
         if (!$this->hasErrors()) {
-            if(!preg_match('/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/', $this->phone)) {
+            if(!VerificationHelper::verifyPhone($this->phone)) {
                 $this->addError($attribute, 'Hibás telefonszám formátum');
             }
         }

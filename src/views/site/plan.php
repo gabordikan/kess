@@ -102,12 +102,11 @@ else {
         'footerRowOptions'=>['style'=>'text-align: right'],
         'summary' => '{begin}-{end}, Összesen: {totalCount}',
         'columns' => [
-            ['class' => SerialColumn::class],
-            [
+            /*[
                 'class' => DataColumn::class, // this line is optional
                 'attribute' => 'idoszak_tipus',
                 'format' => 'text',
-            ],
+            ],*/
             [
                 'class' => DataColumn::class, // this line is optional
                 'attribute' => 'idoszak',
@@ -134,7 +133,8 @@ else {
             [
                 'class' => DataColumn::class, // this line is optional
                 'value' => function ($model, $key, $index, $column) {
-                    return $model->osszeg; 
+                    $kategoria = Kategoriak::findOne([ 'id' => $model->kategoria_id]);
+                    return $model->osszeg * ($kategoria->tipus == 'Bevétel' ? 1 : -1); 
                 },
                 'format' => ['currency', $deviza],
                 'label' => 'Összeg',

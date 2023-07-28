@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\components\VerificationHelper;
 use Yii;
 use yii\base\Model;
 
@@ -58,15 +59,11 @@ class Settings extends Model
     public function validateNewPassword($attribute, $params)
     {
         if (!$this->hasErrors()) {
-            if (strlen($this->newpassword) < 8) {
-                $this->addError($attribute, 'A jelszónak legalább 8 hosszúnak kell lennie');
-            }
             if ($this->newpassword != $this->newpassword2) {
                 $this->addError($attribute, 'A megadott két jelszó nem egyezik');
             }
-            if(!preg_match('/^.*(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!_*$%.,-]).*$/', $this->newpassword)
-            && !(strlen($this->newpassword) >=15 && preg_match('/^.*(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/', $this->newpassword))) {
-               $this->addError($attribute, 'A jelszónak tartalmaznia kell legalább egy kisbetűt, egy nagybetűt, egy számot és egy speciális karaktert (!_*$%.,-) ');
+            if(!VerificationHelper::verifyPasswordComplexity($this->newpassword)) {
+               $this->addError($attribute, 'A jelszónak legalább 8 hosszúnak kell lennie és tartalmaznia kell legalább egy kisbetűt, egy nagybetűt, egy számot és egy speciális karaktert (!_*$%.,-)');
            }
         }
     }
@@ -74,7 +71,7 @@ class Settings extends Model
     public function validateEmail($attribute, $params)
     {
         if (!$this->hasErrors()) {
-            if(!preg_match('/^[\w+-\.]+@([\w-]+\.)+[\w-]{2,4}$/', $this->email)) {
+            if(!VerificationHelper::verifyEmail($this->email)) {
                 $this->addError($attribute, 'Hibás email cím formátum');
             }
         }
@@ -83,7 +80,7 @@ class Settings extends Model
     public function validatePhone($attribute, $params)
     {
         if (!$this->hasErrors()) {
-            if(!preg_match('/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/', $this->phone)) {
+            if(!VerificationHelper::verifyPhone($this->phone)) {
                 $this->addError($attribute, 'Hibás telefonszám formátum');
             }
         }

@@ -15,6 +15,7 @@ use yii\db\ActiveRecord;
 class Penztarca extends ActiveRecord
 {
 
+    private static $logo_basedir = '/assets/logos/';
     /**
      * @return array the validation rules.
      */
@@ -110,6 +111,34 @@ class Penztarca extends ActiveRecord
             ->where(['felhasznalo' => Yii::$app->user->id, 'torolt' => 0])
             ->groupBy('deviza')
             ->all();
+    }
+
+    public static function getLogo($penztarca)
+    {
+        $logok = [
+            'raiffeisen' => 'raiffeisen.png',
+            'rafi' => 'raiffeisen.png',
+            'otp' => 'otp.png',
+            'erste' => 'erste.png',
+            'mkb' => 'mkb.png',
+            'mbh' => 'mbh.png',
+            'revolut' => 'revolut.png',
+            'wise' => 'wise.png',
+            'keszpenz' => 'cash.png',
+            'kp' => 'cash.png',
+            'készpénz' => 'cash.png',
+            'paypal' => 'paypal.png'
+        ];
+
+        $penztarca = strtolower($penztarca);
+
+        foreach ($logok as $bank=>$logo) {
+            if (strpos($penztarca, $bank) !== false) {
+                return "<span style='display: inline-block; width: 60px;'><img src='".self::$logo_basedir.$logo."' height='16'></span>";
+            }
+        }
+
+        return "";
     }
 
 }
