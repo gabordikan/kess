@@ -105,7 +105,7 @@ use yii\helpers\Html;
             ],
             'data' => [
                 'radius' =>  "90%",
-                'labels' => Kategoriak::getFokategoriakLista(true), // Your labels
+                'labels' => array_merge(Kategoriak::getFokategoriakLista(true, 'Bevétel'), Kategoriak::getFokategoriakLista(true, 'Kiadás')), // Your labels
                 'datasets' => [
                     [
                         'data' => $bevetelData, // Your dataset
