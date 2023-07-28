@@ -59,12 +59,18 @@ class Kategoriak extends ActiveRecord
         return parent::beforeValidate();
     }
 
-    public static function getFokategoriakLista($indexed = false, $tipus = 'Bevétel') {
-        $kategoriak = Self::find()
-        ->where(["felhasznalo" => Yii::$app->user->id, "torolt" => 0, "tipus" => $tipus])
-        ->groupBy('fokategoria')
-        ->orderBy(['tipus'=>SORT_ASC, 'fokategoria'=>SORT_ASC])->all();
-
+    public static function getFokategoriakLista($indexed = false, $tipus = null) {
+        if($tipus != null) {
+            $kategoriak = Self::find()
+            ->where(["felhasznalo" => Yii::$app->user->id, "torolt" => 0, "tipus" => $tipus])
+            ->groupBy('fokategoria')
+            ->orderBy(['tipus'=>SORT_ASC, 'fokategoria'=>SORT_ASC])->all();
+        } else {
+            $kategoriak = Self::find()
+            ->where(["felhasznalo" => Yii::$app->user->id, "torolt" => 0])
+            ->groupBy('fokategoria')
+            ->orderBy(['tipus'=>SORT_ASC, 'fokategoria'=>SORT_ASC])->all();
+        }
     $kat_arr = [];
 
     foreach ($kategoriak as $id=>$arr) {
