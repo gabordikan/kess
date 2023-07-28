@@ -71,11 +71,13 @@ else {
         'footerRowOptions'=>['style'=>'text-align: right'],
         'summary' => '{begin}-{end}, Összesen: {totalCount}',
         'columns' => [
-            ['class' => SerialColumn::class],
             [
                 'class' => DataColumn::class,
-                'attribute' => 'nev',
-                'format' => 'text',
+                'value' => function ($model, $key, $index, $column) {
+                    return Penztarca::getLogo($model->nev).$model->nev;
+                },
+                'format' => 'raw',
+                'label' => 'Név',
             ],
             [
                 'class' => DataColumn::class,

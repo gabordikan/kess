@@ -47,9 +47,9 @@ else {
             [
                 'class' => DataColumn::class, // this line is optional
                 'value' => function ($model, $key, $index, $column) {
-                    return $model->nev; 
+                    return Penztarca::getLogo($model->nev).$model->nev;
                 },
-                'format' => 'text',
+                'format' => 'raw',
                 'label' => 'Név',
             ],
             [
@@ -116,7 +116,7 @@ else {
 
         $items[] = [
             'label' => $deviza->deviza,
-            'content' => $this->render('stats', [
+            'content' => $this->render('index_stats', [
                 'idoszak' => $idoszak,
                 'tol' => $tol,
                 'ig' => $ig,

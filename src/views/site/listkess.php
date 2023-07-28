@@ -33,9 +33,8 @@ else {
     $penztarcak = Penztarca::getPenztarcak();
     $penztarca_id = $penztarca_id ?? array_key_first($penztarcak);
 
-    echo Html::label('Pénztárca:').'&nbsp;'.Html::dropDownList('penztarca', $penztarca_id , $penztarcak, ['style' => 'width:300px !important; display: ;']);
-    echo "&nbsp;&nbsp;&nbsp;";
-    echo Html::label('Statisztika időszak: ')."&nbsp;".MyDatePicker::widget([
+    echo '<span style="display: inline-block; margin-right: 10px; margin-bottom: 5px;">'.Html::label('Pénztárca:').'&nbsp;'.Html::dropDownList('penztarca', $penztarca_id , $penztarcak, ['style' => 'width:240px !important; display: ;']).'</span>';
+    echo '<span style="display: inline-block; margin-right: 10px; margin-bottom: 5px;">'.Html::label('Időszak: ')."&nbsp;".MyDatePicker::widget([
         'id' => 'idoszakselector',
         'value' => $idoszak,
         'language' => 'hu',
@@ -45,11 +44,10 @@ else {
                 window.location = '/site/listkess?penztarca_id=".$penztarca_id."&idoszak='+dateText+'&searchText='+document.getElementsByName('searchText')[0].value;
                 }"),
         ],
-    ],  ['class' => 'form-select']);
-    echo "&nbsp;&nbsp;&nbsp;";
-    echo Html::label('Keresés: ').'&nbsp;'
-        .Html::textInput('searchText', $searchText, ['style' => 'width:300px'])
-        .Html::Button('Keresés', ['id' => 'searchButton']);
+    ],  ['class' => 'form-select']).'</span>';
+    echo '<span style="display: inline-block; margin-right: 10px; margin-bottom: 5px;">'.Html::label('Keresés: ', 'searchText').'&nbsp;'
+        .Html::textInput('searchText', $searchText, ['id' => 'searchText', 'style' => 'width:200px'])
+        .Html::Button('Keresés', ['id' => 'searchButton']).'</span>';
 
     echo "<BR/><BR/>";
 
@@ -78,8 +76,9 @@ else {
             'query' => Mozgas::find()
             ->joinWith('kategoria')
             ->andWhere([$searchOperator, 'osszeg', $searchText2])
-            ->orWhere([$searchOperator, 'kategoriak.nev', $searchText2])
-            ->orWhere([$searchOperator, 'kategoriak.fokategoria', $searchText2])
+            ->orFilterWhere([$searchOperator, 'kategoriak.nev', $searchText2])
+            ->orFilterWhere([$searchOperator, 'kategoriak.fokategoria', $searchText2])
+            ->orFilterWhere([$searchOperator, 'megjegyzes', $searchText2])
             ->andWhere(
                 [
                     'mozgas.felhasznalo' => Yii::$app->user->id,
@@ -102,17 +101,12 @@ else {
             'columns' => [
                 [
                     'class' => DataColumn::class, // this line is optional
-                    'attribute' => 'datum',
-                    'format' => 'text',
-                ],
-                [
-                    'class' => DataColumn::class, // this line is optional
                     'value' => function ($model, $key, $index, $column) {
                         $kategoria = Kategoriak::findOne([ 'id' => $model->kategoria_id]);
-                        return $kategoria->fokategoria."/".$kategoria->nev; 
+                        return $model->datum.' <BR><b>'.$kategoria->fokategoria."/".$kategoria->nev.'</B><BR><i>'.$model->megjegyzes.'</i>'; 
                     },
-                    'format' => 'text',
-                    'label' => 'Kategória',
+                    'format' => 'raw',
+                    'label' => 'Tétel',
                 ],
                 [
                     'class' => DataColumn::class, // this line is optional

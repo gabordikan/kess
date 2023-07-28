@@ -1,3 +1,23 @@
+<H1>Fejlesztési tervek</H1>
+<p>
+    <li><i>Fejlesztés:</i> Kategóriák kedvencnek jelölése</li>
+    <li><i>Fejlesztés:</i> Kedvenc kategóriák választó lista tetejére</li>
+    <li><i>Fejlesztés:</i> Ikonok hozzáadása kategóriához</li>
+</p>
+
+<H1>1.10</H1>
+<p>
+    <li><i>Fejlesztés:</i> Logo megjelenítése banknév alapján
+        <BR><i>KP, Raiffeisen, OTP, Erste, MKB, MBH, Revolut, Wise, PayPal</i>
+    </li>
+    <li><i>Hibajavítás:</i> Főoldalon a Bevétel és a Kiadás statisztika megcserélve</li>
+    <li><i>Hibajavítás:</i> Bejelentkezési felület elrendezés javítás</li>
+    <li><i>Hibajavítás:</i> Főkategória szűrése be/kimenőre új kategória felvitelnél</li>
+    <li><i>Hibajavítás:</i> Tervezés listában összeg megjelenítése előjelesen</li>
+    <li><i>Fejlesztés:</i> Tételrögzítéshez kiegészítő adat hozzáadása</li>
+    <li><i>Fejlesztés:</i> kiegészítő adat megjelenítése és kereshetősége</li>
+</p>
+
 <H1>1.09</H1>
 <p>
     <li><i>Fejlesztés:</i> Új alkalmazásikon</li>
@@ -5,7 +25,7 @@
 
 <H1>1.08</H1>
 <p>
-    <li><i>Fejlesztés:</i> Tétellista keresés kibővítése kategóri névre</li>
+    <li><i>Fejlesztés:</i> Tétellista keresés kibővítése kategória névre</li>
 </p>
 
 <H1>1.07</H1>

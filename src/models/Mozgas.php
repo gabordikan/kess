@@ -23,7 +23,7 @@ class Mozgas extends ActiveRecord
         return [
             // username and password are both required
             [['penztarca_id', 'felhasznalo', 'osszeg', 'tipus', 'kategoria_id'], 'required'],
-            [['penztarca_id', 'tipus', 'kategoria_id', 'osszeg', 'felhasznalo'], 'safe'],
+            [['penztarca_id', 'tipus', 'kategoria_id', 'osszeg', 'felhasznalo', 'megjegyzes'], 'safe'],
             [['datum'], 'default', 'value' => date('Y-m-d')],
             // rememberMe must be a boolean value
             ['osszeg', 'number'],
@@ -59,6 +59,7 @@ class Mozgas extends ActiveRecord
             'tipus' => 'Típus',
             'kategoria_id' => 'Kategória',
             'osszeg' => 'Összeg',
+            'megjegyzes' => 'Megjegyzés',
         );
     }
 

@@ -7,6 +7,7 @@
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
 use yii\jui\DatePicker;
+use app\widgets\MyDatePicker;
 use app\models\Kategoriak;
 use app\models\Penztarca;
 
@@ -55,27 +56,26 @@ else {
 
             <div class="form-group">
                 <div>
-                    <?= Html::button('Töröl', ['class' => 'btn btn-secondary', 'name' => '1000-button', 'value' => 0]) ?> 
-                    <?= Html::button('500', ['class' => 'btn btn-secondary', 'name' => '1000-button', 'value' => 500]) ?>
-                    <?= Html::button('1 000', ['class' => 'btn btn-secondary', 'name' => '1000-button', 'value' => 1000]) ?>
-                    <?= Html::button('2 000', ['class' => 'btn btn-secondary', 'name' => '1000-button', 'value' => 2000]) ?> 
-                    <?= Html::button('5 000', ['class' => 'btn btn-secondary', 'name' => '5000-button', 'value' => 5000]) ?>
-                </div>
-                <BR/>
-                <div>
-                    <?= Html::button('10 000', ['class' => 'btn btn-secondary', 'name' => '10000-button', 'value' => 10000]) ?>
-                    <?= Html::button('20 000', ['class' => 'btn btn-secondary', 'name' => '10000-button', 'value' => 20000]) ?>
-                    <?= Html::button('50 000', ['class' => 'btn btn-secondary', 'name' => '50000-button', 'value' => 50000]) ?>
-                    <?= Html::button('100 000', ['class' => 'btn btn-secondary', 'name' => '100000-button', 'value' => 100000]) ?>
+                    <?= Html::button('Töröl', ['class' => 'btn btn-secondary mb-3', 'name' => '1000-button', 'value' => 0]) ?>
+                    <?= Html::button('Plan', ['style'=>'display: none', 'class' => 'btn btn-success mb-3', 'name' => 'plan-button', 'value' => 0]) ?>
+                    <?= Html::button('500', ['class' => 'btn btn-secondary mb-3', 'name' => '1000-button', 'value' => 500]) ?>
+                    <?= Html::button('1 000', ['class' => 'btn btn-secondary mb-3', 'name' => '1000-button', 'value' => 1000]) ?>
+                    <?= Html::button('2 000', ['class' => 'btn btn-secondary mb-3', 'name' => '1000-button', 'value' => 2000]) ?> 
+                    <?= Html::button('5 000', ['class' => 'btn btn-secondary mb-3', 'name' => '5000-button', 'value' => 5000]) ?>
+                    <?= Html::button('10 000', ['class' => 'btn btn-secondary mb-3', 'name' => '10000-button', 'value' => 10000]) ?>
+                    <?= Html::button('20 000', ['class' => 'btn btn-secondary mb-3', 'name' => '10000-button', 'value' => 20000]) ?>
+                    <?= Html::button('50 000', ['class' => 'btn btn-secondary mb-3', 'name' => '50000-button', 'value' => 50000]) ?>
+                    <?= Html::button('100 000', ['class' => 'btn btn-secondary mb-3', 'name' => '100000-button', 'value' => 100000]) ?>
                 </div>
             </div>
-
-            <br/><br/>
+            <?= $form->field($model, 'megjegyzes')->textarea() ?>
+            <br/>
 
             <div class="form-group">
                 <div>
-                    <?= Html::button('Plan', ['style'=>'display: none', 'class' => 'btn btn-success', 'name' => 'plan-button', 'value' => 0]) ?>
-                    <?= Html::submitButton('Mentés', ['class' => 'btn btn-primary', 'name' => 'save-button']) ?>
+                    <?= Html::button('<i class="fa-solid fa-message"></i>', ['style'=>'', 'class' => 'btn btn-success mb-3', 'name' => 'comment-button', 'value' => 0]) ?>
+                    
+                    <?= Html::submitButton('Mentés', ['class' => 'btn btn-primary mb-3', 'name' => 'save-button']) ?>
                 </div>
             </div>
 
@@ -83,6 +83,19 @@ else {
     </div>
 
     <script>
+
+        var comment_button = document.getElementsByName('comment-button')[0];
+        var comment_textarea = document.querySelector('#recordkess-form > div.mb-3.row.field-mozgas-megjegyzes');
+        comment_textarea.style.display = 'none';
+
+        comment_button.addEventListener('click', function(evt) {
+            if (comment_textarea.style.display == '') {
+                comment_textarea.style.display = 'none';
+            } else {
+                comment_textarea.style.display = '';
+            }
+        });
+
         var penztarca = document.getElementsByName('Mozgas[tipus]')[0];
         penztarca.addEventListener("change", function(evt) {
             var penztarca_id = document.getElementsByName('Mozgas[penztarca_id]')[0].value;
