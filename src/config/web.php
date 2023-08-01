@@ -33,9 +33,9 @@ $config = [
             'useFileTransport' => false,
             'transport' => [
                 'scheme' => 'smtp',
-                'host' => 'webmail.wombex.com',
-                'username' => 'dix@dix.hu',
-                'password' => 'Tr4ub1s0d4',
+                'host' => getenv('SMTP_HOST'),
+                'username' => getenv('SMTP_USER'),
+                'password' => getenv('SMTP_PASSWORD'),
                 'port' => 587,
                 'encryption' => 'tls',
             ],
