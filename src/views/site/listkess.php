@@ -4,14 +4,16 @@
 
 use yii\bootstrap5\Html;
 
+use fedemotta\datatables\DataTables;
+
 use app\models\Kategoriak;
 use app\models\Penztarca;
 use app\models\Mozgas;
+use app\models\MozgasSearch;
+use app\widgets\Cor4DataTables\Cor4DataTables;
 use app\widgets\MyDatePicker;
-use Codeception\PHPUnit\ResultPrinter\HTML as ResultPrinterHTML;
 use yii\grid\GridView;
 use yii\data\ActiveDataProvider;
-use yii\grid\SerialColumn;
 use yii\grid\DataColumn;
 use yii\grid\ActionColumn;
 
@@ -30,7 +32,42 @@ if (Yii::$app->user->isGuest) {
 <?php
 }
 else {
-    $penztarcak = Penztarca::getPenztarcak();
+
+
+    $searchModel = new MozgasSearch();
+    $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+?>
+<?= Cor4DataTables::widget([
+    'dataProvider' => $dataProvider,
+    'filterModel' => $searchModel,
+    'columns' => [
+        [
+            'class' => DataColumn::class, // this line is optional
+            'value' => function ($model, $key, $index, $column) {
+                $kategoria = Kategoriak::findOne([ 'id' => $model->kategoria_id]);
+                return $model->datum.' <BR><b>'.$kategoria->fokategoria."/".$kategoria->nev.'</B><BR><i>'.$model->megjegyzes.'</i>'; 
+            },
+            'format' => 'raw',
+            'label' => 'Tétel',
+        ],
+        [
+            'class' => DataColumn::class, // this line is optional
+            'value' => function ($model, $key, $index, $column) {
+                return $model->tipus * $model->osszeg; 
+            },
+            'format' => ['currency', 'HUF'],
+            'label' => 'Összeg',
+            'contentOptions' => ['style'=>'text-align: right; white-space: nowrap !important'],
+        ],
+
+        ['class' => 'yii\grid\ActionColumn'],
+    ],
+]);?>
+
+<?php
+
+
+ /*   $penztarcak = Penztarca::getPenztarcak();
     $penztarca_id = $penztarca_id ?? array_key_first($penztarcak);
 
     echo '<span style="display: inline-block; margin-right: 10px; margin-bottom: 5px;">'.Html::label('Pénztárca:').'&nbsp;'.Html::dropDownList('penztarca', $penztarca_id , $penztarcak, ['style' => 'width:240px !important; display: ;']).'</span>';
@@ -162,3 +199,9 @@ else {
         }
     });
 </script>
+
+<?php
+
+*/
+}
+?>
