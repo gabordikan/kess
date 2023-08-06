@@ -26,38 +26,16 @@ class m230602_103200_user_table extends Migration
             PRIMARY KEY (`id`)
           ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci")->execute();
 
-          $this->db->createCommand("
+        $this->db->createCommand("
             INSERT INTO user set 
                 id=1,
                 username='admin',
-                password='" .password_hash('Rek0Gaq3Lud3Gut6',PASSWORD_DEFAULT,[])."',
+                password='" .password_hash('password',PASSWORD_DEFAULT,[])."',
                 authKey='kesskeyadmin',
                 accessToken='".md5(User::randomString())."',
                 email='dix@dix.hu',
                 phone='+36305522193'
-          ")->execute();
-
-          $this->db->createCommand("
-          INSERT INTO user set 
-              id=100,
-              username='dikan',
-              password='" .password_hash('Tr4ub1s0d$',PASSWORD_DEFAULT,[])."',
-              authKey='kesskeydikan',
-              accessToken='".md5(User::randomString())."',
-              email='gabor@dikan.hu',
-              phone='+36305522193'
         ")->execute();
-
-        $this->db->createCommand("
-        INSERT INTO user set 
-            id=101,
-            username='juli',
-            password='".password_hash('C43s4r78_',PASSWORD_DEFAULT,[])."',
-            authKey='kesskeyjuli',
-            accessToken='".md5(User::randomString())."',
-            email='julimedest78@gmail.com',
-            phone='+36303359686'
-      ")->execute();
     }
 
     /**
