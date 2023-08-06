@@ -7,6 +7,7 @@ use app\models\Penztarca;
 use app\models\Terv;
 use app\models\Mozgas;
 use yii\grid\GridView;
+use yii\data\ArrayDataProvider;
 use yii\data\ActiveDataProvider;
 use yii\grid\SerialColumn;
 use yii\grid\DataColumn;
@@ -16,6 +17,7 @@ use yii\jui\DatePicker;
 
 use app\models\ChartJs;
 use yii\helpers\Html;
+
 
     echo "<BR><H1><i class='fa-solid fa-arrow-right-arrow-left'>&nbsp;</i>Bevétel/Kiadás</H1>";
 
@@ -133,46 +135,137 @@ use yii\helpers\Html;
     }
 
     echo "<div>";
-    echo "<BR><H1><i class='fa-solid fa-pen-to-square'>&nbsp;</i>Terv</H1>";
 
-    $dataProvider = new ActiveDataProvider([
-        'query' => Kategoriak::find()
-            ->where(['felhasznalo' => Yii::$app->user->id])
-            ->groupBy('tipus'),
-    ]);
+    if (date('Y-m') == $idoszak) {
 
-    echo GridView::widget([
-        'showHeader' => false,
-        'id' => 'planChart'.$deviza,
-        'summary' => '',
-        'columns' => [
-            [
-                'class' => DataColumn::class, // this line is optional
-                'value' => function ($model, $key, $index, $column) {
-                    return $model->tipus; 
-                },
-                'format' => 'text',
-                'label' => '',
+        echo "<BR><H1><i class='fa-solid fa-bars'>&nbsp;</i>Prognózis</H1>";
+
+        $tervezettbevetel = 0;
+
+        $kategoriakBevetelSumTerv = Kategoriak::getSumTerv('Bevétel', $tol, $ig, $deviza);
+        $kategoriakBevetelSumTeny = Kategoriak::getSumTeny('Bevétel', $tol, $ig, $deviza);
+
+        foreach( array_values($kategoriakBevetelSumTerv) as $index => $value) {
+            $kat_egyenleg = $value - array_values($kategoriakBevetelSumTeny)[$index];
+            if ($kat_egyenleg < 0) $kat_egyenleg = 0;
+            $tervezettbevetel += $kat_egyenleg;
+        }
+
+        $tervezettkiadas = 0;
+
+        $kategoriakKiadasSumTerv = Kategoriak::getSumTerv('Kiadás', $tol, $ig, $deviza);
+        $kategoriakKiadasSumTeny = Kategoriak::getSumTeny('Kiadás', $tol, $ig, $deviza);
+
+        foreach( array_values($kategoriakKiadasSumTerv) as $index => $value) {
+            $kat_egyenleg = $value - array_values($kategoriakKiadasSumTeny)[$index];
+            if ($kat_egyenleg < 0) $kat_egyenleg = 0;
+            $tervezettkiadas += $kat_egyenleg;
+        }
+
+        $tervezettegyenleg = Penztarca::getOsszEgyenleg($deviza) + $tervezettbevetel - $tervezettkiadas;
+
+        /*echo "<div><H3>Tervezett bevétel: ".
+            Yii::$app->formatter->asCurrency(
+                $tervezettbevetel, $deviza
+        )."</H3></div>";
+
+        echo "<div><H3>Tervezett kiadás: ".
+            Yii::$app->formatter->asCurrency(
+                $tervezettkiadas, $deviza
+        )."</H3></div>";
+
+        echo "<div><H3>Tervezett egyenleg: ".
+            Yii::$app->formatter->asCurrency(
+                $tervezettegyenleg, $deviza
+        )."</H3></div>";*/
+
+        $dataProvider = new ArrayDataProvider([
+            'allModels' => [
+                [
+                    'tipus' => 'Bevétel',
+                    'osszeg' => $tervezettbevetel,
+                ],
+                [
+                    'tipus' => 'Kiadás',
+                    'osszeg' => $tervezettkiadas,
+
+                ],
+                [
+                    'tipus' => 'Egyenleg',
+                    'osszeg' => $tervezettegyenleg,
+
+                ],
             ],
-            [
-                'class' => DataColumn::class, // this line is optional
-                'value' => function ($model, $key, $index, $column) use ($deviza) {
-                    $idoszak = empty(Yii::$app->request->get('idoszak'))? date('Y-m') : Yii::$app->request->get('idoszak');
-                    return Terv::getTervSum($model->tipus, $idoszak, $idoszak, $deviza);
-                },
-                'format' => ['currency',$deviza],
-                'label' => 'Terv',
-                'contentOptions' => ['style'=>'text-align: right'],
+        ]);
+
+        echo GridView::widget([
+            'showHeader' => false,
+            'id' => 'planChart'.$deviza,
+            'summary' => '',
+            'columns' => [
+                [
+                    'class' => DataColumn::class, // this line is optional
+                    'value' => function ($model, $key, $index, $column) {
+                        return $model['tipus']; 
+                    },
+                    'format' => 'text',
+                    'label' => '',
+                ],
+                [
+                    'class' => DataColumn::class, // this line is optional
+                    'value' => function ($model, $key, $index, $column) use ($deviza) {
+                        return $model['osszeg'];
+                    },
+                    'format' => ['currency',$deviza],
+                    'label' => 'Terv',
+                    'contentOptions' => ['style'=>'text-align: right'],
+                ],
             ],
-        ],
-        'dataProvider' => $dataProvider,
-    ]);
+            'dataProvider' => $dataProvider,
+        ]);
 
-    echo "<div><H3>Összesen: ".
-        Yii::$app->formatter->asCurrency(
-            Terv::getTervSum('Bevétel', $idoszak, $idoszak, $deviza) - Terv::getTervSum('Kiadás', $idoszak, $idoszak, $deviza), $deviza
-    )."</H3></div>";
+    } else {
 
+        echo "<BR><H1><i class='fa-solid fa-pen-to-square'>&nbsp;</i>Terv</H1>";
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => Kategoriak::find()
+                ->where(['felhasznalo' => Yii::$app->user->id])
+                ->groupBy('tipus'),
+        ]);
+
+        echo GridView::widget([
+            'showHeader' => false,
+            'id' => 'planChart'.$deviza,
+            'summary' => '',
+            'columns' => [
+                [
+                    'class' => DataColumn::class, // this line is optional
+                    'value' => function ($model, $key, $index, $column) {
+                        return $model->tipus; 
+                    },
+                    'format' => 'text',
+                    'label' => '',
+                ],
+                [
+                    'class' => DataColumn::class, // this line is optional
+                    'value' => function ($model, $key, $index, $column) use ($deviza) {
+                        $idoszak = empty(Yii::$app->request->get('idoszak'))? date('Y-m') : Yii::$app->request->get('idoszak');
+                        return Terv::getTervSum($model->tipus, $idoszak, $idoszak, $deviza);
+                    },
+                    'format' => ['currency',$deviza],
+                    'label' => 'Terv',
+                    'contentOptions' => ['style'=>'text-align: right'],
+                ],
+            ],
+            'dataProvider' => $dataProvider,
+        ]);
+
+        echo "<div><H3>Összesen: ".
+            Yii::$app->formatter->asCurrency(
+                Terv::getTervSum('Bevétel', $idoszak, $idoszak, $deviza) - Terv::getTervSum('Kiadás', $idoszak, $idoszak, $deviza), $deviza
+        )."</H3></div>";
+    }
     echo "</div<div>";
 
     echo "<BR><H1><i class='fa-solid fa-arrow-left'>&nbsp;</i>Terv/Tény (Bevétel)</H1>";
@@ -306,5 +399,5 @@ use yii\helpers\Html;
     } else {
         echo "<p>Nincs adat";
     }
+    echo "</div>";
 ?>
-</div>
