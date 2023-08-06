@@ -203,7 +203,7 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionRecordkess($penztarca_id = null, $tipus = null, $update_id = null)
+    public function actionRecordkess($penztarca_id = null, $tipus = null, $update_id = null, $datum = null)
     {
         $model = new Mozgas();
         $model->tipus = -1;
@@ -221,7 +221,7 @@ class SiteController extends Controller
             if ($update_id) {
                 return $this->redirect("/site/listkess?idoszak=".substr($model->datum,0,7)."&penztarca_id=".$model->penztarca_id);
             } else {
-                return $this->redirect("/site/recordkess?penztarca_id=".$model->penztarca_id);
+                return $this->redirect("/site/recordkess?penztarca_id=".$model->penztarca_id."&datum=".$model->datum);
             }
         } 
 
@@ -231,6 +231,10 @@ class SiteController extends Controller
         if ($tipus) {
             $model->tipus = $tipus;
         }
+        if ($datum) {
+            $model->datum = $datum;
+        }
+
         return $this->render('recordkess',[
             'model' => $model,
             'penztarca_id' => $penztarca_id,
