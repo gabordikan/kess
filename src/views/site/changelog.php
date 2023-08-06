@@ -5,6 +5,12 @@
     <li><i>Fejlesztés:</i> Ikonok hozzáadása kategóriához</li>
 </p>
 
+<H1>1.11</H1>
+<p>
+    <li><i>Hibajavítás:</i> Rögzítésnél megjegyzi a dátumot</li>
+    <li><i>Fejlesztés:</i> Főoldalon várható egyenleg megjelenítése</li>
+</p>
+
 <H1>1.10</H1>
 <p>
     <li><i>Fejlesztés:</i> Logo megjelenítése banknév alapján
