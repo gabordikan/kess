@@ -134,7 +134,7 @@ class Penztarca extends ActiveRecord
 
         foreach ($logok as $bank=>$logo) {
             if (strpos($penztarca, $bank) !== false) {
-                return "<span style='display: inline-block; width: 60px;'><img src='".self::$logo_basedir.$logo."' height='16'></span>";
+                return "<span style='display: inline-block'>&nbsp;<img src='".self::$logo_basedir.$logo."' height='16'></span>";
             }
         }
 
