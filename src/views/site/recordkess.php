@@ -195,6 +195,7 @@ else {
                     var category_selector = document.getElementsByName('Mozgas[kategoria_id]')[0];
                     console.log(evt.target.value);
                     category_selector.value = evt.target.value;
+                    category_selector.dispatchEvent(new Event('change'));
             });
         });
     </script>
