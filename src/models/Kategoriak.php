@@ -222,4 +222,21 @@ class Kategoriak extends ActiveRecord
         return $kat_arr;
     }
 
+    public static function getMostUsedKategoriak($tipus = 'Kiadás') {
+        $kategoriak = Yii::$app->db->createCommand("
+            SELECT kategoria_id as id, kategoriak.nev as nev, count(kategoria_id) c
+                FROM mozgas
+                LEFT JOIN kategoriak on kategoriak.id = mozgas.kategoria_id
+                WHERE mozgas.felhasznalo = :felhasznalo
+                    AND mozgas.tipus = :tipus
+                    AND mozgas.torolt = 0
+                GROUP BY kategoria_id
+                ORDER BY c DESC
+                LIMIT 0, 3
+                ")
+                ->bindValues([':felhasznalo' => Yii::$app->user->id, ':tipus' => ($tipus == 'Bevétel' ? 1 : -1)])
+                ->queryAll();
+        return $kategoriak;
+    }
+
 }
