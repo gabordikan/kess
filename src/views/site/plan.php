@@ -9,7 +9,7 @@ use yii\jui\DatePicker;
 use app\models\Kategoriak;
 use app\models\Terv;
 use app\models\Penztarca;
-
+use app\widgets\MyDatePicker;
 use yii\grid\GridView;
 use yii\data\ActiveDataProvider;
 use yii\grid\SerialColumn;
@@ -42,7 +42,7 @@ else {
     <?php $form = ActiveForm::begin([
         'action' => ['site/plan','update_id' => $model->id, 'idoszak' => $idoszak],
         'id' => 'recordplan-form',
-        'layout' => 'horizontal',
+        'layout' => 'inline',
         'fieldConfig' => [
             'template' => "{label}\n{input}\n{error}",
             'labelOptions' => ['class' => 'col-lg-1 col-form-label mr-lg-3'],
@@ -51,7 +51,10 @@ else {
         ],
     ]); ?>
 
-        <?= $form->field($model, 'idoszak')->widget(DatePicker::classname(), [
+        <?= $form->field($model, 'idoszak')->widget(MyDatePicker::classname(), [
+            'options' => [
+                'style' => 'width: 120px',
+            ],
             'dateFormat' => 'yyyy-MM',
             'clientOptions' => [
                 'onSelect' => new \yii\web\JsExpression("function(dateText, inst) {

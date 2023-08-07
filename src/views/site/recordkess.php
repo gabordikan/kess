@@ -11,6 +11,9 @@ use app\widgets\MyDatePicker;
 use app\models\Kategoriak;
 use app\models\Penztarca;
 
+use kartik\select2\Select2;
+use yii\web\JsExpression;
+
 $this->title = 'Rögzítés';
 
 if (Yii::$app->user->isGuest) {
@@ -27,7 +30,7 @@ else {
         <?php $form = ActiveForm::begin([
             'action' => ['site/recordkess','update_id' => $model->id],
             'id' => 'recordkess-form',
-            'layout' => 'horizontal',
+            'layout' => 'inline',
             'fieldConfig' => [
                 'template' => "{label}\n{input}\n{error}",
                 'labelOptions' => ['class' => 'col-lg-1 col-form-label mr-lg-3'],
@@ -36,21 +39,90 @@ else {
             ],
         ]); ?>
 
-            <?= $form->field($model, 'datum')->widget(DatePicker::classname(), [
+            <?= $form->field($model, 'datum')->widget(MyDatePicker::classname(), [
                 'dateFormat' => 'yyyy-MM-dd',
+                'options' => [
+                    'style' => 'width: 120px;'
+                ],
             ]) ?>
 
-            <?= $form->field($model, 'penztarca_id')->dropDownList(
-                Penztarca::getPenztarcak(),
-                ['autofocus' => true]) ?>
+            <?= //$form->field($model, 'penztarca_id')->dropDownList(
+                //Penztarca::getPenztarcak(),
+                //['autofocus' => true]) 
+                ''?>
 
-            <?= $form->field($model, 'tipus')->dropDownList(
-                    [1 => 'Bevétel', -1 => 'Kiadás'],
-                []) ?>
+            <?php
+                $penztarcak = Penztarca::getPenztarcak();
+                foreach ($penztarcak as $key => $penztarca) {
+                    $penztarcak[$key] = Penztarca::getLogo($penztarca).$penztarca;
+                }
+            ?>
+            <?= $form->field($model, 'penztarca_id')->widget(Select2::classname(),[
+                'data' => $penztarcak,
+                'value' => $model->penztarca_id,
+                'hideSearch' => true,
+                'options' => [
+                ],
+                'pluginOptions' => [
+                    'theme' => Select2::THEME_KRAJEE,
+                    'width' => '100%;',
+                    'allowClear' => false,
+                    //'minimumInputLength' => 1,
+                    //'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                    'templateResult' => new JsExpression('function (state) {if (!state.id) return state.text; // optgroup
+                        return state.text;}'),
+                    'escapeMarkup' => new JsExpression('function (m) {return m;}'),
+                    //'templateSelection' => new JsExpression('function () {}'),
+                ],
+                'pluginEvents' => [
+                    'change' => "function(evt) {
+                        var penztarca_id = document.getElementsByName('Mozgas[penztarca_id]')[0].value;
+                        var tipus = document.getElementsByName('Mozgas[tipus]')[0].value;
+                        window.location.href = '/site/recordkess?penztarca_id='+penztarca_id+'&tipus=' + tipus" . ($update_id != null ? '&update_id='.$update_id : '') . "}",
+                ],
+            ]) ?>
 
-            <?= $form->field($model, 'kategoria_id')->dropDownList(
-                    $kategoriak,
-                []) ?>
+            <?= $form->field($model, 'tipus')->widget(Select2::classname(),[
+                'data' => [1 => "<i class='fa-solid fa-arrow-left'></i>&nbsp;Bevétel", -1 => "<i class='fa-solid fa-arrow-right'>&nbsp;</i>Kiadás"],
+                'value' => $model->tipus,
+                'hideSearch' => true,
+                'pluginOptions' => [
+                    'escapeMarkup' => new JsExpression('function (m) {return m;}'),
+
+                ],
+                'pluginEvents' => [
+                    'change' => "function(evt) {
+                        var penztarca_id = document.getElementsByName('Mozgas[penztarca_id]')[0].value;
+                        var tipus = document.getElementsByName('Mozgas[tipus]')[0].value;
+                        window.location.href = '/site/recordkess?penztarca_id='+penztarca_id+'&tipus=' + tipus" . ($update_id != null ? '&update_id='.$update_id : '') . "}",
+                ],
+            ]) ?>
+
+            <?php 
+                //var_dump($kategoriak); die();
+            ?>
+
+            <?= Html::label("Kategória","Mozgas[kategoria_id]", ['class' => 'col-lg-1 col-form-label mr-lg-3'])
+            .Select2::widget([
+                'name' => 'Mozgas[kategoria_id]',
+                'data' => $kategoriak,
+                'pluginEvents' => [
+                    'change' => "function(evt) {
+                        if (parseInt(planValues[evt.target.value]) != 0
+                            && !isNaN(parseInt(planValues[evt.target.value]))
+                            ) {
+                            document.getElementsByName('plan-button')[0].value = planValues[evt.target.value];
+                            document.getElementsByName('plan-button')[0].innerText = planValues[evt.target.value];
+                            document.getElementsByName('plan-button')[0].style.display = '';
+                        } else {
+                            document.getElementsByName('plan-button')[0].style.display = 'none';
+                            document.getElementsByName('plan-button')[0].innerText = '';
+                            document.getElementsByName('plan-button')[0].value = 0;
+                        }
+                    }",
+                ],
+            ], ['class' => 'col-lg-3 form-control'])
+            .Html::error($model, 'kategoria_id', ['class' => 'col-lg-7 invalid-feedback'])."<BR/>" ?>
 
             <div class="form-group">
                 <div>
@@ -99,7 +171,7 @@ else {
     <script>
 
         var comment_button = document.getElementsByName('comment-button')[0];
-        var comment_textarea = document.querySelector('#recordkess-form > div.mb-3.row.field-mozgas-megjegyzes');
+        var comment_textarea = document.querySelector('#recordkess-form > div.mb-3.field-mozgas-megjegyzes');
         comment_textarea.style.display = 'none';
 
         comment_button.addEventListener('click', function(evt) {
@@ -108,27 +180,6 @@ else {
             } else {
                 comment_textarea.style.display = '';
             }
-        });
-
-        var penztarca_selector = document.getElementsByName('Mozgas[penztarca_id]')[0];
-        penztarca_selector.addEventListener("change", function(evt) {
-            var penztarca_id = document.getElementsByName('Mozgas[penztarca_id]')[0].value;
-            var tipus = document.getElementsByName('Mozgas[tipus]')[0].value;
-            window.location.href = '/site/recordkess?penztarca_id='+penztarca_id+'&tipus=' + tipus <?php
-                if ($update_id) {
-                    echo '&update_id='.$update_id;
-                }
-            ?>;
-        });
-
-        var tipus_selector = document.getElementsByName('Mozgas[tipus]')[0];
-        tipus_selector.addEventListener("change", function(evt) {
-            var penztarca_id = document.getElementsByName('Mozgas[penztarca_id]')[0].value;
-            window.location.href = '/site/recordkess?penztarca_id='+penztarca_id+'&tipus=' + evt.target.value <?php
-                if ($update_id) {
-                    echo '&update_id='.$update_id;
-                }
-            ?>;
         });
 
         var buttons = document.getElementsByName('amount-button');
@@ -154,34 +205,18 @@ else {
 <?php
     $planValues = [];
 
-    foreach ($kategoriak as $tipusok) {
-        foreach ($tipusok as $fokategoriak) {
-            foreach ($fokategoriak as $id => $kategoria) {
-                $planValues[$id] = 
-                    Kategoriak::getKategoriaSumTerv($id, date('Y-m'), date('Y-m'))
-                        - Kategoriak::getKategoriaSumTeny($id, date('Y-m-01'), date('Y-m-31')) < 0 
-                    ? 0
-                    : Kategoriak::getKategoriaSumTerv($id, date('Y-m'), date('Y-m'))
-                        - Kategoriak::getKategoriaSumTeny($id, date('Y-m-01'), date('Y-m-31'));
-            }
+    foreach ($kategoriak as $fokategoriak) {
+        foreach ($fokategoriak as $id => $kategoria) {
+            $planValues[$id] = 
+                Kategoriak::getKategoriaSumTerv($id, date('Y-m'), date('Y-m'))
+                    - Kategoriak::getKategoriaSumTeny($id, date('Y-m-01'), date('Y-m-31')) < 0 
+                ? 0
+                : Kategoriak::getKategoriaSumTerv($id, date('Y-m'), date('Y-m'))
+                    - Kategoriak::getKategoriaSumTeny($id, date('Y-m-01'), date('Y-m-31'));
         }
     }
     echo json_encode($planValues);
 ?>;
-
-        document.getElementsByName('Mozgas[kategoria_id]')[0].addEventListener("change",function(evt) {
-            if (parseInt(planValues[evt.target.value]) != 0
-                && !isNaN(parseInt(planValues[evt.target.value]))
-                ) {
-                document.getElementsByName('plan-button')[0].value = planValues[evt.target.value];
-                document.getElementsByName('plan-button')[0].innerText = planValues[evt.target.value];
-                document.getElementsByName('plan-button')[0].style.display = '';
-            } else {
-                document.getElementsByName('plan-button')[0].style.display = 'none';
-                document.getElementsByName('plan-button')[0].innerText = '';
-                document.getElementsByName('plan-button')[0].value = 0;
-            }
-        });
 
         document.getElementsByName('plan-button')[0].addEventListener("click", function(evt) {
                     var osszeg_selector = document.getElementsByName('Mozgas[osszeg]')[0];
