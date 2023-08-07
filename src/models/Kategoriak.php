@@ -98,7 +98,7 @@ class Kategoriak extends ActiveRecord
         $kat_arr = [];
 
         foreach ($kategoriak as $id=>$arr) {
-            $kat_arr[$arr->tipus][$arr->fokategoria][$arr->id] = $arr->nev;
+            $kat_arr[$arr->fokategoria][$arr->id] = $arr->nev;
         }
 
         return $kat_arr;

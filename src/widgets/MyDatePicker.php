@@ -76,7 +76,9 @@ class MyDatePicker extends DatePicker {
             }
         }
         $options = $this->options;
-        $options['style'] = "width: 80px;";
+        if (empty($options['style'])) {
+            $options['style'] = "width: 90px;";
+        }
         $options['value'] = $value;
 
         if ($this->inline === false) {
