@@ -43,6 +43,11 @@ class Mozgas extends ActiveRecord
         return parent::beforeValidate();
     }
 
+    public function beforeSave($insert)
+    {
+        return parent::beforeSave($insert);
+    }
+
     /**
      * @return string
      */

@@ -33,6 +33,8 @@ else {
     $penztarcak = Penztarca::getPenztarcak();
     $penztarca_id = $penztarca_id ?? array_key_first($penztarcak);
 
+    $deviza = Penztarca::findOne($penztarca_id)->deviza;
+
     echo '<span style="display: inline-block; margin-right: 10px; margin-bottom: 5px;">'.Html::label('Pénztárca:').'&nbsp;'.Html::dropDownList('penztarca', $penztarca_id , $penztarcak, ['style' => 'width:240px !important; display: ;']).'</span>';
     echo '<span style="display: inline-block; margin-right: 10px; margin-bottom: 5px;">'.Html::label('Időszak: ')."&nbsp;".MyDatePicker::widget([
         'id' => 'idoszakselector',
@@ -113,7 +115,7 @@ else {
                     'value' => function ($model, $key, $index, $column) {
                         return $model->tipus * $model->osszeg; 
                     },
-                    'format' => ['currency', 'HUF'],
+                    'format' => ['currency', $deviza],
                     'label' => 'Összeg',
                     'contentOptions' => ['style'=>'text-align: right; white-space: nowrap !important'],
                 ],
