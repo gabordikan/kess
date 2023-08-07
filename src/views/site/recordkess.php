@@ -78,7 +78,7 @@ else {
                     'change' => "function(evt) {
                         var penztarca_id = document.getElementsByName('Mozgas[penztarca_id]')[0].value;
                         var tipus = document.getElementsByName('Mozgas[tipus]')[0].value;
-                        window.location.href = '/site/recordkess?penztarca_id='+penztarca_id+'&tipus=' + tipus" . ($update_id != null ? '&update_id='.$update_id : '') . "}",
+                        window.location.href = '/site/recordkess?penztarca_id='+penztarca_id+'&tipus=' + tipus" . ($update_id != null ? "+'&update_id=".$update_id."'" : "") . "}",
                 ],
             ]) ?>
 
@@ -94,7 +94,7 @@ else {
                     'change' => "function(evt) {
                         var penztarca_id = document.getElementsByName('Mozgas[penztarca_id]')[0].value;
                         var tipus = document.getElementsByName('Mozgas[tipus]')[0].value;
-                        window.location.href = '/site/recordkess?penztarca_id='+penztarca_id+'&tipus=' + tipus" . ($update_id != null ? '&update_id='.$update_id : '') . "}",
+                        window.location.href = '/site/recordkess?penztarca_id='+penztarca_id+'&tipus=' + tipus" . ($update_id != null ? "+'&update_id=".$update_id."'" : "") . "}",
                 ],
             ]) ?>
 
