@@ -7,6 +7,7 @@
 <p>
     <li><i>Fejlesztés:</i> Rögzítésnél a pénztárca ikonok megjelenítése</li>
     <li><i>Fejlesztés:</i> Rögzítésnél a kategóriák kereshetősége</li>
+    <li><i>Hibajavítás:</i> Tétellistában a megfelelő deviza megjelenítése</li>
 </p>
 
 <H1>1.12</H1>
