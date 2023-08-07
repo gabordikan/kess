@@ -55,10 +55,10 @@ else {
             <div class="form-group">
                 <div>
                 <?php 
-                    $most_used_categories = Kategoriak::getMostUsedKategoriak($tipus);
+                    $most_used_categories = Kategoriak::getMostUsedKategoriak($tipus, $model->penztarca_id);
                     $cat_buttons = "";
                     foreach ($most_used_categories as $category) {
-                        $cat_name = $category['nev']."(".$category['c'].")";
+                        $cat_name = $category['nev'];
                         $cat_buttons .= " ".Html::button($cat_name, ['class' => 'btn btn-secondary mb-3', 'name' => 'category-button', 'value' => $category['id']]);
                     }
                     echo $cat_buttons;
@@ -110,8 +110,19 @@ else {
             }
         });
 
-        var penztarca = document.getElementsByName('Mozgas[tipus]')[0];
-        penztarca.addEventListener("change", function(evt) {
+        var penztarca_selector = document.getElementsByName('Mozgas[penztarca_id]')[0];
+        penztarca_selector.addEventListener("change", function(evt) {
+            var penztarca_id = document.getElementsByName('Mozgas[penztarca_id]')[0].value;
+            var tipus = document.getElementsByName('Mozgas[tipus]')[0].value;
+            window.location.href = '/site/recordkess?penztarca_id='+penztarca_id+'&tipus=' + tipus <?php
+                if ($update_id) {
+                    echo '&update_id='.$update_id;
+                }
+            ?>;
+        });
+
+        var tipus_selector = document.getElementsByName('Mozgas[tipus]')[0];
+        tipus_selector.addEventListener("change", function(evt) {
             var penztarca_id = document.getElementsByName('Mozgas[penztarca_id]')[0].value;
             window.location.href = '/site/recordkess?penztarca_id='+penztarca_id+'&tipus=' + evt.target.value <?php
                 if ($update_id) {
