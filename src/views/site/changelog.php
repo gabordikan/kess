@@ -1,9 +1,13 @@
 <H1>Fejlesztési tervek</H1>
 <p>
-    <li><i>Fejlesztés:</i> Kategóriák kedvencnek jelölése</li>
-    <li><i>Fejlesztés:</i> Kedvenc kategóriák választó lista tetejére</li>
     <li><i>Fejlesztés:</i> Ikonok hozzáadása kategóriához</li>
 </p>
+
+<H1>1.12</H1>
+<p>
+    <li><i>Fejlesztés:</i> Rögzítésnél a leggyakrabban használt kategóriák gyors elérése</li>
+</p>
+
 
 <H1>1.11</H1>
 <p>
