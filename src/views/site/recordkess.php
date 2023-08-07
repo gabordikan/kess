@@ -52,20 +52,34 @@ else {
                     $kategoriak,
                 []) ?>
 
+            <div class="form-group">
+                <div>
+                <?php 
+                    $most_used_categories = Kategoriak::getMostUsedKategoriak($tipus);
+                    $cat_buttons = "";
+                    foreach ($most_used_categories as $category) {
+                        $cat_name = $category['nev']."(".$category['c'].")";
+                        $cat_buttons .= " ".Html::button($cat_name, ['class' => 'btn btn-secondary mb-3', 'name' => 'category-button', 'value' => $category['id']]);
+                    }
+                    echo $cat_buttons;
+                ?>
+                </div>
+            </div>
+
             <?= $form->field($model, 'osszeg')->textInput() ?>
 
             <div class="form-group">
                 <div>
-                    <?= Html::button('Töröl', ['class' => 'btn btn-secondary mb-3', 'name' => '1000-button', 'value' => 0]) ?>
+                    <?= Html::button('Töröl', ['class' => 'btn btn-secondary mb-3', 'name' => 'amount-button', 'value' => 0]) ?>
                     <?= Html::button('Plan', ['style'=>'display: none', 'class' => 'btn btn-success mb-3', 'name' => 'plan-button', 'value' => 0]) ?>
-                    <?= Html::button('500', ['class' => 'btn btn-secondary mb-3', 'name' => '1000-button', 'value' => 500]) ?>
-                    <?= Html::button('1 000', ['class' => 'btn btn-secondary mb-3', 'name' => '1000-button', 'value' => 1000]) ?>
-                    <?= Html::button('2 000', ['class' => 'btn btn-secondary mb-3', 'name' => '1000-button', 'value' => 2000]) ?> 
-                    <?= Html::button('5 000', ['class' => 'btn btn-secondary mb-3', 'name' => '5000-button', 'value' => 5000]) ?>
-                    <?= Html::button('10 000', ['class' => 'btn btn-secondary mb-3', 'name' => '10000-button', 'value' => 10000]) ?>
-                    <?= Html::button('20 000', ['class' => 'btn btn-secondary mb-3', 'name' => '10000-button', 'value' => 20000]) ?>
-                    <?= Html::button('50 000', ['class' => 'btn btn-secondary mb-3', 'name' => '50000-button', 'value' => 50000]) ?>
-                    <?= Html::button('100 000', ['class' => 'btn btn-secondary mb-3', 'name' => '100000-button', 'value' => 100000]) ?>
+                    <?= Html::button('500', ['class' => 'btn btn-secondary mb-3', 'name' => 'amount-button', 'value' => 500]) ?>
+                    <?= Html::button('1 000', ['class' => 'btn btn-secondary mb-3', 'name' => 'amount-button', 'value' => 1000]) ?>
+                    <?= Html::button('2 000', ['class' => 'btn btn-secondary mb-3', 'name' => 'amount-button', 'value' => 2000]) ?> 
+                    <?= Html::button('5 000', ['class' => 'btn btn-secondary mb-3', 'name' => 'amount-button', 'value' => 5000]) ?>
+                    <?= Html::button('10 000', ['class' => 'btn btn-secondary mb-3', 'name' => 'amount-button', 'value' => 10000]) ?>
+                    <?= Html::button('20 000', ['class' => 'btn btn-secondary mb-3', 'name' => 'amount-button', 'value' => 20000]) ?>
+                    <?= Html::button('50 000', ['class' => 'btn btn-secondary mb-3', 'name' => 'amount-button', 'value' => 50000]) ?>
+                    <?= Html::button('100 000', ['class' => 'btn btn-secondary mb-3', 'name' => 'amount-button', 'value' => 100000]) ?>
                 </div>
             </div>
             <?= $form->field($model, 'megjegyzes')->textarea() ?>
@@ -106,25 +120,23 @@ else {
             ?>;
         });
 
-        var buttons = document.getElementsByClassName('btn btn-secondary');
+        var buttons = document.getElementsByName('amount-button');
         for (btn of buttons) {
-            if(btn.name != 'plan-button') {
-                btn.addEventListener("click", function(evt) {
-                    var osszeg_selector = document.getElementsByName('Mozgas[osszeg]')[0];
-                    if (parseInt(evt.target.value) == 0) {
-                        osszeg_selector.value = 0;
+            btn.addEventListener("click", function(evt) {
+                var osszeg_selector = document.getElementsByName('Mozgas[osszeg]')[0];
+                if (parseInt(evt.target.value) == 0) {
+                    osszeg_selector.value = 0;
+                } else {
+                    var osszeg = osszeg_selector.value;
+                    if (osszeg == "") {
+                        osszeg = 0;
                     } else {
-                        var osszeg = osszeg_selector.value;
-                        if (osszeg == "") {
-                            osszeg = 0;
-                        } else {
-                            osszeg = parseInt(osszeg);
-                        }
-                        osszeg += parseInt(evt.target.value);
-                        osszeg_selector.value = osszeg;
+                        osszeg = parseInt(osszeg);
                     }
-                });
-            }
+                    osszeg += parseInt(evt.target.value);
+                    osszeg_selector.value = osszeg;
+                }
+            });
         }
 
         var planValues = 
@@ -162,15 +174,18 @@ else {
 
         document.getElementsByName('plan-button')[0].addEventListener("click", function(evt) {
                     var osszeg_selector = document.getElementsByName('Mozgas[osszeg]')[0];
-                    var osszeg = osszeg_selector.value;
-                    if (osszeg == "") {
-                        osszeg = 0;
-                    } else {
-                        osszeg = parseInt(osszeg);
-                    }
-                    osszeg += parseInt(evt.target.value);
+                    osszeg = parseInt(evt.target.value);
                     osszeg_selector.value = osszeg;
-                });
+        });
+
+
+        document.getElementsByName('category-button').forEach(function(item) {
+            item.addEventListener("click", function(evt) {
+                    var category_selector = document.getElementsByName('Mozgas[kategoria_id]')[0];
+                    console.log(evt.target.value);
+                    category_selector.value = evt.target.value;
+            });
+        });
     </script>
     <?php
 }
