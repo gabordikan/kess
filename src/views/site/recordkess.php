@@ -106,6 +106,7 @@ else {
             .Select2::widget([
                 'name' => 'Mozgas[kategoria_id]',
                 'data' => $kategoriak,
+                'value' => $model->kategoria_id,
                 'pluginEvents' => [
                     'change' => "function(evt) {
                         if (parseInt(planValues[evt.target.value]) != 0
