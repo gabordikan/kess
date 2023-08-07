@@ -222,7 +222,7 @@ class Kategoriak extends ActiveRecord
         return $kat_arr;
     }
 
-    public static function getMostUsedKategoriak($tipus = 'Kiadás') {
+    public static function getMostUsedKategoriak($tipus = -1, $penztarca_id = 0) {
         $kategoriak = Yii::$app->db->createCommand("
             SELECT kategoria_id as id, kategoriak.nev as nev, count(kategoria_id) c
                 FROM mozgas
@@ -230,11 +230,12 @@ class Kategoriak extends ActiveRecord
                 WHERE mozgas.felhasznalo = :felhasznalo
                     AND mozgas.tipus = :tipus
                     AND mozgas.torolt = 0
+                    AND penztarca_id = :penztarca_id
                 GROUP BY kategoria_id
                 ORDER BY c DESC
                 LIMIT 0, 3
                 ")
-                ->bindValues([':felhasznalo' => Yii::$app->user->id, ':tipus' => ($tipus == 'Bevétel' ? 1 : -1)])
+                ->bindValues([':felhasznalo' => Yii::$app->user->id, ':tipus' => $tipus, ':penztarca_id' => $penztarca_id])
                 ->queryAll();
         return $kategoriak;
     }
