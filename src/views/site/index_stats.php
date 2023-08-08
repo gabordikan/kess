@@ -5,18 +5,12 @@
 use app\models\Kategoriak;
 use app\models\Penztarca;
 use app\models\Terv;
-use app\models\Mozgas;
 use yii\grid\GridView;
 use yii\data\ArrayDataProvider;
 use yii\data\ActiveDataProvider;
-use yii\grid\SerialColumn;
 use yii\grid\DataColumn;
-use yii\grid\ActionColumn;
-
-use yii\jui\DatePicker;
 
 use app\models\ChartJs;
-use yii\helpers\Html;
 
 
     echo "<BR><H1><i class='fa-solid fa-arrow-right-arrow-left'>&nbsp;</i>Bevétel/Kiadás</H1>";
@@ -138,7 +132,7 @@ use yii\helpers\Html;
 
     if (date('Y-m') == $idoszak) {
 
-        echo "<BR><H1><i class='fa-solid fa-bars'>&nbsp;</i>Prognózis</H1>";
+        echo "<BR><H1><i class='fa-solid fa-chart-line'>&nbsp;</i>Prognózis</H1>";
 
         $tervezettbevetel = 0;
 
@@ -163,21 +157,6 @@ use yii\helpers\Html;
         }
 
         $tervezettegyenleg = Penztarca::getOsszEgyenleg($deviza) + $tervezettbevetel - $tervezettkiadas;
-
-        /*echo "<div><H3>Tervezett bevétel: ".
-            Yii::$app->formatter->asCurrency(
-                $tervezettbevetel, $deviza
-        )."</H3></div>";
-
-        echo "<div><H3>Tervezett kiadás: ".
-            Yii::$app->formatter->asCurrency(
-                $tervezettkiadas, $deviza
-        )."</H3></div>";
-
-        echo "<div><H3>Tervezett egyenleg: ".
-            Yii::$app->formatter->asCurrency(
-                $tervezettegyenleg, $deviza
-        )."</H3></div>";*/
 
         $dataProvider = new ArrayDataProvider([
             'allModels' => [
