@@ -123,7 +123,7 @@ class Penztarca extends ActiveRecord
             'mkb' => 'mkb.png',
             'mbh' => 'mbh.png',
             'revolut' => 'revolut.png',
-            'wise' => 'wise.png',
+            'wise' => 'wise.jpg',
             'keszpenz' => 'cash.png',
             'kp' => 'cash.png',
             'készpénz' => 'cash.png',
