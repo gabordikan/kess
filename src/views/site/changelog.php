@@ -3,6 +3,11 @@
     <li><i>Fejlesztés:</i> Ikonok hozzáadása kategóriához</li>
 </p>
 
+<H1>1.14</H1>
+<p>
+    <li><i>Fejlesztés:</i> Jelenlegi egyenleg hozzáadása prognózishoz</li>
+</p>
+
 <H1>1.13</H1>
 <p>
     <li><i>Fejlesztés:</i> Rögzítésnél a pénztárca ikonok megjelenítése</li>
