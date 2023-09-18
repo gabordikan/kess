@@ -161,6 +161,10 @@ use app\models\ChartJs;
         $dataProvider = new ArrayDataProvider([
             'allModels' => [
                 [
+                    'tipus' => 'Jelenlegi egyenleg',
+                    'osszeg' => Penztarca::getOsszEgyenleg($deviza),
+                ],
+                [
                     'tipus' => 'Bevétel',
                     'osszeg' => $tervezettbevetel,
                 ],
@@ -170,7 +174,7 @@ use app\models\ChartJs;
 
                 ],
                 [
-                    'tipus' => 'Egyenleg',
+                    'tipus' => 'Várható egyenleg',
                     'osszeg' => $tervezettegyenleg,
 
                 ],
