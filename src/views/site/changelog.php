@@ -3,6 +3,12 @@
     <li><i>Fejlesztés:</i> Ikonok hozzáadása kategóriához</li>
 </p>
 
+<H1>1.15</H1>
+<p>
+    <li><i>Hibajavítás:</i> Bevétel ategóriaszerkesztnél hiba a típus és főkategória választásnál</li>
+</p>
+
+
 <H1>1.14</H1>
 <p>
     <li><i>Fejlesztés:</i> Jelenlegi egyenleg hozzáadása prognózishoz</li>

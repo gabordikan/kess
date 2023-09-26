@@ -310,6 +310,7 @@ class SiteController extends Controller
 
         if ($update_id) {
             $model = Kategoriak::findOne(['id' => $update_id, 'felhasznalo' => Yii::$app->user->id]);
+            $tipus = $model->tipus;
         }
 
         if ($model->load(Yii::$app->request->post())) {
