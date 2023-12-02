@@ -13,6 +13,9 @@ use yii\helpers\Json;
 
 class MyDatePicker extends DatePicker {
     
+
+    public string $onChange = "function(evt) {}";
+    public int $interval = 1; //1 for 1 day, 30 for 1 month
     /**
      * Renders the widget.
      */
@@ -20,13 +23,54 @@ class MyDatePicker extends DatePicker {
     {
         $view = $this->getView();
 
-        echo $this->renderWidget() . "\n";
+        if ($this->hasModel()) {
+            $this->id = Html::getInputId($this->model, $this->attribute);
+        }
+
+        echo 
+            '<div id="datepicker-'.$this->id.'">'.
+            Html::button('<', ['name' => 'previousMonth']).
+            $this->renderWidget() .
+            Html::button('>', ['name' => 'nextMonth']). "</div>\n";
 
         $view->registerJs('$.datepicker.setDefaults({
             showOn: "both",
             buttonImageOnly: false,
             buttonText: \'<i class="fa-solid fa-calendar">\'
-          });');
+          });
+
+          $("#'.$this->id.'").on("change", '.$this->onChange.');
+
+          $("#datepicker-'.$this->id.' > button:nth-child(1)").on(
+            "click", function(el) {
+                var input = $("#'.$this->id.'");
+                var value = input.val();
+                var date = new Date(value);
+                date.setDate(date.getDate() - '.($this->interval == 30 ? 28 : $this->interval) .');
+                var month = "0" + (date.getMonth()+1);
+                month = month.substr(month.length-2);
+                var day = "0" + (date.getDate());
+                day = day.substr(day.length-2);
+                input.val(date.getFullYear()+"-"+month '.($this->interval == 30 ? '' : '+"-"+day') .');
+                $(input).trigger("change");
+            }
+          );
+
+          $("#datepicker-'.$this->id.' > button:nth-child(3)").on(
+            "click", function(el) {
+                var input = $("#'.$this->id.'");
+                var value = input.val();
+                var date = new Date(value);
+                date.setDate(date.getDate() + '.($this->interval == 30 ? 31 : $this->interval) .');
+                var month = "0" + (date.getMonth()+1);
+                month = month.substr(month.length-2);
+                var day = "0" + (date.getDate());
+                day = day.substr(day.length-2);
+                input.val(date.getFullYear()+"-"+month '.($this->interval == 30 ? '' : '+"-"+day') .');
+                $(input).trigger("change");
+            } 
+          );
+          ');
 
         $containerID = $this->inline ? $this->containerOptions['id'] : $this->options['id'];
         $containerIDIcon = $containerID."-icon";
@@ -85,6 +129,7 @@ class MyDatePicker extends DatePicker {
             // render a text input
             if ($this->hasModel()) {
                 $contents[] = Html::activeTextInput($this->model, $this->attribute, $options);
+                //$this->id = $this->model->_toString().'-'.$this->attribute->_toString();
             } else {
                 $contents[] = Html::textInput($this->name, $value, $options);
             }

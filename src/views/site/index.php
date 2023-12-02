@@ -99,9 +99,13 @@ else {
     ."&nbsp;"
     .MyDatePicker::widget([
         'id' => 'idoszakselector',
+        'interval' => 30,
         'value' => $idoszak,
         'language' => 'hu',
         'dateFormat' => 'yyyy-MM',
+        'onChange' => "function(evt) {
+            window.location = '/site/index?idoszak='+$(evt.target).val();
+            }",
         'clientOptions' => [
             'onSelect' => new \yii\web\JsExpression("function(dateText, inst) {
                 window.location = '/site/index?idoszak='+dateText;

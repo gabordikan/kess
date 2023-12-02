@@ -58,7 +58,7 @@ class Terv extends ActiveRecord
         );
     }
 
-    public function getKategoria() {
+    public function getKategoriak() {
         return $this->hasOne(Kategoriak::class, ['id' => 'kategoria_id']);
     }
 

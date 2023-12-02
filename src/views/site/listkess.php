@@ -4,14 +4,16 @@
 
 use yii\bootstrap5\Html;
 
+use fedemotta\datatables\DataTables;
+
 use app\models\Kategoriak;
 use app\models\Penztarca;
 use app\models\Mozgas;
+use app\models\MozgasSearch;
+use app\widgets\Cor4DataTables\Cor4DataTables;
 use app\widgets\MyDatePicker;
-use Codeception\PHPUnit\ResultPrinter\HTML as ResultPrinterHTML;
 use yii\grid\GridView;
 use yii\data\ActiveDataProvider;
-use yii\grid\SerialColumn;
 use yii\grid\DataColumn;
 use yii\grid\ActionColumn;
 
@@ -30,7 +32,69 @@ if (Yii::$app->user->isGuest) {
 <?php
 }
 else {
-    $penztarcak = Penztarca::getPenztarcak();
+
+    $searchModel = new MozgasSearch();
+    $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+?>
+<?= Cor4DataTables::widget([
+    'dataProvider' => $dataProvider,
+    'filterModel' => $searchModel,
+    'columns' => [
+        [
+            'class' => DataColumn::class, // this line is optional
+            'attribute' => 'penztarca.nev',
+            'label' => 'Pénztárca',
+        ],
+        [
+            'class' => DataColumn::class, // this line is optional
+            'value' => function ($model, $key, $index, $column) {
+                return $model->datum; 
+            },
+            'label' => 'Dátum',
+        ],
+        [
+            'class' => DataColumn::class, // this line is optional
+            'attribute' => 'kategoriak.nev',
+            'label' => 'Tétel',
+        ],
+        [
+            'class' => DataColumn::class, // this line is optional
+            'value' => function ($model, $key, $index, $column) {
+                return str_replace('&nbsp;',' ',Yii::$app->formatter->asCurrency($model->tipus * $model->osszeg, $model->penztarca->deviza)); 
+            },
+            //'format' => ['currency', $deviza = Penztarca::findOne($model->penztarca_id)->deviza],
+            'label' => 'Összeg',
+            'contentOptions' => ['style'=>'text-align: right; white-space: nowrap !important'],
+        ],
+        [
+            'class' => DataColumn::class, // this line is optional
+            'label' => 'Megjegyzés',
+            'attribute' => 'megjegyzes',
+        ],
+        /*[
+            'class' => ActionColumn::class,
+            'visibleButtons' => [
+                'view' => false,
+                'update' => true,
+                'delete' => true,
+            ],
+            'urlCreator' => function ($action, $model, $key, $index, $column) use ($searchText) {
+                switch ($action) {
+                    case "update":
+                        return '/site/recordkess?update_id='.$model->id;
+                    case "delete":
+                        return '/site/listkess?penztarca_id='.$model->penztarca_id.'&delete_id='.$model->id.'&searchText='.$searchText;
+                }
+            },
+            'contentOptions' => ['style'=>'text-align: center'],
+        ],*/
+    ],
+]);?>
+
+<?php
+
+
+ /*   $penztarcak = Penztarca::getPenztarcak();
     $penztarca_id = $penztarca_id ?? array_key_first($penztarcak);
 
     $deviza = Penztarca::findOne($penztarca_id)->deviza;
@@ -164,3 +228,9 @@ else {
         }
     });
 </script>
+
+<?php
+
+*/
+}
+?>

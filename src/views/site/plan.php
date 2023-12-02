@@ -55,6 +55,10 @@ else {
             'options' => [
                 'style' => 'width: 120px',
             ],
+            'interval' => 30,
+            'onChange' => "function (evt) {
+                window.location = '/site/plan?update_id=' + update_id + '&idoszak='+$(evt.target).val();
+            }",
             'dateFormat' => 'yyyy-MM',
             'clientOptions' => [
                 'onSelect' => new \yii\web\JsExpression("function(dateText, inst) {
@@ -86,7 +90,7 @@ else {
     <div class="site-planlist">
     <?php $dataProvider = new ActiveDataProvider([
         'query' => Terv::find()
-            ->joinWith('kategoria')
+            ->joinWith('kategoriak')
             ->where(
             [
                 'terv.felhasznalo' => Yii::$app->user->id,
