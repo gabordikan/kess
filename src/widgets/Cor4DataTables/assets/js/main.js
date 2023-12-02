@@ -33,6 +33,9 @@ function cor4DataTables( selector, options ) {
           let th_style = $("thead tr:eq(0) th").eq(this.index()).attr('style');
           let searchParams = new URLSearchParams(window.location.search);
           let param = searchParams.get("search["+this.index()+"]");
+          if (param == null) {
+            param = '';
+          }
           var input = $('<input type="text" style="'+th_style+'" value="'+param+'"/>')
             .appendTo($("thead tr:eq(1) th").eq(this.index()))
             .on("keyup", function(evt) {
