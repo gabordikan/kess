@@ -10,7 +10,12 @@ use yii\jui\DatePicker;
 use app\widgets\MyDatePicker;
 use app\models\Kategoriak;
 use app\models\Penztarca;
+use app\models\Mozgas;
+use yii\data\ActiveDataProvider;
 
+use yii\grid\GridView;
+use yii\grid\DataColumn;
+use yii\grid\ActionColumn;
 use kartik\select2\Select2;
 use yii\web\JsExpression;
 
@@ -41,6 +46,8 @@ else {
 
             <?= $form->field($model, 'datum')->widget(MyDatePicker::classname(), [
                 'dateFormat' => 'yyyy-MM-dd',
+                'onChange' => "function(evt) {
+                    }",
                 'options' => [
                     'style' => 'width: 120px;'
                 ],
@@ -53,6 +60,7 @@ else {
 
             <?php
                 $penztarcak = Penztarca::getPenztarcak();
+                $model->penztarca_id = $penztarca_id ?? array_key_first($penztarcak);
                 foreach ($penztarcak as $key => $penztarca) {
                     $penztarcak[$key] = Penztarca::getLogo($penztarca).$penztarca;
                 }
@@ -168,6 +176,73 @@ else {
 
         <?php ActiveForm::end(); ?>
     </div>
+<?php
+    if($model->penztarca_id != null) {
+        $idoszak = substr($model->datum, 0 ,7);
+        $deviza = Penztarca::findOne($model->penztarca_id)->deviza;
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => Mozgas::find()
+            ->joinWith('kategoriak')
+            ->andWhere(
+                [
+                    'mozgas.felhasznalo' => Yii::$app->user->id,
+                    'mozgas.torolt' => 0,
+                    'mozgas.penztarca_id' => $model->penztarca_id,
+                ]
+            )
+            ->andWhere(['>=','mozgas.datum',$idoszak.'-01'])
+            ->andWhere(['<=','mozgas.datum',$idoszak.'-31'])
+            ->orderBy(['mozgas.datum' => SORT_DESC, 'mozgas.id' => SORT_DESC]),
+            'pagination' => [
+                'pageSize' => 20,
+            ],
+        ]);
+
+        echo GridView::widget([
+            'showFooter' => true,
+            'footerRowOptions' => ['style' => 'text-align: right;'],
+            'summary' => '{begin}-{end}, Összesen: {totalCount}',
+            'columns' => [
+                [
+                    'class' => DataColumn::class, // this line is optional
+                    'value' => function ($model, $key, $index, $column) {
+                        $kategoria = Kategoriak::findOne([ 'id' => $model->kategoria_id]);
+                        return $model->datum.' <BR><b>'.$kategoria->fokategoria."/".$kategoria->nev.'</B><BR><i>'.$model->megjegyzes.'</i>'; 
+                    },
+                    'format' => 'raw',
+                    'label' => 'Tétel',
+                ],
+                [
+                    'class' => DataColumn::class, // this line is optional
+                    'value' => function ($model, $key, $index, $column) {
+                        return $model->tipus * $model->osszeg; 
+                    },
+                    'format' => ['currency', $deviza],
+                    'label' => 'Összeg',
+                    'contentOptions' => ['style'=>'text-align: right; white-space: nowrap !important'],
+                ],
+                [
+                    'class' => ActionColumn::class,
+                    'visibleButtons' => [
+                        'view' => false,
+                        'update' => true,
+                        'delete' => false,
+                    ],
+                    'urlCreator' => function ($action, $model, $key, $index, $column) {
+                        switch ($action) {
+                            case "update":
+                                return '/site/recordkess?update_id='.$model->id;
+                        }
+                    },
+                    'contentOptions' => ['style'=>'text-align: center'],
+                ],
+            ],
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+?>
+</div>
 
     <script>
 

@@ -36,9 +36,10 @@ class Mozgas extends ActiveRecord
             $this->felhasznalo = Yii::$app->user->id;
         }
 
-        //var_dump(Kategoriak::findOne(['id' => $this->kategoria_id])->tipus); die();
-
-        $this->tipus = Kategoriak::findOne(['id' => $this->kategoria_id])->tipus == 'Bevétel' ? 1 : -1;
+        $kategoria = Kategoriak::findOne(['id' => $this->kategoria_id]);
+        if ($kategoria) {
+            $this->tipus = $kategoria->tipus == 'Bevétel' ? 1 : -1;
+        }
 
         return parent::beforeValidate();
     }
@@ -73,7 +74,7 @@ class Mozgas extends ActiveRecord
         return $this->hasOne(Penztarca::class, ['id' => 'penztarca_id']);
     }
 
-    public function getKategoria()
+    public function getKategoriak()
     {
         return $this->hasOne(Kategoriak::class, ['id' => 'kategoria_id']);
     }
