@@ -1,6 +1,15 @@
+<?php
+    $this->title = 'Verziótörténet';
+?>
+
 <H1>Fejlesztési tervek</H1>
 <p>
     <li><i>Fejlesztés:</i> Ikonok hozzáadása kategóriához</li>
+</p>
+
+<H1>1.17</H1>
+<p>
+    <li><i>Hibajavítás:</i> Eltűnt a tétel törlés lehetősége</li>
 </p>
 
 <H1>1.16</H1>
@@ -12,7 +21,7 @@
 
 <H1>1.15</H1>
 <p>
-    <li><i>Hibajavítás:</i> Bevétel ategóriaszerkesztnél hiba a típus és főkategória választásnál</li>
+    <li><i>Hibajavítás:</i> Bevétel kategóriaszerkesztésnél hiba a típus és főkategória választásnál</li>
 </p>
 
 
