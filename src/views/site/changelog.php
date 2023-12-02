@@ -3,6 +3,13 @@
     <li><i>Fejlesztés:</i> Ikonok hozzáadása kategóriához</li>
 </p>
 
+<H1>1.16</H1>
+<p>
+    <li><i>Fejlesztés:</i> Dátum választónál lapozási lehetőség</li>
+    <li><i>Fejlesztés:</i> Rögzítő felületen utolsó tételek megjelenítése</li>
+    <li><i>Fejlesztés:</i> Tételek listájának kereshetőbb felület. (Béta)</li>
+</p>
+
 <H1>1.15</H1>
 <p>
     <li><i>Hibajavítás:</i> Bevétel ategóriaszerkesztnél hiba a típus és főkategória választásnál</li>
