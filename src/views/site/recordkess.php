@@ -227,12 +227,14 @@ else {
                     'visibleButtons' => [
                         'view' => false,
                         'update' => true,
-                        'delete' => false,
+                        'delete' => true,
                     ],
                     'urlCreator' => function ($action, $model, $key, $index, $column) {
                         switch ($action) {
                             case "update":
                                 return '/site/recordkess?update_id='.$model->id;
+                            case "delete":
+                                return '/site/recordkess?delete_id='.$model->id;
                         }
                     },
                     'contentOptions' => ['style'=>'text-align: center'],
