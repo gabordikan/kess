@@ -18,20 +18,10 @@ class MozgasSearch extends Mozgas
         return [
             0 => 'penztarca.nev',
             1 => 'datum',
-            2 => 'kategoriak.nev',
-            3 => 'osszeg',
-            4 => 'megjegyzes',
-        ];
-    }
-
-    public function getColumns()
-    {
-        return [
-            0 => 'penztarca.nev',
-            1 => 'datum',
-            2 => 'kategoriak.nev',
-            3 => 'osszeg',
-            4 => 'megjegyzes',
+            2 => 'kategoriak.fokategoria',
+            3 => 'kategoriak.nev',
+            4 => 'osszeg',
+            5 => 'megjegyzes',
         ];
     }
 
