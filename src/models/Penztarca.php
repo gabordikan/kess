@@ -127,7 +127,8 @@ class Penztarca extends ActiveRecord
             'keszpenz' => 'cash.png',
             'kp' => 'cash.png',
             'készpénz' => 'cash.png',
-            'paypal' => 'paypal.png'
+            'paypal' => 'paypal.png',
+            'metamask' => 'metamask.webp',
         ];
 
         $penztarca = strtolower($penztarca);

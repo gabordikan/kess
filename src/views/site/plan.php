@@ -4,7 +4,6 @@
 
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
-use yii\jui\DatePicker;
 
 use app\models\Kategoriak;
 use app\models\Terv;
@@ -12,9 +11,9 @@ use app\models\Penztarca;
 use app\widgets\MyDatePicker;
 use yii\grid\GridView;
 use yii\data\ActiveDataProvider;
-use yii\grid\SerialColumn;
 use yii\grid\DataColumn;
 use yii\grid\ActionColumn;
+use kartik\select2\Select2;
 
 
 $this->title = 'Terv';
@@ -71,9 +70,28 @@ else {
                 Penztarca::getDevizak(),
             []) ?>
 
-        <?= $form->field($model, 'kategoria_id')->dropDownList(
-                $kategoriak,
-            []) ?>
+        <?= Html::label("Kategória","Mozgas[kategoria_id]", ['class' => 'col-lg-1 col-form-label mr-lg-3'])
+            .Select2::widget([
+                'name' => 'Mozgas[kategoria_id]',
+                'data' => $kategoriak,
+                'value' => $model->kategoria_id,
+                'pluginEvents' => [
+                    'change' => "function(evt) {
+                        if (parseInt(planValues[evt.target.value]) != 0
+                            && !isNaN(parseInt(planValues[evt.target.value]))
+                            ) {
+                            document.getElementsByName('plan-button')[0].value = planValues[evt.target.value];
+                            document.getElementsByName('plan-button')[0].innerText = planValues[evt.target.value];
+                            document.getElementsByName('plan-button')[0].style.display = '';
+                        } else {
+                            document.getElementsByName('plan-button')[0].style.display = 'none';
+                            document.getElementsByName('plan-button')[0].innerText = '';
+                            document.getElementsByName('plan-button')[0].value = 0;
+                        }
+                    }",
+                ],
+            ], ['class' => 'col-lg-3 form-control'])
+            .Html::error($model, 'kategoria_id', ['class' => 'col-lg-7 invalid-feedback'])."<BR/>" ?>
 
         <?= $form->field($model, 'osszeg')->textInput() ?>
 
