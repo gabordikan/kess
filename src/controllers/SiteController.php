@@ -250,7 +250,7 @@ class SiteController extends Controller
 
         return $this->render('recordkess',[
             'model' => $model,
-            'penztarca_id' => $penztarca_id,
+            'penztarca_id' => $model->penztarca_id,
             'update_id' => $update_id,
             'tipus' => $model->tipus,
             'from_list' => $from_list,
