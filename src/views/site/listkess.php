@@ -49,6 +49,11 @@ else {
             ],
             [
                 'class' => DataColumn::class, // this line is optional
+                'attribute' => 'kategoriak.fokategoria',
+                'label' => 'Kategória',
+            ],
+            [
+                'class' => DataColumn::class, // this line is optional
                 'attribute' => 'kategoriak.nev',
                 'label' => 'Tétel',
             ],
