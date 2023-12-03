@@ -6,13 +6,11 @@
 
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
-use yii\jui\DatePicker;
 use app\widgets\MyDatePicker;
 use app\models\Kategoriak;
 use app\models\Penztarca;
 use app\models\Mozgas;
 use yii\data\ActiveDataProvider;
-
 use yii\grid\GridView;
 use yii\grid\DataColumn;
 use yii\grid\ActionColumn;
