@@ -203,7 +203,13 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionRecordkess($penztarca_id = null, $tipus = null, $update_id = null, $delete_id = null, $datum = null)
+    public function actionRecordkess(
+        $penztarca_id = null, 
+        $tipus = null, 
+        $update_id = null, 
+        $delete_id = null, 
+        $datum = null, 
+        $from_list = 0)
     {
         $model = new Mozgas();
         $model->tipus = -1;
@@ -225,7 +231,11 @@ class SiteController extends Controller
             $model->id = 0;
             $model->osszeg=null;
             $model->kategoria_id=null; 
-            return $this->redirect("/site/recordkess?penztarca_id=".$model->penztarca_id."&datum=".$model->datum);
+            if ($from_list == 1 || Yii::$app->request->post("from_list") == 1) {
+                return $this->redirect("/site/listkess");
+            } else {
+                return $this->redirect("/site/recordkess?penztarca_id=".$model->penztarca_id."&datum=".$model->datum);
+            }
         } 
 
         if ($penztarca_id) {
@@ -243,11 +253,19 @@ class SiteController extends Controller
             'penztarca_id' => $penztarca_id,
             'update_id' => $update_id,
             'tipus' => $model->tipus,
+            'from_list' => $from_list,
         ]);
     }
 
-    public function actionListkess()
+    public function actionListkess($delete_id = null)
     {
+        if ($delete_id) {
+            $model = Mozgas::findOne(['id' => $delete_id, 'felhasznalo' => Yii::$app->user->id]);
+            $model->torolt = 1;
+            $model->save(false);
+            return $this->redirect("/site/listkess");
+        }
+
         return $this->render('listkess',[
         ]);
     }
