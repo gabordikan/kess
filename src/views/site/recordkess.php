@@ -44,6 +44,8 @@ else {
             ],
         ]); ?>
 
+            <?= Html::hiddenInput('from_list', $from_list) ?>
+
             <?= $form->field($model, 'datum')->widget(MyDatePicker::classname(), [
                 'dateFormat' => 'yyyy-MM-dd',
                 'onChange' => "function(evt) {

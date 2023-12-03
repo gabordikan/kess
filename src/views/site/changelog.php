@@ -7,6 +7,11 @@
     <li><i>Fejlesztés:</i> Ikonok hozzáadása kategóriához</li>
 </p>
 
+<H1>1.18</H1>
+<p>
+    <li><i>Fejlesztés:</i> Tételek listájának kereshetőbb felület. (Béta)</li>
+</p>
+
 <H1>1.17</H1>
 <p>
     <li><i>Hibajavítás:</i> Eltűnt a tétel törlés lehetősége</li>

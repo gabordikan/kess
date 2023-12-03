@@ -2,8 +2,7 @@
 
 namespace app\models;
 
-use yii\base\Model;
-use yii\data\ActiveDataProvider;
+use gabordikan\cor4\datatables\traits\SearchModel;
 use app\models\Mozgas;
 use Yii;
 
@@ -12,7 +11,7 @@ use Yii;
  */
 class MozgasSearch extends Mozgas
 {
-    use Cor4Search;
+    use SearchModel;
 
     public function getIndexes()
     {
