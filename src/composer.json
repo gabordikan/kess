@@ -21,7 +21,7 @@
         "yiisoft/yii2-jui": "^2.0",
         "kartik-v/yii2-widget-select2": "dev-master",
         "fedemotta/yii2-widget-datatables": "*",
-        "gabordikan/yii2-cor4-datatables": "dev-main"
+        "gabordikan/yii2-cor4-datatables": "v1.0.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
