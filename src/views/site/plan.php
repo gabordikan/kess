@@ -8,7 +8,9 @@ use yii\bootstrap5\Html;
 use app\models\Kategoriak;
 use app\models\Terv;
 use app\models\Penztarca;
+use app\models\TervSearch;
 use app\widgets\MyDatePicker;
+use gabordikan\cor4\datatables\DataTables;
 use yii\grid\GridView;
 use yii\data\ActiveDataProvider;
 use yii\grid\DataColumn;
@@ -70,9 +72,9 @@ else {
                 Penztarca::getDevizak(),
             []) ?>
 
-        <?= Html::label("Kategória","Mozgas[kategoria_id]", ['class' => 'col-lg-1 col-form-label mr-lg-3'])
+        <?= Html::label("Kategória","Terv[kategoria_id]", ['class' => 'col-lg-1 col-form-label mr-lg-3'])
             .Select2::widget([
-                'name' => 'Mozgas[kategoria_id]',
+                'name' => 'Terv[kategoria_id]',
                 'data' => $kategoriak,
                 'value' => $model->kategoria_id,
                 'pluginEvents' => [
@@ -97,8 +99,9 @@ else {
 
         <div class="form-group">
             <div">
-                <?= Html::submitButton('Mentés', ['class' => 'btn btn-primary', 'name' => 'save-button']) ?>
-                <?= Html::button('Előző időszak másolása', ['class' => 'btn btn-secondary', 'name' => 'copyplan-button']) ?>
+                <?= Html::button('Plan', ['style'=>'display: none', 'class' => 'btn btn-success mb-3', 'name' => 'plan-button', 'value' => 0]) ?>                
+                <?= Html::submitButton('Mentés', ['class' => 'btn btn-primary mb-3', 'name' => 'save-button']) ?>
+                <?= Html::button('Előző időszak másolása', ['class' => 'btn btn-secondary mb-3', 'name' => 'copyplan-button']) ?>
             </div>
         </div>
         <BR/>
@@ -106,23 +109,20 @@ else {
     <?php ActiveForm::end(); ?>
     </div>
     <div class="site-planlist">
-    <?php $dataProvider = new ActiveDataProvider([
-        'query' => Terv::find()
-            ->joinWith('kategoriak')
-            ->where(
-            [
-                'terv.felhasznalo' => Yii::$app->user->id,
-                'terv.torolt' => 0,
-                'terv.idoszak' => $idoszak,
-                'terv.deviza' => $deviza,
-            ]
-        )->orderBy(['tipus' => SORT_ASC, 'fokategoria' => SORT_ASC, 'nev' => SORT_ASC]),
-        'pagination' => [
-            'pageSize' => 100,
-        ],
-    ]);
+    <?php 
+    $searchModel = new TervSearch();
+    $searchModel->_idoszak = $idoszak;
+    $searchModel->_deviza = $deviza;
+    $dataProvider = $searchModel->search();
 
-    echo GridView::widget([
+    echo DataTables::widget([
+        'clientOptions' => [
+            'order' => [
+                [1, 'asc'],
+                [2, 'asc'],
+                [3, 'asc'],
+            ],
+        ],
         'showFooter' => true,
         'footerRowOptions'=>['style'=>'text-align: right'],
         'summary' => '{begin}-{end}, Összesen: {totalCount}',
@@ -134,8 +134,11 @@ else {
             ],*/
             [
                 'class' => DataColumn::class, // this line is optional
-                'attribute' => 'idoszak',
+                'value' => function ($model, $key, $index, $column) {
+                    return $model->idoszak;
+                },
                 'format' => 'text',
+                'label' => 'Időszak',
             ],
             [
                 'class' => DataColumn::class, // this line is optional
@@ -150,7 +153,16 @@ else {
                 'class' => DataColumn::class, // this line is optional
                 'value' => function ($model, $key, $index, $column) {
                     $kategoria = Kategoriak::findOne([ 'id' => $model->kategoria_id]);
-                    return $kategoria->fokategoria."/".$kategoria->nev;
+                    return $kategoria->fokategoria;
+                },
+                'format' => 'text',
+                'label' => 'Főkategória',
+            ],
+            [
+                'class' => DataColumn::class, // this line is optional
+                'value' => function ($model, $key, $index, $column) {
+                    $kategoria = Kategoriak::findOne([ 'id' => $model->kategoria_id]);
+                    return $kategoria->nev;
                 },
                 'format' => 'text',
                 'label' => 'Kategória',
@@ -189,6 +201,7 @@ else {
             ],
         ],
         'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
     ]);
 }
 ?>
@@ -217,4 +230,24 @@ else {
     devizaselector.addEventListener('change', function (evt) {
         window.location = '/site/plan?deviza=' + evt.target.value + '&update_id=' + update_id + '&idoszak=' + idoszak ;
     });
+
+    var planValues = 
+<?php
+    $planValues = [];
+
+    foreach ($kategoriak as $fokategoriak) {
+        foreach ($fokategoriak as $id => $kategoria) {
+            $planValues[$id] = 
+                number_format(Kategoriak::getKategoriaUtolsoTerv($id, $deviza), 0, ',', ' ');
+        }
+    }
+    echo json_encode($planValues);
+?>;
+
+        document.getElementsByName('plan-button')[0].addEventListener("click", function(evt) {
+                    var osszeg_selector = document.getElementsByName('Terv[osszeg]')[0];
+                    osszeg = parseInt(evt.target.value.replace(' ',''));
+                    osszeg_selector.value = osszeg;
+        });
+
 </script>

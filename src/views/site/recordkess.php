@@ -285,12 +285,12 @@ else {
 
     foreach ($kategoriak as $fokategoriak) {
         foreach ($fokategoriak as $id => $kategoria) {
-            $planValues[$id] = 
+            $planValues[$id] = number_format(
                 Kategoriak::getKategoriaSumTerv($id, date('Y-m'), date('Y-m'))
                     - Kategoriak::getKategoriaSumTeny($id, date('Y-m-01'), date('Y-m-31')) < 0 
                 ? 0
                 : Kategoriak::getKategoriaSumTerv($id, date('Y-m'), date('Y-m'))
-                    - Kategoriak::getKategoriaSumTeny($id, date('Y-m-01'), date('Y-m-31'));
+                    - Kategoriak::getKategoriaSumTeny($id, date('Y-m-01'), date('Y-m-31')), 0, ',', '');
         }
     }
     echo json_encode($planValues);
@@ -298,7 +298,7 @@ else {
 
         document.getElementsByName('plan-button')[0].addEventListener("click", function(evt) {
                     var osszeg_selector = document.getElementsByName('Mozgas[osszeg]')[0];
-                    osszeg = parseInt(evt.target.value);
+                    osszeg = parseInt(evt.target.value.replace(' ',''));
                     osszeg_selector.value = osszeg;
         });
 
