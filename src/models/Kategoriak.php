@@ -178,6 +178,20 @@ class Kategoriak extends ActiveRecord
         ->queryScalar();
     }
 
+    public static function getKategoriaUtolsoTerv($kategoria_id, $deviza = 'HUF') {
+        return Yii::$app->db->createCommand("
+            select ifnull(osszeg,0) as osszeg from terv 
+            where kategoria_id = :kategoria_id
+                and felhasznalo = :felhasznalo
+                and torolt=0
+                and deviza = :deviza
+            order by idoszak desc
+            limit 1"
+        )
+        ->bindValues([':felhasznalo' => Yii::$app->user->id, ':kategoria_id' => $kategoria_id, ':deviza' => $deviza])
+        ->queryScalar();
+    }
+
     public static function getKategoriaSumTeny($kategoria_id, $tol, $ig, $deviza = 'HUF') {
         return Yii::$app->db->createCommand("
             select ifnull(sum(osszeg),0) from mozgas

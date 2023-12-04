@@ -7,6 +7,13 @@
     <li><i>Fejlesztés:</i> Ikonok hozzáadása kategóriához</li>
 </p>
 
+<H1>1.19</H1>
+<p>
+    <li><i>Fejlesztés:</i> Tervezésnél utolsó tervösszeg felajánlása</li>
+    <li><i>Fejlesztés:</i> MetaMask ikon hozzáadva</li>
+    <li><i>Fejlesztés:</i> Tételek listájának kereshetőbb felület.</li>
+</p>
+
 <H1>1.18</H1>
 <p>
     <li><i>Fejlesztés:</i> Tételek listájának kereshetőbb felület. (Béta)</li>
