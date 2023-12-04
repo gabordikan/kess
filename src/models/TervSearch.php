@@ -20,7 +20,7 @@ class TervSearch extends Terv
     {
         return [
             0 => 'terv.idoszak',
-            1 => 'terv.tipus',
+            1 => 'kategoriak.tipus',
             2 => 'kategoriak.fokategoria',
             3 => 'kategoriak.nev',
             4 => 'terv.osszeg',
