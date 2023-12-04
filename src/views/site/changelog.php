@@ -7,6 +7,11 @@
     <li><i>Fejlesztés:</i> Ikonok hozzáadása kategóriához</li>
 </p>
 
+<H1>1.20</H1>
+<p>
+    <li><i>Fejlesztés:</i> Napi egyenlegek lekérdezése</li>
+</p>
+
 <H1>1.19</H1>
 <p>
     <li><i>Fejlesztés:</i> Tervezésnél utolsó tervösszeg felajánlása</li>
