@@ -270,6 +270,12 @@ class SiteController extends Controller
         ]);
     }
 
+    public function actionListdailysum()
+    {
+        return $this->render('dailysum',[
+        ]);
+    }
+
     public function actionPlan($delete_id = null, $update_id = null, $idoszak = null, $deviza = 'HUF')
     {
         if ($delete_id) {

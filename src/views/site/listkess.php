@@ -7,7 +7,7 @@ use gabordikan\cor4\datatables\DataTables;
 use yii\grid\DataColumn;
 use yii\grid\ActionColumn;
 
-$this->title = 'Kess';
+$this->title = 'Tételek';
 
 if (empty($idoszak)) {
     $idoszak = date('Y-m');
@@ -23,7 +23,7 @@ if (Yii::$app->user->isGuest) {
 }
 else {
 
-    $searchModel = new MozgasSearch();
+    $searchModel = new MozgasSearch('mozgas');
     $dataProvider = $searchModel->search();
     echo  DataTables::widget([
         'dataProvider' => $dataProvider,

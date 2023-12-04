@@ -110,7 +110,7 @@ else {
     </div>
     <div class="site-planlist">
     <?php 
-    $searchModel = new TervSearch();
+    $searchModel = new TervSearch('plan');
     $searchModel->_idoszak = $idoszak;
     $searchModel->_deviza = $deviza;
     $dataProvider = $searchModel->search();
