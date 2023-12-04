@@ -5,6 +5,7 @@
 use app\models\NapiegyenlegSearch;
 use gabordikan\cor4\datatables\DataTables;
 use yii\grid\DataColumn;
+use yii\grid\ActionColumn;
 
 $this->title = 'Napi egyenlegek';
 
@@ -80,6 +81,21 @@ else {
                 },
                 'label' => 'Egyenleg',
                 'contentOptions' => ['style'=>'text-align: right; white-space: nowrap !important'],
+            ],
+	    [
+                'class' => ActionColumn::class,
+                'visibleButtons' => [
+                    'view' => true,
+                    'update' => false,
+                    'delete' => false,
+                ],
+                'urlCreator' => function ($action, $model, $key, $index, $column) {
+                    switch ($action) {
+                        case "view":
+                            return '/site/listkess?search[1]='.$model->datum.'&search[0]='.$model->penztarca_nev.'&search[2]=&search[3]=&search[4]=&search[5]=';
+                    }
+                },
+                'contentOptions' => ['style'=>'text-align: center'],
             ],
         ],
     ]);
