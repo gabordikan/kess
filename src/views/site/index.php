@@ -71,7 +71,7 @@ else {
                 'urlCreator' => function ($action, $model, $key, $index, $column) {
                     switch ($action) {
                         case "view":
-                            return '/site/listkess?penztarca_id='.$model->id;
+                            return '/site/listkess?search[1]='.$model->nev;
                         case "update":
                             return '/site/recordkess?penztarca_id='.$model->id;
                     }

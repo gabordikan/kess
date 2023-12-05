@@ -16,8 +16,8 @@ class MozgasSearch extends Mozgas
     public function getIndexes()
     {
         return [
-            0 => 'penztarca.nev',
-            1 => 'datum',
+            0 => 'datum',
+            1 => 'penztarca.nev',
             2 => 'kategoriak.fokategoria',
             3 => 'kategoriak.nev',
             4 => 'osszeg',

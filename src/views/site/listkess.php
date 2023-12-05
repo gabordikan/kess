@@ -31,21 +31,21 @@ else {
         'clientOptions' => [
             'prefix' => 'mozgas',
             'order' => [
-                [1, 'desc'],
+                [0, 'desc'],
             ],
         ],
         'columns' => [
-            [
-                'class' => DataColumn::class, // this line is optional
-                'attribute' => 'penztarca.nev',
-                'label' => 'Pénztárca',
-            ],
             [
                 'class' => DataColumn::class, // this line is optional
                 'value' => function ($model, $key, $index, $column) {
                     return $model->datum; 
                 },
                 'label' => 'Dátum',
+            ],
+            [
+                'class' => DataColumn::class, // this line is optional
+                'attribute' => 'penztarca.nev',
+                'label' => 'Pénztárca',
             ],
             [
                 'class' => DataColumn::class, // this line is optional
