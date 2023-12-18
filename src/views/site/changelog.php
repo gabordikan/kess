@@ -7,6 +7,11 @@
     <li><i>Fejlesztés:</i> Ikonok hozzáadása kategóriához</li>
 </p>
 
+<H1>1.21</H1>
+<p>
+    <li><i>Hibajavítás:</i> Terv listában keresés megjegyzése</li>
+</p>
+
 <H1>1.20</H1>
 <p>
     <li><i>Fejlesztés:</i> Napi egyenlegek lekérdezése</li>

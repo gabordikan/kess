@@ -117,6 +117,7 @@ else {
 
     echo DataTables::widget([
         'clientOptions' => [
+            'prefix' => 'plan',
             'order' => [
                 [1, 'asc'],
                 [2, 'asc'],
