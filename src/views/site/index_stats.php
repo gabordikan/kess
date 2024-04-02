@@ -262,9 +262,7 @@ use app\models\ChartJs;
             unset($kategoriakBevetelList[$key]);
             unset($kategoriakBevetelSumTerv[$key]);
             unset($kategoriakBevetelSumTeny[$key]);
-        }
-
-        if ($kategoriakBevetelSumTerv[$key] == $kategoriakBevetelSumTeny[$key]) {
+        } elseif ($kategoriakBevetelSumTerv[$key] == $kategoriakBevetelSumTeny[$key]) {
             unset($kategoriakBevetelList[$key]);
             unset($kategoriakBevetelSumTerv[$key]);
             unset($kategoriakBevetelSumTeny[$key]);
@@ -335,9 +333,7 @@ use app\models\ChartJs;
             unset($kategoriakKiadasList[$key]);
             unset($kategoriakKiadasSumTerv[$key]);
             unset($kategoriakKiadasSumTeny[$key]);
-        }
-
-        if ($kategoriakKiadasSumTerv[$key] == $kategoriakKiadasSumTeny[$key]) {
+        } elseif ($kategoriakKiadasSumTerv[$key] == $kategoriakKiadasSumTeny[$key]) {
             unset($kategoriakKiadasList[$key]);
             unset($kategoriakKiadasSumTerv[$key]);
             unset($kategoriakKiadasSumTeny[$key]);
