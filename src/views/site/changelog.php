@@ -7,6 +7,11 @@
     <li><i>Fejlesztés:</i> Ikonok hozzáadása kategóriához</li>
 </p>
 
+<H1>1.22</H1>
+<p>
+    <li><i>Hibajavítás:</i> Teljesített tervsorok eltüntetése a diagramból</li>
+</p>
+
 <H1>1.21</H1>
 <p>
     <li><i>Hibajavítás:</i> Terv listában keresés megjegyzése</li>
