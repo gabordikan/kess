@@ -263,6 +263,12 @@ use app\models\ChartJs;
             unset($kategoriakBevetelSumTerv[$key]);
             unset($kategoriakBevetelSumTeny[$key]);
         }
+
+        if ($kategoriakBevetelSumTerv[$key] == $kategoriakBevetelSumTeny[$key]) {
+            unset($kategoriakBevetelList[$key]);
+            unset($kategoriakBevetelSumTerv[$key]);
+            unset($kategoriakBevetelSumTeny[$key]);
+        }
     }
 
     $kategoriakBevetelList = array_values($kategoriakBevetelList);
@@ -326,6 +332,12 @@ use app\models\ChartJs;
 
     foreach ($kategoriakKiadasList as $key=>$value) {
         if ($kategoriakKiadasSumTerv[$key] == 0 && $kategoriakKiadasSumTeny[$key] == 0) {
+            unset($kategoriakKiadasList[$key]);
+            unset($kategoriakKiadasSumTerv[$key]);
+            unset($kategoriakKiadasSumTeny[$key]);
+        }
+
+        if ($kategoriakKiadasSumTerv[$key] == $kategoriakKiadasSumTeny[$key]) {
             unset($kategoriakKiadasList[$key]);
             unset($kategoriakKiadasSumTerv[$key]);
             unset($kategoriakKiadasSumTeny[$key]);
