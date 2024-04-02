@@ -3,8 +3,8 @@
 return [
     'class' => 'yii\db\Connection',
     'dsn' => 'mysql:host=db;dbname=kess',
-    'username' => 'root',
-    'password' => 'secret',
+    'username' => getenv('DB_USER') ?? 'root',
+    'password' => getenv('DB_PASSWORD') ?? 'secret',
     'charset' => 'utf8',
 
     // Schema cache options (for production environment)
