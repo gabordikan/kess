@@ -104,3 +104,10 @@ a.desc:after {
     margin-right: 50px;
     border-radius: var(--bs-border-radius);
 }
+
+.ui-state-default {
+    border: 1px solid #d3d3d3;
+    background: #fff;
+    font-weight: normal;
+    color: #555555;
+}
