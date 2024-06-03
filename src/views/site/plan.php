@@ -2,21 +2,18 @@
 
 /** @var yii\web\View $this */
 
-use yii\bootstrap5\ActiveForm;
-use yii\bootstrap5\Html;
-
 use app\models\Kategoriak;
 use app\models\Terv;
 use app\models\Penztarca;
 use app\models\TervSearch;
 use app\widgets\MyDatePicker;
 use gabordikan\cor4\datatables\DataTables;
-use yii\grid\GridView;
-use yii\data\ActiveDataProvider;
 use yii\grid\DataColumn;
 use yii\grid\ActionColumn;
 use kartik\select2\Select2;
 
+use yii\bootstrap5\ActiveForm;
+use yii\bootstrap5\Html;
 
 $this->title = 'Terv';
 
@@ -181,6 +178,7 @@ else {
                     Yii::$app->formatter->asCurrency(
                         Terv::getTervSum('Bevétel', $idoszak, $idoszak, $deviza) - Terv::getTervSum('Kiadás', $idoszak, $idoszak, $deviza), $deviza
                     ),
+                'footerOptions' => ['style'=>'text-align: right; white-space: nowrap !important'],
             ],
             [
                 'class' => ActionColumn::class,
