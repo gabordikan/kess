@@ -4,7 +4,17 @@
 
 <H1>Fejlesztési tervek</H1>
 <p>
+    <li><i>Fejlesztés:</i> Kumulált prognózis kezelése</li>
+    <li><i>Fejlesztés:</i> Megtakarítások nyilvántartása</li>
+    <li><i>Fejlesztés:</i> Kintlévőségek/Tartozások/Hitelek nyilvántartása</li>
+    <li><i>Fejlesztés:</i> Költségváltozások elemzése (Fő)kategóriánként</li>
+    <li><i>Fejlesztés:</i> Elszámolások elemzése (Bevétel/Kiadás kategória párokkal)</li>
     <li><i>Fejlesztés:</i> Ikonok hozzáadása kategóriához</li>
+</p>
+
+<H1>1.23</H1>
+<p>
+    <li><i>Fejlesztés:</i> Export funkció a táblázatokba</li>
 </p>
 
 <H1>1.22</H1>
