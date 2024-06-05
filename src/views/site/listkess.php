@@ -25,9 +25,19 @@ else {
 
     $searchModel = new MozgasSearch('mozgas');
     $dataProvider = $searchModel->search();
+
+    $data = $dataProvider->query->all();
+    $sum = 0;
+
+    foreach ($data as $row) {
+        $sum += $row['tipus'] * $row['osszeg'];
+    }
+
     echo  DataTables::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'showFooter' => true,
+        'footerRowOptions'=>['style'=>'text-align: right'],
         'clientOptions' => [
             'prefix' => 'mozgas',
             'order' => [
@@ -65,6 +75,8 @@ else {
                 //'format' => ['currency', $deviza = Penztarca::findOne($model->penztarca_id)->deviza],
                 'label' => 'Összeg',
                 'contentOptions' => ['style'=>'text-align: right; white-space: nowrap !important'],
+                'footer' => '<B>'.number_format($sum, 0, ',',' ').'</B>',
+                'footerOptions' => ['style'=>'text-align: right; white-space: nowrap !important'],
             ],
             [
                 'class' => DataColumn::class, // this line is optional
