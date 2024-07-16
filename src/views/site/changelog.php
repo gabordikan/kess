@@ -12,6 +12,12 @@
     <li><i>Fejlesztés:</i> Ikonok hozzáadása kategóriához</li>
 </p>
 
+<H1>1.24</H1>
+<p>
+    <li><i>Hibajavítás:</i> Rögzítésnél a típus és a kategória váltásnál megjegyzi a dátumot</li>
+    <li><i>Fejlesztés:</i> Rögzítésnél bejelölhető, hogy a terv számot javítsa a tényleges értékkel</li>
+</p>
+
 <H1>1.23</H1>
 <p>
     <li><i>Fejlesztés:</i> Export funkció a táblázatokba</li>
