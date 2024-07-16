@@ -228,9 +228,21 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $model->torolt = 0;
             $model->save();
+
+            if (
+                isset(Yii::$app->request->post("Mozgas")["update_plan"]) &&
+                    Yii::$app->request->post("Mozgas")["update_plan"] == "1") {
+                $plan = Terv::findOne(["idoszak" => substr($model->datum,0,7), "kategoria_id" => $model->kategoria_id]);
+                if ($plan) {
+                    $plan->osszeg = $model->osszeg;
+                    $plan->save();
+                }
+            }
+
             $model->id = 0;
             $model->osszeg=null;
             $model->kategoria_id=null; 
+
             if ($from_list == 1 || Yii::$app->request->post("from_list") == 1) {
                 return $this->redirect("/site/listkess");
             } else {
