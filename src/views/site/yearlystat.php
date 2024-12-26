@@ -24,11 +24,11 @@ if (Yii::$app->user->isGuest) {
 else {
 
     if (!$idoszak) {
-        $idoszak = date('Y-m');
+        $idoszak = date('Y');
     }
 
-    $tol = $idoszak.'-01';
-    $ig = $idoszak.'-31';
+    $tol = $idoszak.'-01-01';
+    $ig = $idoszak.'-12-31';
 
     echo "<div style='width: 300px'><H1><i class='fa-solid fa-bars'>&nbsp;</i>Egyenleg</H1></div>";
         
@@ -98,16 +98,16 @@ else {
     ."&nbsp;"
     .MyDatePicker::widget([
         'id' => 'idoszakselector',
-        'interval' => 30,
-        'value' => $idoszak,
+        'interval' => 365,
+        'value' => $idoszak.'-03-01',
         'language' => 'hu',
-        'dateFormat' => 'yyyy-MM',
+        'dateFormat' => 'yyyy',
         'onChange' => "function(evt) {
-            window.location = '/site/index?idoszak='+$(evt.target).val();
+            window.location = '/site/yearlystat?idoszak='+$(evt.target).val();
             }",
         'clientOptions' => [
             'onSelect' => new \yii\web\JsExpression("function(dateText, inst) {
-                window.location = '/site/index?idoszak='+dateText;
+                window.location = '/site/yearlystat?idoszak='+dateText;
                 }"),
         ],
     ])
@@ -119,7 +119,7 @@ else {
 
         $items[] = [
             'label' => $deviza->deviza,
-            'content' => $this->render('index_stats', [
+            'content' => $this->render('yearly_stats', [
                 'idoszak' => $idoszak,
                 'tol' => $tol,
                 'ig' => $ig,

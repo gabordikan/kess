@@ -4,12 +4,21 @@
 
 <H1>Fejlesztési tervek</H1>
 <p>
-    <li><i>Fejlesztés:</i> Kumulált prognózis kezelése</li>
     <li><i>Fejlesztés:</i> Megtakarítások nyilvántartása</li>
     <li><i>Fejlesztés:</i> Kintlévőségek/Tartozások/Hitelek nyilvántartása</li>
     <li><i>Fejlesztés:</i> Költségváltozások elemzése (Fő)kategóriánként</li>
-    <li><i>Fejlesztés:</i> Elszámolások elemzése (Bevétel/Kiadás kategória párokkal)</li>
     <li><i>Fejlesztés:</i> Ikonok hozzáadása kategóriához</li>
+</p>
+
+<H1>1.25</H1>
+<p>
+    <li><i>Fejlesztés:</i> Kumulált prognózis kezelése</li>
+    <li><i>Fejlesztés:</i> Kategóriák csoportosíthatósága csoportkóddal</li>
+    <li><i>Fejlesztés:</i> Egyenleg lekérdezése csoportkód és időszak alapján</li>
+    <li><i>Fejlesztés:</i> Éves statisztika lekérdezés lehetősége</li>
+    <li><i>Hibajavítás:</i> Mostantól a főoldalon az egyenlegek az adott időszak záróegyenlegei az eddig aktuális egyenleg helyett</li>
+    <li><i>Hibajavítás:</i> Tervszám frissítésnél nem az aktuális összeg helyett a kumulált egyenleggel frissül a tervszám</li>
+    <li><i>Hibajavítás:</i> Tervszám frissítésnél, ha nem volt eddig tervszám, létrehoz egyet</li>
 </p>
 
 <H1>1.24</H1>

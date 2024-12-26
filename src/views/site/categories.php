@@ -56,6 +56,10 @@ else {
 
         <?= $form->field($model, 'technikai')->checkbox() ?>
 
+        <?= $form->field($model, 'csoport_kod')->textInput([
+                                 'type' => 'number'
+                            ]) ?>
+
         <div class="form-group">
             <div">
                 <?= Html::submitButton('Mentés', ['class' => 'btn btn-primary', 'name' => 'save-button']) ?>
@@ -103,6 +107,14 @@ else {
                 },
                 'format' => 'text',
                 'label' => 'Technikai',
+            ],
+            [
+                'class' => DataColumn::class, // this line is optional
+                'value' => function ($model, $key, $index, $column) {
+                    return $model->csoport_kod == 0 ? '' : $model->csoport_kod; 
+                },
+                'format' => 'text',
+                'label' => 'Csoportkód',
             ],
             [
                 'class' => ActionColumn::class,

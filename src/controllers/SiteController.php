@@ -79,9 +79,44 @@ class SiteController extends Controller
         }
 
         return $this->render('index', [
-            'idoszak' => $idoszak,  
+            'idoszak' => $idoszak,
         ]);
     }
+
+    /**
+     * Yearly statistics
+     *
+     * @return string
+     */
+    public function actionYearlystat($idoszak=null)
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect('/site/about');
+        }
+
+        return $this->render('yearlystat', [
+            'idoszak' => $idoszak,
+        ]);
+    }
+
+    /**
+     * Yearly statistics
+     *
+     * @return string
+     */
+    public function actionGroupstat($tol=null, $ig = null, $csoport_kod = 0)
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect('/site/about');
+        }
+
+        return $this->render('groupstat', [
+            'tol' => $tol,
+            'ig' => $ig,
+            'csoport_kod' => $csoport_kod 
+        ]);
+    }
+
 
     /**
      * Login action.
@@ -229,14 +264,28 @@ class SiteController extends Controller
             $model->torolt = 0;
             $model->save();
 
+            $deviza = Penztarca::findOne(['id' => $model->penztarca_id])->deviza;
+
             if (
                 isset(Yii::$app->request->post("Mozgas")["update_plan"]) &&
                     Yii::$app->request->post("Mozgas")["update_plan"] == "1") {
-                $plan = Terv::findOne(["idoszak" => substr($model->datum,0,7), "kategoria_id" => $model->kategoria_id]);
-                if ($plan) {
-                    $plan->osszeg = $model->osszeg;
-                    $plan->save();
+                $tol = substr($model->datum, 0, 7).'-01';
+                $ig = substr($model->datum, 0, 7).'-31';
+                $plan = Terv::findOne([
+                    "idoszak" => substr($model->datum,0,7), 
+                    "kategoria_id" => $model->kategoria_id,
+                    "felhasznalo" => Yii::$app->user->id,
+                ]);
+                if (!$plan) {
+                    $plan = new Terv();
+                    $plan->deviza = $deviza;
+                    $plan->idoszak = substr($model->datum,0,7);
+                    $plan->kategoria_id = $model->kategoria_id;
+                    $plan->felhasznalo = Yii::$app->user->id;
                 }
+                $plan->torolt = 0;
+                $plan->osszeg = Kategoriak::getKategoriaSumTeny($model->kategoria_id, $tol, $ig, $deviza);
+                $plan->save();
             }
 
             $model->id = 0;

@@ -58,6 +58,8 @@ $this->registerLinkTag(['rel' => 'apple-touch-icon', 'type' => 'image/png', 'hre
             Yii::$app->user->isGuest ? '' : ['label' => 'Lekérdezések', 'items' => [
                 Yii::$app->user->isGuest ? '' : ['label' => 'Tételek', 'url' => ['/site/listkess']],
                 Yii::$app->user->isGuest ? '' : ['label' => 'Napi egyenlegek', 'url' => ['/site/listdailysum']],
+                Yii::$app->user->isGuest ? '' : ['label' => 'Csoport egyenlegek', 'url' => ['/site/groupstat']],
+                Yii::$app->user->isGuest ? '' : ['label' => 'Éves statisztika', 'url' => ['/site/yearlystat']],
             ]],
             Yii::$app->user->isGuest ? '' : ['label' => 'Terv', 'url' => ['/site/plan']],
             Yii::$app->user->isGuest ? '' : ['label' => 'Beállítások', 'items' => [
