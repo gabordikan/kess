@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use PDO;
 use Yii;
 use yii\base\Model;
 use yii\db\ActiveRecord;
@@ -23,7 +24,7 @@ class Kategoriak extends ActiveRecord
     {
         return [
             // username and password are both required
-            [['tipus', 'fokategoria', 'fokategoria_', 'technikai', 'nev'], 'safe'],
+            [['tipus', 'fokategoria', 'fokategoria_', 'technikai', 'csoport_kod', 'nev'], 'safe'],
             [['tipus', 'nev'], 'required'],
         ];
     }
@@ -42,6 +43,7 @@ class Kategoriak extends ActiveRecord
             "tipus" => "Típus",
             "fokategoria" => "Főkategória",
             "fokategoria_" => "Új főkategória",
+            "csoport_kod" => "Csoportkód",
             "nev" => "Név",
         ];
     }
@@ -252,6 +254,40 @@ class Kategoriak extends ActiveRecord
                 ->bindValues([':felhasznalo' => Yii::$app->user->id, ':tipus' => $tipus, ':penztarca_id' => $penztarca_id])
                 ->queryAll();
         return $kategoriak;
+    }
+
+    public static function getCsoportKodok() {
+        $csoport_kodok = Yii::$app->db->createCommand("
+            SELECT DISTINCT csoport_kod
+                FROM kategoriak
+                WHERE felhasznalo = :felhasznalo
+                ")
+                ->bindValues([':felhasznalo' => Yii::$app->user->id])
+                ->queryAll();
+        return $csoport_kodok;
+    }
+
+    public static function getKategoriakCsoportban($csoport_kod) {
+        $kategoriak = Yii::$app->db->createCommand("
+            SELECT tipus, id, fokategoria, nev
+                FROM kategoriak
+                WHERE felhasznalo = :felhasznalo
+                AND csoport_kod = :csoport_kod
+                ")
+                ->bindValues([':felhasznalo' => Yii::$app->user->id, ':csoport_kod' => $csoport_kod])
+                ->queryAll();
+        return $kategoriak;
+    }
+
+    public static function getCsoportEgyenleg($csoport_kod, $tol, $ig, $deviza) {
+        $kategoriak = self::getKategoriakCsoportban($csoport_kod);
+        $sum = 0;
+
+        foreach ($kategoriak as $kategoria) {
+            $sum += ($kategoria['tipus'] == 'Bevétel' ? 1 : -1) * self::getKategoriaSumTeny($kategoria['id'], $tol, $ig, $deviza);
+        }
+
+        return $sum;
     }
 
 }

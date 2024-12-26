@@ -129,128 +129,6 @@ use app\models\ChartJs;
 
     echo "<div>";
 
-    if (date('Y-m') <= $idoszak) {
-
-        $tol2 = date("Y-m")."-01";
-
-        echo "<BR><H1><i class='fa-solid fa-chart-line'>&nbsp;</i>Prognózis</H1>";
-
-        $tervezettbevetel = 0;
-
-        $kategoriakBevetelSumTerv = Kategoriak::getSumTerv('Bevétel', $tol2, $ig, $deviza);
-        $kategoriakBevetelSumTeny = Kategoriak::getSumTeny('Bevétel', $tol2, $ig, $deviza);
-
-        foreach( array_values($kategoriakBevetelSumTerv) as $index => $value) {
-            $kat_egyenleg = $value - array_values($kategoriakBevetelSumTeny)[$index];
-            if ($kat_egyenleg < 0) $kat_egyenleg = 0;
-            $tervezettbevetel += $kat_egyenleg;
-        }
-
-        $tervezettkiadas = 0;
-
-        $kategoriakKiadasSumTerv = Kategoriak::getSumTerv('Kiadás', $tol2, $ig, $deviza);
-        $kategoriakKiadasSumTeny = Kategoriak::getSumTeny('Kiadás', $tol2, $ig, $deviza);
-
-        foreach( array_values($kategoriakKiadasSumTerv) as $index => $value) {
-            $kat_egyenleg = $value - array_values($kategoriakKiadasSumTeny)[$index];
-            if ($kat_egyenleg < 0) $kat_egyenleg = 0;
-            $tervezettkiadas += $kat_egyenleg;
-        }
-
-        $tervezettegyenleg = Penztarca::getOsszEgyenleg($deviza) + $tervezettbevetel - $tervezettkiadas;
-
-        $dataProvider = new ArrayDataProvider([
-            'allModels' => [
-                [
-                    'tipus' => 'Jelenlegi egyenleg',
-                    'osszeg' => Penztarca::getOsszEgyenleg($deviza),
-                ],
-                [
-                    'tipus' => 'Bevétel',
-                    'osszeg' => $tervezettbevetel,
-                ],
-                [
-                    'tipus' => 'Kiadás',
-                    'osszeg' => $tervezettkiadas,
-
-                ],
-                [
-                    'tipus' => 'Várható egyenleg',
-                    'osszeg' => $tervezettegyenleg,
-
-                ],
-            ],
-        ]);
-
-        echo GridView::widget([
-            'showHeader' => false,
-            'id' => 'planChart'.$deviza,
-            'summary' => '',
-            'columns' => [
-                [
-                    'class' => DataColumn::class, // this line is optional
-                    'value' => function ($model, $key, $index, $column) {
-                        return $model['tipus']; 
-                    },
-                    'format' => 'text',
-                    'label' => '',
-                ],
-                [
-                    'class' => DataColumn::class, // this line is optional
-                    'value' => function ($model, $key, $index, $column) use ($deviza) {
-                        return $model['osszeg'];
-                    },
-                    'format' => ['currency',$deviza],
-                    'label' => 'Terv',
-                    'contentOptions' => ['style'=>'text-align: right'],
-                ],
-            ],
-            'dataProvider' => $dataProvider,
-        ]);
-
-    } else {
-
-        echo "<BR><H1><i class='fa-solid fa-pen-to-square'>&nbsp;</i>Terv</H1>";
-
-        $dataProvider = new ActiveDataProvider([
-            'query' => Kategoriak::find()
-                ->where(['felhasznalo' => Yii::$app->user->id])
-                ->groupBy('tipus'),
-        ]);
-
-        echo GridView::widget([
-            'showHeader' => false,
-            'id' => 'planChart'.$deviza,
-            'summary' => '',
-            'columns' => [
-                [
-                    'class' => DataColumn::class, // this line is optional
-                    'value' => function ($model, $key, $index, $column) {
-                        return $model->tipus; 
-                    },
-                    'format' => 'text',
-                    'label' => '',
-                ],
-                [
-                    'class' => DataColumn::class, // this line is optional
-                    'value' => function ($model, $key, $index, $column) use ($deviza, $tol, $ig) {
-                        return Terv::getTervSum($model->tipus, $tol, $ig, $deviza);
-                    },
-                    'format' => ['currency',$deviza],
-                    'label' => 'Terv',
-                    'contentOptions' => ['style'=>'text-align: right'],
-                ],
-            ],
-            'dataProvider' => $dataProvider,
-        ]);
-
-        echo "<div><H3>Összesen: ".
-            Yii::$app->formatter->asCurrency(
-                Terv::getTervSum('Bevétel', $idoszak, $idoszak, $deviza) - Terv::getTervSum('Kiadás', $idoszak, $idoszak, $deviza), $deviza
-        )."</H3></div>";
-    }
-    echo "</div<div>";
-
     echo "<BR><H1><i class='fa-solid fa-arrow-left'>&nbsp;</i>Terv/Tény (Bevétel)</H1>";
 
     $kategoriakBevetelList = Kategoriak::getKategoriakLista('Bevétel');
@@ -259,10 +137,6 @@ use app\models\ChartJs;
 
     foreach ($kategoriakBevetelList as $key=>$value) {
         if ($kategoriakBevetelSumTerv[$key] == 0 && $kategoriakBevetelSumTeny[$key] == 0) {
-            unset($kategoriakBevetelList[$key]);
-            unset($kategoriakBevetelSumTerv[$key]);
-            unset($kategoriakBevetelSumTeny[$key]);
-        } elseif ($kategoriakBevetelSumTerv[$key] == $kategoriakBevetelSumTeny[$key]) {
             unset($kategoriakBevetelList[$key]);
             unset($kategoriakBevetelSumTerv[$key]);
             unset($kategoriakBevetelSumTeny[$key]);
@@ -330,10 +204,6 @@ use app\models\ChartJs;
 
     foreach ($kategoriakKiadasList as $key=>$value) {
         if ($kategoriakKiadasSumTerv[$key] == 0 && $kategoriakKiadasSumTeny[$key] == 0) {
-            unset($kategoriakKiadasList[$key]);
-            unset($kategoriakKiadasSumTerv[$key]);
-            unset($kategoriakKiadasSumTeny[$key]);
-        } elseif ($kategoriakKiadasSumTerv[$key] == $kategoriakKiadasSumTeny[$key]) {
             unset($kategoriakKiadasList[$key]);
             unset($kategoriakKiadasSumTerv[$key]);
             unset($kategoriakKiadasSumTeny[$key]);

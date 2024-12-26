@@ -50,28 +50,37 @@ class Penztarca extends ActiveRecord
         return parent::beforeValidate();
     }
 
-    public static function getEgyenleg($id)
+    public static function getEgyenleg($id, $datum=null)
     {
+        if (empty($datum)) {
+            $datum = date("Y-m-d");
+        }
+
         return Yii::$app->db->createCommand("
             select ifnull(sum(tipus*osszeg),0) from mozgas 
             where felhasznalo = :felhasznalo and penztarca_id = :penztarca_id
-                and torolt=0"
+                and torolt=0 and datum <= :datum"
         )
-        ->bindValues([':felhasznalo' => Yii::$app->user->id, ':penztarca_id' => $id])
+        ->bindValues([':felhasznalo' => Yii::$app->user->id, ':penztarca_id' => $id, ':datum' => $datum])
         ->queryScalar();
     }
 
-    public static function getOsszEgyenleg($deviza = 'HUF')
+    public static function getOsszEgyenleg($deviza = 'HUF', $datum = null)
     {
+        if (empty($datum)) {
+            $datum = date("Y-m-d");
+        }
+
         return Yii::$app->db->createCommand("
             select ifnull(sum(tipus*osszeg),0) from mozgas
             left join penztarca on penztarca.id = mozgas.penztarca_id
             where mozgas.felhasznalo = :felhasznalo
                 and penztarca.torolt = 0
                 and mozgas.torolt = 0
-                and penztarca.deviza = :deviza"
+                and penztarca.deviza = :deviza
+                and datum <= :datum"
         )
-        ->bindValues([':felhasznalo' => Yii::$app->user->id, ':deviza' => $deviza])
+        ->bindValues([':felhasznalo' => Yii::$app->user->id, ':deviza' => $deviza, ':datum' => $datum])
         ->queryScalar();
     }
 

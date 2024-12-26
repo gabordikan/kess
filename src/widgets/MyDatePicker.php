@@ -45,13 +45,14 @@ class MyDatePicker extends DatePicker {
             "click", function(el) {
                 var input = $("#'.$this->id.'");
                 var value = input.val();
+                if (value.length == 4) value += "-03";
                 var date = new Date(value);
                 date.setDate(date.getDate() - '.($this->interval == 30 ? 28 : $this->interval) .');
                 var month = "0" + (date.getMonth()+1);
                 month = month.substr(month.length-2);
                 var day = "0" + (date.getDate());
                 day = day.substr(day.length-2);
-                input.val(date.getFullYear()+"-"+month '.($this->interval == 30 ? '' : '+"-"+day') .');
+                input.val(date.getFullYear() '.($this->interval >= 365 ? '': '+"-"+month '.($this->interval == 30 ? '' : '+"-"+day')) .');
                 $(input).trigger("change");
             }
           );
@@ -60,13 +61,14 @@ class MyDatePicker extends DatePicker {
             "click", function(el) {
                 var input = $("#'.$this->id.'");
                 var value = input.val();
+                if (value.length == 4) value += "-03";
                 var date = new Date(value);
                 date.setDate(date.getDate() + '.($this->interval == 30 ? 31 : $this->interval) .');
                 var month = "0" + (date.getMonth()+1);
                 month = month.substr(month.length-2);
                 var day = "0" + (date.getDate());
                 day = day.substr(day.length-2);
-                input.val(date.getFullYear()+"-"+month '.($this->interval == 30 ? '' : '+"-"+day') .');
+                input.val(date.getFullYear() '.($this->interval >= 365 ? '': '+"-"+month '.($this->interval == 30 ? '' : '+"-"+day')) .');
                 $(input).trigger("change");
             } 
           );
