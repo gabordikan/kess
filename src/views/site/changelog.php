@@ -10,6 +10,12 @@
     <li><i>Fejlesztés:</i> Ikonok hozzáadása kategóriához</li>
 </p>
 
+<H1>1.26</H1>
+<p>
+    <li><i>Fejlesztés:</i> Megtakarítás típusú számlák létrhozása</li>
+    <li><i>Hibajavítás:</i> Üres csoportkóddal is lehet menteni most már kategóriát</li>
+</p>
+
 <H1>1.25</H1>
 <p>
     <li><i>Fejlesztés:</i> Kumulált prognózis kezelése</li>

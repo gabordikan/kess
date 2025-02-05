@@ -59,7 +59,7 @@ else {
                 ''?>
 
             <?php
-                $penztarcak = Penztarca::getPenztarcak();
+                $penztarcak = Penztarca::getPenztarcak(true, true);
                 $model->penztarca_id = $penztarca_id ?? array_key_first($penztarcak);
                 foreach ($penztarcak as $key => $penztarca) {
                     $penztarcak[$key] = Penztarca::getLogo($penztarca).$penztarca;

@@ -22,7 +22,7 @@ class Penztarca extends ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'nev', 'deviza'], 'safe'],
+            [['id', 'nev', 'deviza', 'megtakaritas'], 'safe'],
             [['nev'], 'required'],
         ];
     }
@@ -65,7 +65,7 @@ class Penztarca extends ActiveRecord
         ->queryScalar();
     }
 
-    public static function getOsszEgyenleg($deviza = 'HUF', $datum = null)
+    public static function getOsszEgyenleg($deviza = 'HUF', $datum = null, $megtakaritas = false)
     {
         if (empty($datum)) {
             $datum = date("Y-m-d");
@@ -78,17 +78,21 @@ class Penztarca extends ActiveRecord
                 and penztarca.torolt = 0
                 and mozgas.torolt = 0
                 and penztarca.deviza = :deviza
-                and datum <= :datum"
+                and datum <= :datum
+                and megtakaritas = :megtakaritas
+                "
         )
-        ->bindValues([':felhasznalo' => Yii::$app->user->id, ':deviza' => $deviza, ':datum' => $datum])
+        ->bindValues([':felhasznalo' => Yii::$app->user->id, ':deviza' => $deviza, ':datum' => $datum, ':megtakaritas' => ($megtakaritas ? 1 : 0)])
         ->queryScalar();
     }
 
-    public static function getPenztarcak()
+    public static function getPenztarcak($normal = true, $megtakaritas = false)
     {
         $pt_arr = [];
         $penztarcak = self::find()
-        ->where(['felhasznalo' => Yii::$app->user->id, 'torolt' => 0])
+        ->where(['megtakaritas' => ($megtakaritas ? 1 : 0)])
+        ->orWhere(['megtakaritas' => ($normal ? 0 : 1)])
+        ->andWhere(['felhasznalo' => Yii::$app->user->id, 'torolt' => 0, ])
         ->orderBy(["nev" => SORT_ASC])
         ->all();
         foreach ($penztarcak as $id => $penztarca) {
@@ -138,6 +142,8 @@ class Penztarca extends ActiveRecord
             'készpénz' => 'cash.png',
             'paypal' => 'paypal.png',
             'metamask' => 'metamask.webp',
+            'uniqa' => 'uniqa.png',
+            'alfa' => 'alfa.png'
         ];
 
         $penztarca = strtolower($penztarca);

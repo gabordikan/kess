@@ -43,6 +43,7 @@ else {
 
         <?= $form->field($model, 'nev')->textInput() ?>
         <?= $form->field($model, 'deviza')->textInput(['maxlength' => '3']) ?>
+        <?= $form->field($model, 'megtakaritas')->checkbox(['maxlength' => '3']) ?>
 
         <div class="form-group">
             <div">
@@ -83,6 +84,14 @@ else {
                 'class' => DataColumn::class,
                 'attribute' => 'deviza',
                 'format' => 'text',
+            ],
+            [
+                'class' => DataColumn::class,
+                'value' => function ($model, $key, $index, $column) {
+                    return $model->megtakaritas ? 'Igen' : ''; 
+                },
+                'format' => 'text',
+                'label' => 'Megtakarítás'
             ],
             [
                 'class' => DataColumn::class,
