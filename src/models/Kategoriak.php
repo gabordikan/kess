@@ -58,7 +58,7 @@ class Kategoriak extends ActiveRecord
             $this->fokategoria = $this->fokategoria_;
         }
 
-        $this->csoport_kod = 0 + $this->csoport_kod;
+        if (!is_numeric($this->csoport_kod)) $this->csoport_kod = 0;
 
         return parent::beforeValidate();
     }
