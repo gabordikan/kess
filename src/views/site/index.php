@@ -95,7 +95,7 @@ else {
 
     $megtakaritasok = Penztarca::getPenztarcak(false, true);
     if (count($megtakaritasok) > 0)  {
-        echo "<BR/><div style='width: 500px'><H1><i class='fa-solid fa-bars'>&nbsp;</i>Megtakarítások</H1></div>";
+        echo "<BR/><div style='width: 400px'><H1><i class='fa-solid fa-bars'>&nbsp;</i>Megtakarítások</H1></div>";
         
         $dataProvider = new ActiveDataProvider([
             'query' => Penztarca::find()
