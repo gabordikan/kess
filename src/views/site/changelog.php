@@ -13,7 +13,7 @@
 <H1>1.27</H1>
 <p>
     <li><i>Hibajavítás:</i> Kategória mentésnél az üres csoportkóddal enged menteni</li>
-</
+</p>
 
 <H1>1.26</H1>
 <p>
