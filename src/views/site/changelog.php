@@ -10,6 +10,11 @@
     <li><i>Fejlesztés:</i> Ikonok hozzáadása kategóriához</li>
 </p>
 
+<H1>1.27</H1>
+<p>
+    <li><i>Hibajavítás:</i> Kategória mentésnél az üres csoportkóddal enged menteni</li>
+</
+
 <H1>1.26</H1>
 <p>
     <li><i>Fejlesztés:</i> Megtakarítás típusú számlák létrhozása</li>
