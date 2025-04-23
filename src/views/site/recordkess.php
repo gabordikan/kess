@@ -6,7 +6,7 @@
 
 use yii\bootstrap5\ActiveForm;
 use yii\bootstrap5\Html;
-use app\widgets\MyDatePicker;
+use gabordikan\datepicker\DixDatePicker;
 use app\models\Kategoriak;
 use app\models\Penztarca;
 use app\models\Mozgas;
@@ -44,7 +44,7 @@ else {
 
             <?= Html::hiddenInput('from_list', $from_list) ?>
 
-            <?= $form->field($model, 'datum')->widget(MyDatePicker::classname(), [
+            <?= $form->field($model, 'datum')->widget(DixDatePicker::classname(), [
                 'dateFormat' => 'yyyy-MM-dd',
                 'onChange' => "function(evt) {
                     }",
