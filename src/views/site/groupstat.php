@@ -9,7 +9,7 @@ use app\models\Kategoriak;
 use app\models\Penztarca;
 use app\models\Terv;
 
-use app\widgets\MyDatePicker;
+use gabordikan\datepicker\DixDatePicker;
 use yii\helpers\Html;
 
 $this->title = 'Kess';
@@ -41,7 +41,7 @@ else {
     .Html::textInput('csoport_kod', $csoport_kod, ['type' => 'number'])
     ."</div><div>"
     .Html::label('Dátumtól: ')
-    .MyDatePicker::widget([
+    .DixDatePicker::widget([
         'id' => 'tolselector',
         'interval' => 1,
         'value' => $tol,
@@ -57,7 +57,7 @@ else {
         ],
     ])
     ."Dátumig: "
-    .MyDatePicker::widget([
+    .DixDatePicker::widget([
         'id' => 'igselector',
         'interval' => 1,
         'value' => $ig,

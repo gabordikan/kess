@@ -6,7 +6,7 @@ use app\models\Kategoriak;
 use app\models\Terv;
 use app\models\Penztarca;
 use app\models\TervSearch;
-use app\widgets\MyDatePicker;
+use gabordikan\datepicker\DixDatePicker;
 use gabordikan\cor4\datatables\DataTables;
 use yii\grid\DataColumn;
 use yii\grid\ActionColumn;
@@ -49,7 +49,7 @@ else {
         ],
     ]); ?>
 
-        <?= $form->field($model, 'idoszak')->widget(MyDatePicker::classname(), [
+        <?= $form->field($model, 'idoszak')->widget(DixDatePicker::classname(), [
             'options' => [
                 'style' => 'width: 120px',
             ],

@@ -9,7 +9,7 @@ use yii\grid\DataColumn;
 use yii\grid\ActionColumn;
 use yii\bootstrap5\Tabs;
 
-use app\widgets\MyDatePicker;
+use gabordikan\datepicker\DixDatePicker;
 use yii\helpers\Html;
 
 $this->title = 'Kess';
@@ -162,7 +162,7 @@ else {
     echo "<BR/><div>"
     .Html::label('Statisztika időszak: ')
     ."&nbsp;"
-    .MyDatePicker::widget([
+    .DixDatePicker::widget([
         'id' => 'idoszakselector',
         'interval' => 30,
         'value' => $idoszak,
