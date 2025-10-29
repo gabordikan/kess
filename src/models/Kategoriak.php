@@ -246,7 +246,52 @@ class Kategoriak extends ActiveRecord
         return $kat_arr;
     }
 
-    public static function getMostUsedKategoriak($tipus = -1, $penztarca_id = 0) {
+    public static function get1MonthBeforeUsedKategoria($tipus = -1, $penztarca_id = 0) {
+        $kategoriak = Yii::$app->db->createCommand("
+            SELECT kategoria_id as id, kategoriak.nev as nev
+                FROM mozgas
+                LEFT JOIN kategoriak on kategoriak.id = mozgas.kategoria_id
+                WHERE mozgas.felhasznalo = :felhasznalo
+                    AND mozgas.tipus = :tipus
+                    AND mozgas.torolt = 0
+                    AND mozgas.penztarca_id = :penztarca_id
+                    AND substr(date_sub(now(),INTERVAL 1 month), 1, 10) = mozgas.datum
+		    AND kategoria_id not in (
+			select kategoria_id from mozgas m2 where 
+				m2.felhasznalo = :felhasznalo
+                    		AND m2.tipus = :tipus
+                    		AND m2.torolt = 0
+                    		AND m2.penztarca_id = :penztarca_id
+				AND m2.datum like '".date('Y-m')."%'
+			)
+                ORDER BY kategoria_id DESC
+                LIMIT 1
+                ") 
+                ->bindValues([':felhasznalo' => Yii::$app->user->id, ':tipus' => $tipus, 
+                        ':penztarca_id' => $penztarca_id])
+                ->queryAll();
+        return $kategoriak;
+    }
+
+    public static function getRecentlyUsedKategoria($tipus = -1, $penztarca_id = 0) {
+        $kategoriak = Yii::$app->db->createCommand("
+            SELECT kategoria_id as id, kategoriak.nev as nev
+                FROM mozgas
+                LEFT JOIN kategoriak on kategoriak.id = mozgas.kategoria_id
+                WHERE mozgas.felhasznalo = :felhasznalo
+                    AND mozgas.tipus = :tipus
+                    AND mozgas.torolt = 0
+                    AND penztarca_id = :penztarca_id
+                ORDER BY mozgas.id DESC
+                LIMIT 1
+                ")
+                ->bindValues([':felhasznalo' => Yii::$app->user->id, ':tipus' => $tipus, 
+                        ':penztarca_id' => $penztarca_id])
+                ->queryAll();
+        return $kategoriak;
+    }
+
+    public static function getMostUsedKategoriak($tipus = -1, $penztarca_id = 0, $napok = 30) {
         $kategoriak = Yii::$app->db->createCommand("
             SELECT kategoria_id as id, kategoriak.nev as nev, count(kategoria_id) c
                 FROM mozgas
@@ -255,11 +300,13 @@ class Kategoriak extends ActiveRecord
                     AND mozgas.tipus = :tipus
                     AND mozgas.torolt = 0
                     AND penztarca_id = :penztarca_id
+                    AND datediff(now(), mozgas.datum) < :napok
                 GROUP BY kategoria_id
                 ORDER BY c DESC
                 LIMIT 0, 3
                 ")
-                ->bindValues([':felhasznalo' => Yii::$app->user->id, ':tipus' => $tipus, ':penztarca_id' => $penztarca_id])
+                ->bindValues([':felhasznalo' => Yii::$app->user->id, ':tipus' => $tipus, 
+                        ':penztarca_id' => $penztarca_id, ':napok' => $napok])
                 ->queryAll();
         return $kategoriak;
     }

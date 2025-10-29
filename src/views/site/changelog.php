@@ -10,6 +10,11 @@
     <li><i>Fejlesztés:</i> Ikonok hozzáadása kategóriához</li>
 </p>
 
+<H1>1.28</H1>
+<p>
+    <li><i>Fejlesztés:</i> Rögzítésnél felajánlja az utoljára rögzített kategóriát és az egy hónapja azon a napon rögzített tételt</li>
+</p>
+
 <H1>1.27</H1>
 <p>
     <li><i>Hibajavítás:</i> Kategória mentésnél az üres csoportkóddal enged menteni</li>

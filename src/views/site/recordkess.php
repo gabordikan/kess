@@ -53,11 +53,6 @@ else {
                 ],
             ]) ?>
 
-            <?= //$form->field($model, 'penztarca_id')->dropDownList(
-                //Penztarca::getPenztarcak(),
-                //['autofocus' => true]) 
-                ''?>
-
             <?php
                 $penztarcak = Penztarca::getPenztarcak(true, true);
                 $model->penztarca_id = $penztarca_id ?? array_key_first($penztarcak);
@@ -108,10 +103,6 @@ else {
                 ],
             ]) ?>
 
-            <?php 
-                //var_dump($kategoriak); die();
-            ?>
-
             <?= Html::label("Kategória","Mozgas[kategoria_id]", ['class' => 'col-lg-1 col-form-label mr-lg-3'])
             .Select2::widget([
                 'name' => 'Mozgas[kategoria_id]',
@@ -138,7 +129,32 @@ else {
             <div class="form-group">
                 <div>
                 <?php 
-                    $most_used_categories = Kategoriak::getMostUsedKategoriak($tipus, $model->penztarca_id);
+                    // Most used in last 30 days
+                    $most_used_categories = Kategoriak::getRecentlyUsedKategoria($tipus, $model->penztarca_id);
+                    $cat_buttons = "";
+                    foreach ($most_used_categories as $category) {
+                        $cat_name = $category['nev'];
+                        $cat_buttons .= " ".Html::button($cat_name, ['class' => 'btn btn-info mb-3', 'name' => 'category-button', 'value' => $category['id']]);
+                    }
+                    if (!empty($cat_buttons)) {
+                        echo $cat_buttons;
+                    }
+                ?>
+                                <?php 
+                    // Most used in last 30 days
+                    $most_used_categories = Kategoriak::get1MonthBeforeUsedKategoria($tipus, $model->penztarca_id);
+                    $cat_buttons = "";
+                    foreach ($most_used_categories as $category) {
+                        $cat_name = $category['nev'];
+                        $cat_buttons .= " ".Html::button($cat_name, ['class' => 'btn btn-warning mb-3', 'name' => 'category-button', 'value' => $category['id']]);
+                    }
+                    if (!empty($cat_buttons)) {
+                        echo $cat_buttons;
+                    }
+                ?>
+                <?php 
+                    // Most used in last 30 days
+                    $most_used_categories = Kategoriak::getMostUsedKategoriak($tipus, $model->penztarca_id, 30);
                     $cat_buttons = "";
                     foreach ($most_used_categories as $category) {
                         $cat_name = $category['nev'];
