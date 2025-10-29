@@ -1,5 +1,5 @@
 #!/bin/bash
 
-composer install
+composer update
 
 php yii migrate --interactive=0
